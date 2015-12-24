@@ -8,147 +8,93 @@ It does so in three passes:
     2) Replace Directive objects with Node objects, with better
        abstraction (e.g. tables, syntax tables, etc.)
     3) Walk through the Directive tree and write Markdown
-
-An SMCL directive is of the form
-    {directive [options] [:items]}
 """
 
 # -------------------------------------------------------------
 # Imports
 # -------------------------------------------------------------
 import shlex
-import re
 #import os
 #import sys
 #import csv
+#import re
 #import time
-
-# -------------------------------------------------------------
-# Constants
-# -------------------------------------------------------------
-pclass = re.compile(r'\{p(std|see|hang\d?|more\d?|in\d?)\}')
-num_tags = num_directives = 0
 
 # -------------------------------------------------------------
 # Classes
 # -------------------------------------------------------------
 
 class Directive(list):
-    """Augmented lists that map to SMCL directives
+    """Directive objects that map the Stata SMCL ones
 
-    - SMCL directives are of the form {tag options: content}
-    - The content goes in the embedded list, and can contain
-      other directives or text strings
-    - The .tag and .options attributes contain strings
-    - The tag 'newline' is special as it maps a carrier return
+    Every SMCL directive {directive args: text} gets mapped
+    into one such object. Two special directives will be the
+    -text- directive (for plain text) and the -newline- 
+    directive.
+
+    Directives can contain other directives inside
+    the -text- option. In fact, the text option can contain
+    only: i) nothing (empty list), ii) list of other directives
+    where the most common one is text
     """
 
-    def __init__(self, tag='', options='', items=None, num_line=None, line_content=None):
+    def __init__(self, tag='', args='', text=None):
 
-        list.__init__(self, [] if items is None else items)
+        if tag == '*':
+            tag = 'comment'
+        elif tag == '...':
+            tag = 'nobreak'
 
         assert tag
-        tag_aliases = {'*':'comment', '...':'nobreak'}
-        self.tag = tag_aliases.get(tag, tag)
 
-        self.options = options
-        self.num_line = num_line
-        self.line_content = line_content
+        self.tag = tag
+        self.args = args if args is not None else ''
+        self.text = text if text is not None else []
 
-    def textify(self):
-        opt = '' if not self.options else '; {}'.format(self.options)
-        return 'Directive({}{})'.format(self.tag, opt)
+        if self.tag == "text":
+            assert self.text != ''
 
     def __repr__(self):
-        return self.textify()
+        return '<' + self.tag.upper() + '>'
 
     def __str__(self):
-        return self.textify()
+        text = self.text if self.tag != 'text' else '<' + self.text + '>'
+        return '{}({}) = {}'.format(self.tag.upper(), self.args, text)
 
-# -------------------------------------------------------------
 
 class Node(list):
-    """Augmented lists that map to Document objects (tables, paragraphs, etc.)
+    """Node is a Metaclass, don't create instances of this but of the block/inline subclasses"""
 
-    - Use Node() as a metaclass, don't create instances of 
-      this but of the block/inline subclasses!!!
-    - The content goes in the embedded list, and can contain
-      other directives or text strings
-    """
-
-    def __init__(self, options=None, items=None):
-        list.__init__(self, [] if items is None else items)
-
+    def __init__(self, content=None, options=None):
         self.options = options if options is not None else dict()
-        self.is_directive = False
-        self.link_id = None # Id for the next block to attach
-        
-        try:
-            self.margin = self.active_margin
-        except AttributeError:
-            pass
+        self.content = content if content is not None else list()
+        assert 'tag' in self.__class__.__dict__
 
     def __repr__(self):
-        opt = '{}'.format(repr(self.options)[1:-1] if self.options else '')
-        name = type(self).__name__
-        return '{}({})'.format(name, opt)
-
+        return '<' + self.tag.upper() + '>'
+        
     def __str__(self):
-        return repr(self)
-
-    def append(self, item):
-        if self.link_id:
-            try:
-                item.options['id'] = self.link_id
-            except (TypeError, IOError):
-                anchor = Anchor(options={'id':self.link_id})
-                super(Node, self).append(anchor)
-            self.link_id = None
-        super(Node, self).append(item)
-
-    def restore_margin(self):
-        assert self.default_margin is not None
-        self.active_margin = self.default_margin
-
-#def repr_trimmed(obj, maxlen=80):
-#    text = repr(obj)[1:-1]
-#    if len(text)>maxlen:
-#        text = text[:maxlen-3] + '...'
-#    return text
-
-# -------------------------------------------------------------
+        opt = repr(self.options)[1:-1] #', '.join(self.options.items())
+        return '{}({}) = {}'.format(self.tag, opt, list.__repr__(self.content))
 
 # Create classes dynamically
-def node_class(tag, opt=None):
-    if opt is None:
-        opt = {}
-    return type(tag, (Node,), opt)
-    #return type(tag, (Node,), {})
+def node_class(tag, two_parts=False):
+    return type(tag, (Node,), {'tag':tag})
 
 # Block Tags
 SMCL = node_class('SMCL') # Root node
 Break = node_class('Break') # <br/>
-Heading = node_class('Heading')
+
+Line = node_class('Line') # Default
 Para = node_class('Para')
-
+Title = node_class('Title')
 Table = node_class('Table')
-Table.active_margin = Table.default_margin = [0, 31, 35, 0]
-SyntaxTable = node_class('SyntaxTable')
-SyntaxTable.active_margin = SyntaxTable.default_margin = [20]
-TableHead = node_class('TableHead')
-TableBody = node_class('TableBody')
-TableFoot = node_class('TableFoot')
-TableRow = node_class('TableRow')
-TableData = node_class('TableData')
-
+Rule = node_class('Rule') # Horizontal rule
 Meta = node_class('Meta')
-Anchor = node_class('Anchor')
-
-#Line = node_class('Line') # Default
-#Rule = node_class('Rule') # Horizontal rule
+Syntab = node_class('Syntab') # Syntax Table
 
 # Inline Tags
-#Text = node_class('Text') # Default
+Text = node_class('Text') # Default
 
 # -------------------------------------------------------------
 # Functions
@@ -157,12 +103,9 @@ Anchor = node_class('Anchor')
 def convert_scml(input_fn, output_fn):
     lines = read_smcl(input_fn)
     directives = parse_lines(lines)
-    #walk(directives)
-    smcl = build_tree(directives)
-    walk(smcl)
-    print('Tags:', num_tags)
-    print('Directives:', num_directives)
-    print('Ratio of done:', '{:4.3f}'.format(1 - num_directives / num_tags))
+    #for directive in directives:
+    #    walk(directive)
+    smcl = parse_directives(directives)
 
 def read_smcl(fn):
     with open(fn, 'r') as f:
@@ -171,48 +114,42 @@ def read_smcl(fn):
         lines = [line.rstrip() for line in f]
     return lines
 
-# -------------------------------------------------------------
-
 def parse_lines(lines):
-    
-    smcl = Directive('smcl')
-
-    # Count from 2 b/c of the first line with the {smcl} that was popped
-    for num_line, line in enumerate(lines, 2):
+    directives = []
+    newline = Directive('newline')
+    for line in lines:
+        #print('[LINE]   ', line)
         line = 'line:' + line + '}'
-        line_directive, _ = parse_directive(num_line, line)
-        smcl.extend(line_directive)
-        newline = Directive('newline', num_line=num_line, line_content=line)
-        smcl.append(newline)
+        line_directive, _ = parse_directive(line)
+        directives.extend(line_directive.text + [newline])
+    return directives
 
-    return smcl
-
-def parse_directive(num_line, line, i=0, level=0):
-    pos = 1 # {tag options : items} so 1=tag 2=options 3=items
+def parse_directive(line, i=0, level=0):
+    pos = 1 # # {tag args : text} so 1=tag 2=args 3=text
     assert i < len(line)
     tag = None
-    options = None
-    items = []
+    args = None
+    text = []
     update = False
 
     j = i
     n = len(line)
     while i < n:
         c = line[i]
-        # BUGBUG: When I do line[...].strip() I should not do it when tag is line
 
         if pos == 1 and c in (' ', ':', '}'):
             tag = line[j:i]
             update = True
 
         if pos == 2 and c in (':', '}'):
-            options = line[j:i].strip()
+            args = line[j:i]
             update = True
 
         if pos == 3 and (c == '}'):
             if i > j:
-                d = Directive('text', line[j:i])
-                items.append(d)
+                directive = Directive('text', '', line[j:i])
+                #print('    ' * (level+1), directive)
+                text.append(directive)
             update = True
 
         if update:
@@ -224,335 +161,60 @@ def parse_directive(num_line, line, i=0, level=0):
             elif c == ':':
                 pos = 3
             else:
-                directive = Directive(tag, options, items, num_line=num_line, line_content=line)
+                directive = Directive(tag, args, text)
                 #print('    ' * level, directive)
                 return directive, j
         elif (pos == 3) and (c == '{'):
             if i > j:
-                d = Directive('text', line[j:i])
-                items.append(d)
-            directive, i = parse_directive(num_line, line, i+1, level+1)
-            items.append(directive)
+                directive = Directive('text', '', line[j:i])
+                #print('    ' * (level+1), directive)
+                text.append(directive)
+            directive, i = parse_directive(line, i+1, level+1)
+            text.append(directive)
             j = i
         else:
             i += 1
 
-# -------------------------------------------------------------
-
 def walk(d, level=0):
-    global num_tags
-    global num_directives
-    num_tags += 1
-
-    if type(d)==Directive and d.tag=='text':
-        print(' ' * 4 * (level), 'TextDirective("{}")'.format(d.options), sep='')
-    elif isinstance(d,str):
-        print(' ' * 4 * (level), 'Text("{}")'.format(d), sep='')
-    else:
-        num_directives += 1
-        print(' ' * 4 * level, d, sep='')
-        for dd in d:
+    print(' '*4*level, d)
+    if d.text and d.tag != 'text':
+        for dd in d.text:
             walk(dd, level+1)
 
-# -------------------------------------------------------------
-
-def build_tree(directives):
-    
-    smcl = SMCL() # Root
-
-    remaining = 0
-
-    while directives:
-    
-        d = directives[0]
-        tag = d.tag
-        options = d.options
-        items = list(d)
-
-        #print()
-        #print(d)
-        #print('Tag:', tag)
-        #print('Options:', options)
-        #print('Items:', items)
-
-        # Meta directives
-        if tag == 'comment' and options.startswith('*! '):
-            build_meta_starbang(smcl, directives)
-
-        elif tag.startswith('viewer'):
-            build_meta_viewer(smcl, directives)
-
-        # Margins (don't get saved into tree but affect subsequent blocks)
-        elif tag=='p2colset':
-            p2col_active = [int(opt) for opt in options.split()]
-        elif tag=='p2colreset':
-            p2col_active = p2col_default
-        elif tag=='synoptset':
-            synopt_active = options.split()
-
-        # Marker tags are added as id's for the next block
-        elif tag=='marker':
-            build_marker(smcl, directives)
-            smcl.link_id = options.strip()
-
-        # Heading blocks
-        elif tag=='title':
-            build_heading(smcl, directives)
-
-        # Para blocks (paragraphs)
-        elif tag=='p' or pclass.match(tag):
-            build_para(smcl, directives)
-
-        # Table blocks (2 cols)
-        elif tag=='p2col':
-            build_table(smcl, directives)
-
-        # Syntax Table blocks (3 cols)
-        elif tag in ('synopthdr', 'synoptline', 'syntab', 'synopt', 'p2coldent'):
-            build_syntab(smcl, directives)
-
-        else:
-            d = directives.pop(0)
-            remaining += 1
-            #print('Discarded:', d) # Need to add these cases
-
-    print('REMAINING:', remaining)
-    return smcl
-
-def build_meta_starbang(smcl, directives):
-    """Store *! comments in SMCL root node"""
-
-    d = directives.pop(0)
-    k, v = d.options[2:].strip().split(maxsplit=1)
-    smcl.options.setdefault(k, []).append(v)
-
-def build_meta_viewer(smcl, directives):
-    """Store vieweralso and similar in SMCL root node"""
-
-    d = directives.pop(0)
-    k = d.tag[6:]
-    v = shlex.split(d.options)
-    smcl.options.setdefault(k, []).append(v)
-
-def build_marker(smcl, directives):
-    d = directives.pop(0)
-    smcl.link_id = d.options.strip()
-
-def build_heading(smcl, directives):
-    d = directives.pop(0)
-    node = Heading(items=list(d), options={'level':1})
-    smcl.append(node)
-    directives.pop(0) # Newline
-
-def build_para(smcl, directives):
-    d = directives.pop(0)
-    opt = parse_options(d.options) if d.tag=='p' else tag[1:]
-    items = []
-
-    while directives:
-        last_tag = d.tag
-        d = directives.pop(0)
-        if d.tag=='p_end' or d.tag==last_tag=='newline':
-            break # End the paragraph
-        elif d.tag=='newline':
-            d = Directive('text', ' ')
-        else:
-            items.append(d)
-
-    node = Para(items=items, options={'margins':opt})
-    smcl.append(node)
-
-def build_table(smcl, directives):
-    opt = parse_options(directives[0].options)
-    table = Table(items=[], options={'margins':opt})
-    last_tag = None
-
-    while directives:
-        d = directives.pop(0)
-        
-        if d.tag=='p2col': # First column of a new row
-            td1 = TableData(items=list(d))
-            td2 = TableData(items=[])
-            tr = TableRow(items=[td1, td2])
-        elif d.tag==last_tag=='newline':
-            break # End the paragraph
-        elif (d.tag=='p_end'): # End of the second column, attach it to table
-            table.append(tr)
-        elif (last_tag=='p_end' and d.tag=='newline'):
-            pass
-        else: # Attach to second column of active row
-            tr[-1].append(d)
-        
-        last_tag = d.tag
-
-    smcl.append(table)
-
-def build_syntab(smcl, directives):
-    last_tag = None
-    table_items = []
-    tfoot = None
-
-    while directives:
-        d = directives.pop(0)
-
-        if d.tag=='synopthdr': # {synopthdr} or {synopthdr:Col1}
-            td1 = TableData(items=[d] if len(d) else ['options'], options={'colspan':2})
-            td2 = TableData(items=['Description'])
-            tr = TableRow(items=[td1, td2])
-            thead = TableHead(items=[tr])
-            table_items.insert(0, thead)
-            
-        elif d.tag=='synoptline':
-            pass # we shouldn't need to set the table lines explicitly
-
-        elif d.tag=='syntab': # {syntab:text} Sections inside a table, create a new table body
-            td = TableData(items=list(d), options={'colspan':3}) # BUGBUG items or options
-            tr = TableRow(items=[td], options={'style':'section'})
-            tbody = TableBody(items=[tr])
-            table_items.append(tbody)
-
-        elif d.tag=='synopt': # {synopt text1} text2
-            td1 = TableData(items=[''])
-            td2 = TableData(items=list(d))
-            td3_items = eat_row(directives)
-            td3 = TableData(items=td3_items)
-            tr = TableRow(items=[td1,td2,td3], options={'style':'normal'})
-
-            if not table_items or type(table_items[-1])!=TableBody:
-                table_items.append( TableBody(items=[]) )
-
-            table_items[-1].append(tr)
-
-        elif d.tag=='p2coldent': # {p2coldent char text1} text2
-
-            has_footnote = len(d)>0 and len(d[0].options.strip())>0 and len(d[0].options.strip()[:2].strip())==1
-
-            td3_items = eat_row(directives)
-            td3 = TableData(items=td3_items)
-
-            if has_footnote:
-                footnote = d[0].options.strip()[0]
-                d[0].options = d[0].options.strip()[1:].strip()
-                
-                # Remove possible empty strings
-                if not d[0].options:
-                    d.pop(0)
-
-                td1 = TableData(items=[footnote])
-                td2 = TableData(items=list(d))
-                tds = [td1, td2, td3]
-            else:
-                td2 = TableData(items=list(d), options={'colspan':2})
-                tds = [td2, td3]            
-
-            tr = TableRow(items=[td1, td2, td3], options={'style':'has_footnote'})
-
-            if not table_items or type(table_items[-1])!=TableBody:
-                table_items.append( TableBody(items=[]) )
-                
-            table_items[-1].append(tr)
-
-        elif d.tag==last_tag=='newline':
-            break # End the paragraph
-
-        elif d.tag=='newline':
-            pass
-
-        # Para blocks will be treated as footnotes
-        elif d.tag=='p' or pclass.match(d.tag):
-
-            if tfoot is None:
-                tfoot = TableFoot(items=[])
-
-            # We'll ignore the paragraph margins and just align with table, so we can discard the current directive
-            foot_items = []
-            while directives:
-                d = directives.pop(0)
-                if d.tag=='p_end': # Only use {p_end} to stop, not line breaks (and don't allow them!)
-                    break # End the paragraph
-                elif d.tag=='newline':
-                    d = Directive('text', ' ')
-                else:
-                    foot_items.append(d)
-
-            td = TableData(items=foot_items)    
-            tr = TableRow(items=[td], options={'style':'footnote'})
-            tfoot.append(tr)
-
-        else:
-            print('NOT USED:', str(d), list(d))
-        
-        last_tag = d.tag
-
-    if tfoot is not None:
-        table_items.append(tfoot)
-    table = SyntaxTable(items=table_items)
-    smcl.append(table)
-
-def eat_row(directives):
-    """Append until we encounter {p_end}"""
-    ans = []
-    while directives:
-        d = directives.pop(0)
-        if d.tag=='p_end':
-            break
-        else:
-            ans.append(d)
-    return ans
-
-def parse_block_directives(directives):
-
-    # Root of our tree
+def parse_directives(directives):
     smcl = SMCL()
-
-    tag = None
+    last_tag = None
     hold_break = False
-    block = None # None (line blocks), Para (p pmore etc), Table (p2col), SyntaxTable
-
-    p2col_active = p2col_default = [0, 31, 35, 0]
-    synopt_active = synopt_default = [20]
-
-    for d in directives:
-
-        ##if not isinstance(d, str) and d.tag!='newline':
-        ##    print(d, d.num_line)
-        ##elif isinstance(d, str):
-        ##    print('string:', d)
-
-        # Directive syntax: {tag options : items}
-        last_tag = tag
-        tag = d.tag if type(d)==Directive else ''
-        options = d.options if type(d)==Directive else None
-        items = list(d) if type(d)==Directive else [d]
+    for directive in directives:
         
-        # Meta directives into options of the SMCL root node
-        if tag == 'comment' and options.startswith('*! '):
-            k, v = options[2:].strip().split(maxsplit=1)
-            smcl.options.setdefault(k, []).append(v)
-        elif tag.startswith('viewer'):
-            k = tag[6:]
-            v = shlex.split(options)
-            smcl.options.setdefault(k, []).append(v)
+        # Add some meta directives as options of the SMCL root node
+        if directive.tag == 'comment' and directive.args.startswith('*! '):
+            k, v = directive.args[2:].strip().split(maxsplit=1)
+            smcl.options[k] = v
+            continue
 
+        if directive.tag.startswith('viewer'):
+            k = directive.tag[6:]
+            v = shlex.split(directive.args)
+            if k in smcl.options:
+                smcl.options[k].append(v)
+            else:
+                smcl.options[k] = [v]
 
-
-        # Line breaks (and when are they ignored)
-        elif tag == 'nobreak':
+        if directive.tag == 'nobreak':
             hold_break = True
-        elif tag == 'newline' and hold_break:
+
+        if directive.tag == 'newline' and hold_break:
             hold_break = False
+            continue
 
-  
-        # Remaining and inline directives
-        else:
-            smcl.append(d)
-            # TODO: Add these cases to fake containers (span maybe)
+        if directive.tag == 'newline' :
+            smcl.content.append(Break())
+        
 
+    print(smcl)
     return smcl
 
-def parse_options(options):
-    ans = [int(opt) for opt in options.split()]
-    return ans
 
 # -------------------------------------------------------------
 # Main
@@ -560,14 +222,9 @@ def parse_options(options):
 
 if __name__ == '__main__':
 
-    # Parse opts
+    # Parse opts here
     # ...
     fn = r'C:\bin\Stata14\ado\base\b\bayesmh.sthlp'
     fn = r'c:\ado\plus\r\reghdfe.sthlp'
-    fn = r'C:\Git\reghdfe\source\reghdfe.sthlp'
 
-    # Call converter
     convert_scml(fn, '')
-
-    # Write output
-    # ...
