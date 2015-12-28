@@ -26,7 +26,7 @@ import re
 # -------------------------------------------------------------
 # Constants
 # -------------------------------------------------------------
-pclass = re.compile(r'\{p(std|see|hang\d?|more\d?|in\d?)\}')
+pclass = re.compile(r'p(std|see|hang\d?|more\d?|in\d?)')
 num_tags = num_directives = 0
 
 # -------------------------------------------------------------
@@ -80,13 +80,14 @@ class Node(list):
         list.__init__(self, [] if items is None else items)
 
         self.options = options if options is not None else dict()
-        self.is_directive = False
         self.link_id = None # Id for the next block to attach
         
-        try:
-            self.margin = self.active_margin
-        except AttributeError:
-            pass
+        # Set margins based on active margins (unless already set in options)
+        if 'margins' not in self.options:
+            try:
+                self.options['margins'] = self.active_margins
+            except AttributeError: # No active margins
+                pass
 
     def __repr__(self):
         opt = '{}'.format(repr(self.options)[1:-1] if self.options else '')
@@ -105,10 +106,6 @@ class Node(list):
                 super(Node, self).append(anchor)
             self.link_id = None
         super(Node, self).append(item)
-
-    def restore_margin(self):
-        assert self.default_margin is not None
-        self.active_margin = self.default_margin
 
 #def repr_trimmed(obj, maxlen=80):
 #    text = repr(obj)[1:-1]
@@ -132,9 +129,9 @@ Heading = node_class('Heading')
 Para = node_class('Para')
 
 Table = node_class('Table')
-Table.active_margin = Table.default_margin = [0, 31, 35, 0]
+Table.active_margins = Table.default_margins = [0, 31, 35, 0]
 SyntaxTable = node_class('SyntaxTable')
-SyntaxTable.active_margin = SyntaxTable.default_margin = [20]
+SyntaxTable.active_margins = SyntaxTable.default_margins = [20]
 TableHead = node_class('TableHead')
 TableBody = node_class('TableBody')
 TableFoot = node_class('TableFoot')
@@ -259,6 +256,7 @@ def walk(d, level=0):
 def build_tree(directives):
     
     smcl = SMCL() # Root
+    nobreak = False
 
     remaining = 0
 
@@ -283,12 +281,17 @@ def build_tree(directives):
             build_meta_viewer(smcl, directives)
 
         # Margins (don't get saved into tree but affect subsequent blocks)
-        elif tag=='p2colset':
-            p2col_active = [int(opt) for opt in options.split()]
-        elif tag=='p2colreset':
-            p2col_active = p2col_default
-        elif tag=='synoptset':
-            synopt_active = options.split()
+        elif tag in ('p2colset','p2colreset','synoptset'):
+            build_margins(directives.pop(0))
+
+        # Line breaks
+        elif tag=='nobreak':
+            directives.pop(0)
+            nobreak = True
+
+        elif nobreak and tag=='newline':
+            directives.pop(0)
+            nobreak = False
 
         # Marker tags are added as id's for the next block
         elif tag=='marker':
@@ -312,9 +315,9 @@ def build_tree(directives):
             build_syntab(smcl, directives)
 
         else:
-            d = directives.pop(0)
             remaining += 1
-            #print('Discarded:', d) # Need to add these cases
+            print('Discarded:', d, d.__dict__) # Need to add these cases
+            directives.pop(0)
 
     print('REMAINING:', remaining)
     return smcl
@@ -334,6 +337,22 @@ def build_meta_viewer(smcl, directives):
     v = shlex.split(d.options)
     smcl.options.setdefault(k, []).append(v)
 
+def build_margins(d):
+    if d.tag=='p2colset':
+        Table.active_margins = [int(opt) for opt in d.options.split()]
+
+    elif d.tag=='p2colreset':
+        # Restore margins
+        assert Table.default_margins is not None
+        Table.active_margins = Table.default_margins
+
+    elif d.tag=='synoptset':
+        SyntaxTable.active_margins = d.options.split()
+
+    else:
+        # Note: there is no restore margins cmd for SyntaxTable
+        assert 0, d.__dict__
+
 def build_marker(smcl, directives):
     d = directives.pop(0)
     smcl.link_id = d.options.strip()
@@ -346,14 +365,19 @@ def build_heading(smcl, directives):
 
 def build_para(smcl, directives):
     d = directives.pop(0)
-    opt = parse_options(d.options) if d.tag=='p' else tag[1:]
+    opt = parse_options(d.options) if d.tag=='p' else d.tag[1:]
     items = []
 
     while directives:
         last_tag = d.tag
         d = directives.pop(0)
         if d.tag=='p_end' or d.tag==last_tag=='newline':
-            break # End the paragraph
+            # Pop newline if it follows {p_end}
+            if directives[0].tag=='newline':
+                directives.pop(0)
+            # End the paragraph
+            break
+
         elif d.tag=='newline':
             d = Directive('text', ' ')
         else:
@@ -423,6 +447,18 @@ def build_syntab(smcl, directives):
 
             table_items[-1].append(tr)
 
+        elif d.tag in ('p2colset','p2colreset','synoptset'):
+            build_margins(d)
+
+        elif d.tag==last_tag=='newline':
+            break # End the paragraph
+
+        elif d.tag=='newline':
+            pass
+
+        elif d.tag=='nobreak':
+            pass
+
         elif d.tag=='p2coldent': # {p2coldent char text1} text2
 
             has_footnote = len(d)>0 and len(d[0].options.strip())>0 and len(d[0].options.strip()[:2].strip())==1
@@ -451,12 +487,6 @@ def build_syntab(smcl, directives):
                 table_items.append( TableBody(items=[]) )
                 
             table_items[-1].append(tr)
-
-        elif d.tag==last_tag=='newline':
-            break # End the paragraph
-
-        elif d.tag=='newline':
-            pass
 
         # Para blocks will be treated as footnotes
         elif d.tag=='p' or pclass.match(d.tag):
