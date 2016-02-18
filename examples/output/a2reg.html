@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for a2reg</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl">
+<h1>Help for a2reg</h1>
+<hr>help for <strong>a2reg</strong>
+<hr margin_bottom="1">
+<h2 margin_bottom="1">Estimates linear models with two fixed effects</h2>
+<p class="8-27-0-0"><code class="command">a2reg</code> <var class="command">depvar</var> <var class="command">indepvars</var>, <code class="command">individual</code><code class="command">(</code><var class="command">varname</var><code class="command">)</code> <code class="command">unit</code><code class="command">(</code><var class="command">varname</var><code class="command">)</code> [ <code class="command">indeffect</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> <code class="command">uniteffect</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> <code class="command">xb</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> <code class="command">resid</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> ] </p>
+<p class=""></p>
+<h2 margin_bottom="1">Description</h2>
+<p class=""><strong>a2reg</strong> estimates two-way fixed effects. <var class="command">individual</var> indexes the first fixed effect, and <var class="command">unit</var> indexes the second fixed effect. The dependent variable is <var class="command">depvar</var> and the covariates are in <var class="command">indepvars</var>. At least one covariate is mandatory. </p>
+<h2 margin_bottom="1">Identification constraints</h2>
+<p class="">The identification constraints for the fixed effects are set by convention such that the sum of individual effects is equal to zero and such that the last unit fixed effect is zero. </p>
+<h2 margin_bottom="1">Output</h2>
+<p class="">The program displays conventional output regression, along with Fisher tests for the significance of fixed effects. However the computation of confidence intervals is not computationally feasible, since it would require the inversion of the variance-covariance matrix. Therefore confidence intervals are not printed. </p>
+<h2 margin_bottom="1">Options</h2>
+<p class=""><var class="command">depvar</var> is the dependent variable. No missing observation is allowed. </p>
+<var class="command">indepvars</var> lists explanatory variables. No missing observation is allowed.
+
+<code class="command">individual</code><code class="command">(</code><var class="command">varname</var><code class="command">)</code> is the identifier for the first fixed effect.
+
+<code class="command">unit</code><code class="command">(</code><var class="command">varname</var><code class="command">)</code> is the identifier for the second fixed effect.
+
+<code class="command">indeffect</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> is the name of the output variable for the first fixed effect.
+
+<code class="command">uniteffect</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> is the name of the output variable for the second fixed effect.
+
+<code class="command">xb</code><code class="command">(</code><var class="command">name</var><code class="command">)</code> is the name of the output variable for the part predicted by the covariates.
+
+<code class="command">resid</code><code class="command">(</code><var class="command">varname</var><code class="command">)</code> is the name of the output variable for the resid.
+
+
+<h2 margin_bottom="3">Examples</h2>a2reg y x1 x2 , individual(personid) unit(firmid) indeffect(personeffect)<h2 margin_bottom="1">Author</h2>
+<p class="">Amine Ouazad, PhD Candidate of the Paris School of Economics, and Research Associate, London School of Economics. </p>Webpage <a class="command" href="http://personal.lse.ac.uk/ouazad/"><b>"http://personal.lse.ac.uk/ouazad/"</b></a>
+
+Email <a class="command" href="mailto:a.ouazad@lse.ac.uk"><b>a.ouazad@lse.ac.uk</b></a>
+
+<h2 margin_bottom="1">Acknowledgement</h2>
+<p class="">This command started as a port of the FORTRAN cg program that was written by <b> Robert Creecy</b> for Unix platforms. It has now improved it in many ways, providing Fisher tests, interfacing with STATA and commands such as bootstrap. </p>Please put the following reference in your paper.
+Amine Ouazad, Program for the Estimation of Two-Way Fixed Effects, available at
+http://personal.lse.ac.uk/ouazad/, 2007.
+
+<h2 margin_bottom="1">Also see</h2>
+<a class="command" href="http://www.stata.com/help.cgi?a2group"><b>a2group</b></a> (if installed)
+</div></body>
+</html>

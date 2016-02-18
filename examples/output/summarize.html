@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for summarize</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="1.2.1  10oct2014">
+<h1>Help for summarize</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#menu">Menu</a></li>
+<li class="link"><a href="#description">Description</a></li>
+<li class="link"><a href="#options">Options</a></li>
+<li class="link"><a href="#examples">Examples</a></li>
+<li class="link"><a href="#video">Video example</a></li>
+<li class="link"><a href="#results">Stored results</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/manuals14/rsummarize.pdf">[R] summarize</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ameans">[R] ameans</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?centile">[R] centile</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ci">[R] ci</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?codebook">[D] codebook</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?describe">[D] describe</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?inspect">[D] inspect</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?mean">[R] mean</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?proportion">[R] proportion</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ratio">[R] ratio</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?stsum">[ST] stsum</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?svy_estimation">[SVY] svy estimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?table">[R] table</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?tabstat">[R] tabstat</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?tabulate_summarize">[R] tabulate, summarize()</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?total">[R] total</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?xtsum">[XT] xtsum</a></li>
+</ul></nav><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<a href="http://www.stata.com/manuals14/rsummarize.pdf"><b>[R] summarize</b></a> <span>&#8212;</span>
+</td>
+<td>Summary statistics  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="8-18-2-0"><code class="command"><u>su</u>mmarize</code> [<a class="command" href="http://www.stata.com/help.cgi?varlist">varlist</a>] <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<var class="command"><a class="command" href="#weight"><b>weight</b></a></var>] [<code class="command">,</code> <var class="command">options</var>] </p>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">Options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">Main</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="d" class="command"><u>d</u>etail</code></td>
+<td>display additional statistics</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="mean" class="command"><u>mean</u>only</code></td>
+<td>suppress the display; calculate only the mean; programmer's option</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="f" class="command"><u>f</u>ormat</code></td>
+<td>use variable's display format</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="sep" class="command"><u>sep</u>arator(<var>#</var>)</code></td>
+<td>draw separator line after every <var class="command">#</var> variables; default is <code class="command">separator(5)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><var class="command"><a class="command" href="#display_options"><b>display_options</b></a></var></td>
+<td>control            spacing, line width, and base and empty cells</td>
+</tr>
+</tbody>      </table>
+<table class="syntab"><tfoot>
+<tr class="footnote"><td colspan="3">   <var class="command">varlist</var> may contain factor variables; see <a class="command" href="http://www.stata.com/help.cgi?fvvarlist"><b>fvvarlist</b></a>.   </td></tr>
+<tr class="footnote"><td colspan="3">   <var class="command">varlist</var> may contain time-series operators; see <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a>.   </td></tr>
+<tr class="footnote"><td colspan="3">   <code options="by" class="command">by</code>, <code options="rolling" class="command">rolling</code>, and <code options="statsby" class="command">statsby</code> are allowed; see <a class="command" href="http://www.stata.com/help.cgi?prefix"><b>prefix</b></a>.   </td></tr>
+<tr class="footnote"><td colspan="3">   <code options="aweight" class="command">aweight</code>s, <code options="fweight" class="command">fweight</code>s, and <code options="iweight" class="command">iweight</code>s are allowed.  However,   <code options="iweight" class="command">iweight</code>s may not be used with the <code options="detail" class="command">detail</code> option;   see <a class="command" href="http://www.stata.com/help.cgi?weight"><b>weight</b></a>.   </td></tr>
+</tfoot></table>         
+<h2 margin_bottom="1" id="menu">Menu</h2>
+<p class="hang"><b>Statistics &gt; Summaries, tables, and tests &gt;</b> <b>Summary and descriptive statistics &gt; Summary statistics</b> </p>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code options="summarize" class="command">summarize</code> calculates and displays a variety of univariate summary statistics.  If no <var class="command"><a class="command" href="http://www.stata.com/help.cgi?varlist"><b>varlist</b></a></var> is specified, summary statistics are calculated for all the variables in the dataset. </p>
+<h2 margin_bottom="1" id="options">Options</h2>
+<h3 margin_bottom="1">Main</h3>
+<p class="hang"><code options="detail" class="command">detail</code> produces additional statistics, including skewness, kurtosis, the four smallest and four largest values, and various percentiles. </p>
+<p class="hang"><code options="meanonly" class="command">meanonly</code>, which is allowed only when <code options="detail" class="command">detail</code> is not specified, suppresses the display of results and calculation of the variance.  Ado-file writers will find this useful for fast calls. </p>
+<p class="hang"><code options="format" class="command">format</code> requests that the summary statistics be displayed using the display formats associated with the variables rather than the default <code options="g" class="command">g</code> display format; see <a class="command" href="http://www.stata.com/help.cgi?format"><b>[D]</b> format</a>. </p>
+<p class="hang"><code options="separator(#)" class="command">separator(<var>#</var>)</code> specifies how often to insert separation lines into the output.  The default is <code class="command">separator(5)</code>, meaning that a line is drawn after every five variables.  <code class="command">separator(10)</code> would draw a line after every 10 variables.  <code class="command">separator(0)</code> suppresses the separation line. </p>
+<p class="hang" id="display_options"><var class="command">display_options</var>: <code options="vsquish" class="command">vsquish</code>, <code options="noempty" class="command"><u>noempty</u>cells</code>, <code options="base" class="command"><u>base</u>levels</code>, <code options="allbase" class="command"><u>allbase</u>levels</code>, <code options="nofvlab" class="command"><u>nofvlab</u>el</code>, <code options="fvwrap(#)" class="command">fvwrap(<var>#</var>)</code>, and <code options="fvwrapon(style)" class="command">fvwrapon(<var>style</var>)</code>;     see <a class="command" href="estimation%20options##display_options"><b>[R] estimation options</b></a>. </p>
+<h2 margin_bottom="1" id="examples">Examples</h2>
+<p class="hang"><code class="command">. sysuse auto</code></p>
+<p class="hang"><code class="command">. summarize</code></p>
+<p class="hang"><code class="command">. summarize mpg weight</code></p>
+<p class="hang"><code class="command">. summarize mpg weight if foreign</code></p>
+<p class="hang"><code class="command">. summarize mpg weight if foreign, detail</code></p>
+<p class="hang"><code class="command">. summarize i.rep78</code> </p>
+<h2 margin_bottom="1" id="video">Video example</h2>
+<p class="hang"><a class="command" href="http://www.youtube.com/watch?v=kKFbnEWwa2s"><b>Descriptive statistics in Stata</b></a> </p>
+<h2 margin_bottom="1" id="results">Stored results</h2>
+<p class="std"><code class="command">summarize</code> stores the following in <code class="command">r()</code>: </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 15 19 2" colspan="3"> Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(N)</code></td>
+<td>number of observations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(mean)</code></td>
+<td>mean</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(skewness)</code></td>
+<td>skewness (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(min)</code></td>
+<td>minimum</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(max)</code></td>
+<td>maximum</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(sum_w)</code></td>
+<td>sum of the weights</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p1)</code></td>
+<td>1st percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p5)</code></td>
+<td>5th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p10)</code></td>
+<td>10th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p25)</code></td>
+<td>25th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p50)</code></td>
+<td>50th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p75)</code></td>
+<td>75th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p90)</code></td>
+<td>90th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p95)</code></td>
+<td>95th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(p99)</code></td>
+<td>99th percentile (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(Var)</code></td>
+<td>variance</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(kurtosis)</code></td>
+<td>kurtosis (<code class="command">detail</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(sum)</code></td>
+<td>sum of variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(sd)</code></td>
+<td>standard deviation</td>
+</tr>
+</tbody>                    </table>
+</div></body>
+</html>

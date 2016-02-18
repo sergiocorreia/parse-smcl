@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for reg2hdfe</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl">{.-}
+help for <h1>Help for reg2hdfe</h1>
+<code class="command">reg2hdfe</code> <span>{right None:()}</span>
+{.-}
+
+<h2 margin_bottom="3">Title</h2>reg2hdfe - Estimates a Linear Regression Model with two High Dimensional Fixed Effects.<h2 margin_bottom="1">Syntax</h2>
+<p class="8-15-0-0"><code class="command">reg2hdfe</code> <var class="command"><a class="command" href="http://www.stata.com/help.cgi?depvar"><b>depvar</b></a></var> [<var class="command"><a class="command" href="http://www.stata.com/help.cgi?indepvar"><b>indepvar</b></a></var>] [<a class="command" href="http://www.stata.com/help.cgi?if"><b>if</b></a>] [<a class="command" href="http://www.stata.com/help.cgi?in"><b>in</b></a>] , <code class="command">id1(</code><var class="command"><a class="command" href="http://www.stata.com/help.cgi?varname"><b>varname</b></a></var><code class="command">)</code> <code class="command">id2(</code><var class="command"><a class="command" href="http://www.stata.com/help.cgi?varname"><b>varname</b></a></var><code class="command">)</code>   [<var class="command">options</var>] </p>
+<p class=""></p>
+<h2 margin_bottom="1">Description</h2>
+<p class="">This command implements the algorithm of Guimaraes &amp; Portugal for estimation of a linear regression model with two high dimensional fixed effects. The command is particularly suited for use with large data sets because in a first step you can remove the high dimensional fixed effects from the data and then use the transformed regression variables to try alternative specifications of the model. </p>
+<h2 margin_bottom="1">Options</h2>
+<p class="0-4-0-0"><code class="command">fe1(</code><var class="command">new varname</var><code class="command">)</code> <code class="command">fe2(</code><var class="command">new varname</var><code class="command">)</code>: Stores the estimates of the two fixed effects. </p>
+<p class="0-4-0-0"><code class="command">cluster(</code><var class="command">varname</var><code class="command">)</code> Computes clustered standard errors. </p>
+<p class="0-4-0-0"><code class="command"><u>group</u>id (</code><var class="command">new varname</var><code class="command">)</code> Creates a new variable containing a unique identifier for the mobility groups. </p>
+<p class="0-4-0-0"><code class="command"><u>out</u>data(</code><var class="command">string</var><code class="command">)</code> Saves the transformed regression variables. </p>
+<p class="0-4-0-0"><code class="command"><u>in</u>data(</code><var class="command">string</var><code class="command">)</code> To be used after <code class="command">outdata(</code><var class="command">string</var><code class="command">)</code>. Performs the regression with previously transformed variables. This is the fastest way to implement regressions. </p>
+<p class="0-4-0-0"><code class="command"><u>imp</u>rove(</code><var class="command">string</var><code class="command">)</code> To be used after <code class="command">outdata(</code><var class="command">string</var><code class="command">)</code>. Improves convergence for a single variable. </p>
+<p class="0-4-0-0"><code class="command">tol</code><code class="command">(</code><var class="command">float</var><code class="command">)</code> Specify the convergence criterion for the iteration method. Default is 1.000e-06. </p>
+<p class="0-4-0-0"><code class="command">simple</code> Disables acceleration of convergence for the algorithm. </p>
+<p class="0-4-0-0"><code class="command">op1</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Iteration number after which convergence is accelerated. Default is 3. </p>
+<p class="0-4-0-0"><code class="command">op2</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Parameter that defines the rate of acceleration at every iteration of the algorithm. Default is 1. The parameter is adjusted as the algorithm evolves. If convergence is monotonous the parameter is increased and if the algorithm starts diverging the parameter goes back to its default value. </p>
+<p class="0-4-0-0"><code class="command">op3</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Parameter that defines a periodic attempt to accelerate convergence. Default is 10. This means that every 10 iterations the algorithm tries an additional correction to improve convergence. </p>
+<p class="0-4-0-0"><code class="command">op4</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Parameter that defines the rate of acceleration for the periodic correction. Default is 1000. </p>
+<p class="0-4-0-0"><code class="command">op5</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Periodic corrections are only applied if estimated values in two consecutived periodic corrections differ by less than this parameter. The default is 0.001. </p>
+<p class="0-4-0-0"><code class="command">autoff</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Parameter OP2 remains at its base level. </p>
+<p class="0-4-0-0"><code class="command">check</code> Checks for convergence by computing additional regressions that use the fixed effects estimates as regressors. With successful convergence the coefficients for the fixed effects should equal one. To check convergence of the final regression you must store the two fixed effects (use options <code class="command">fe1()</code> and <code class="command">fe2()</code>). </p>
+<p class="0-4-0-0"><code class="command"><u>max</u>iter</code><code class="command">(</code><var class="command">integer</var><code class="command">)</code> Specify a maximum number of iterations. </p>
+<p class="0-4-0-0"><code class="command">nodots</code> Suppress dots indicating the progress of the iteration algorithm. </p>
+<p class="0-4-0-0"><code class="command"><u>noreg</u>ress</code> Transforms the variables but does not estimate the regression. </p>
+<p class="0-4-0-0"><code class="command">param1</code> The estimates of the fixed effects for id1() sum to zero within each group. </p>
+<p class="0-4-0-0"><code class="command">param2</code> The estimates of the fixed effects for id2() sum to zero within each group. </p>
+<p class="0-4-0-0"><code class="command"><u>verb</u>ose</code> Gives more information during estimation. </p>
+<h2 margin_bottom="4">Examples</h2>Example 1:Estimates a model with two high dimensional fixed effects<p class="8-16-0-0"><kbd>. reg2hdfe y x1 x2 x3, id1(i) id2(j)</kbd></p>
+Example2:
+
+Estimate a model saving the transformed variables
+
+<p class="8-16-0-0"><kbd>. reg2hdfe y x1 x2 x3, id1(i) id2(j)</kbd> outdata(data1) </p>
+and then run a (much faster) alternative specification.
+
+<p class="8-16-0-0"><kbd>. reg2hdfe y x1 x2, id1(i) id2(j)</kbd> indata(data1) </p>
+Example 3:
+
+For faster results estimate a model with a low tolerance level.
+
+<p class="8-16-0-0"><kbd>. reg2hdfe y x1 x2 x3, id1(i) id2(j)</kbd> outdata(data1) check tol(0.001) </p>
+The "check" option gives an idea how well the model converged. Next we improve
+convergence for a single variable, say x1,
+
+<p class="8-16-0-0"><kbd>. reg2hdfe x1, id1(i) id2(j)</kbd> improve(data1) check tol(0.000001) </p>
+and then reestimate the model.
+
+<p class="8-16-0-0"><kbd>. reg2hdfe y x1 x2, id1(i) id2(j)</kbd> indata(data1) check </p>
+<h2 margin_bottom="1">Author</h2>
+<p class="">Paulo Guimaraes, Universidade do Porto, Portugal </p>
+<p class="">Email: <a class="command" href="mailto:pguimaraes@fep.up.pt"><b>pguimaraes@fep.up.pt</b></a> </p>Comments welcome!
+<h2>Acknowledgements</h2>This program makes use of Amine Quazad's <a class="command" href="http://www.stata.com/help.cgi?a2group"><b>a2group</b></a> Stata algorithm to compute the connected groups.
+<p class=""></p>
+<h2 margin_bottom="6">Reference</h2>If you use this program in your research cite:Paulo Guimaraes and Pedro Portugal. "A Simple Feasible Alternative Procedure to Estimate Models withHigh-Dimensional Fixed Effects", Stata Journal, 10(4), 628-649, 2010.<h2 margin_bottom="1">Also see</h2>
+<p class="0-21-0-0"><a class="command" href="http://www.stata.com/help.cgi?gpreg"><b>gpreg</b></a> (if installed), <a class="command" href="http://www.stata.com/help.cgi?a2reg"><b>a2reg</b></a> (if installed), <a class="command" href="http://www.stata.com/help.cgi?a2group"><b>a2group</b></a> (if installed), <a class="command" href="http://www.stata.com/help.cgi?felsdvreg"><b>felsdvreg</b></a> (if installed). </p>
+</div></body>
+</html>

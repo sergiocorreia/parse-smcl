@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for var</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="1.3.2  13feb2015">
+<h1>Help for var</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#menu">Menu</a></li>
+<li class="link"><a href="#description">Description</a></li>
+<li class="link"><a href="#options">Options</a></li>
+<li class="link"><a href="#examples">Examples</a></li>
+<li class="link"><a href="#results">Stored results</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/manuals14/tsvar.pdf">[TS] var</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?var%20postestimation">[TS] var postestimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?dfactor">[TS] dfactor</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?forecast">[TS] forecast</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?mgarch">[TS] mgarch</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?sspace">[TS] sspace</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?tsset">[TS] tsset</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?svar">[TS] var svar</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?varbasic">[TS] varbasic</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?vec">[TS] vec</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?var_intro">[TS] var intro</a></li>
+</ul></nav><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<a href="http://www.stata.com/manuals14/tsvar.pdf"><b>[TS] var</b></a> <span>&#8212;</span>
+</td>
+<td>Vector autoregressive models  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="8-12-2-0"><code class="command">var</code> <a class="command" href="http://www.stata.com/help.cgi?depvarlist">depvarlist</a> <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<code class="command">,</code> <var class="command">options</var>] </p>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">Options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">Model</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nocon" class="command"><u>nocon</u>stant</code></td>
+<td>suppress constant term</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="la" class="command"><u>la</u>gs(<var><a href="http://www.stata.com/help.cgi?numlist">numlist</a></var>)</code></td>
+<td>use lags <var class="command">numlist</var> in the VAR</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="ex" class="command"><u>ex</u>og(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code></td>
+<td>use exogenous variables <var class="command">varlist</var>
+</td>
+</tr>
+</tbody>    <tbody>
+<tr class="section"><td colspan="3">Model 2</td></tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command"><u>const</u>raints(</code><var class="command"><a class="command" href="estimation%20options##constraints()"><b>numlist</b></a></var><code class="command">)</code>
+</td>
+<td>apply specified linear constraints</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nolo" class="command"><u>nolo</u>g</code></td>
+<td>suppress SURE iteration log</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="it" class="command"><u>it</u>erate(<var>#</var>)</code></td>
+<td>set maximum number of iterations for SURE; default is <code class="command">iterate(1600)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="tol" class="command"><u>tol</u>erance(<var>#</var>)</code></td>
+<td>set convergence tolerance of SURE</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nois" class="command"><u>nois</u>ure</code></td>
+<td>use one-step SURE</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="dfk" class="command">dfk</code></td>
+<td>make small-sample degrees-of-freedom adjustment</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="sm" class="command"><u>sm</u>all</code></td>
+<td>report small-sample t and F statistics</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nobig" class="command"><u>nobig</u>f</code></td>
+<td>do not compute parameter vector for coefficients implicitly set to zero </td>
+</tr>
+</tbody>         <tbody>
+<tr class="section"><td colspan="3">Reporting</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="l" class="command"><u>l</u>evel(<var>#</var>)</code></td>
+<td>set confidence level; default is <code class="command">level(95)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="lut" class="command"><u>lut</u>stats</code></td>
+<td>report L<span options="u">{c u}</span>tkepohl lag-order selection statistics</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nocnsr" class="command"><u>nocnsr</u>eport</code></td>
+<td>do not display constraints</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><var class="command"><a class="command" href="#display_options"><b>display_options</b></a></var></td>
+<td>control columns        and column formats, row spacing, and line width</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="coefl" class="command"><u>coefl</u>egend</code></td>
+<td>display legend instead of statistics</td>
+</tr>
+</tbody>             <tfoot>
+<tr class="footnote"><td colspan="3"> You must <code class="command">tsset</code> your data before using <code options="var" class="command">var</code>; see <a class="command" href="http://www.stata.com/help.cgi?tsset"><b>[TS] tsset</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3">
+<var class="command">depvarlist</var> and <var class="command">varlist</var> may contain time-series operators; see <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a>. </td></tr>
+<tr class="footnote"><td colspan="3"> <code options="by" class="command">by</code>, <code options="fp" class="command">fp</code>, <code options="rolling" class="command">rolling</code>, <code options="statsby" class="command">statsby</code>, and <code class="command">xi</code> are allowed; see <a class="command" href="http://www.stata.com/help.cgi?prefix"><b>prefix</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3"> <code options="coeflegend" class="command">coeflegend</code> does not appear in the dialog box.</td></tr>
+<tr class="footnote"><td colspan="3">See <a class="command" href="http://www.stata.com/help.cgi?var_postestimation"><b>[TS]</b> var postestimation</a> for features available after estimation.</td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="menu">Menu</h2>
+<p class="hang"><b>Statistics &gt; Multivariate time series &gt; Vector autoregression (VAR)</b> </p>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code class="command">var</code> fits a multivariate time-series regression of each dependent variable on lags of itself and on lags of all the other dependent variables.  <code class="command">var</code> also fits a variant of vector autoregressive (VAR) models known as the VARX model, which also includes exogenous variables. See <a class="command" href="http://www.stata.com/help.cgi?var_intro"><b>[TS]</b> var intro</a> for a list of commands that are used in conjunction with <code class="command">var</code>. </p>
+<h2 margin_bottom="1" id="options">Options</h2>
+<h3 margin_bottom="1">Model</h3>
+<p class="hang"><code options="noconstant" class="command">noconstant</code>; see <b><a class="command" href="estimation%20options##noconstant"><b>[R] estimation options</b></a></b>. </p>
+<p class="hang"><code options="lags(numlist)" class="command">lags(<var>numlist</var>)</code> specifies the lags to be included in the model. The default is <code class="command">lags(1 2)</code>.  This option takes a <var class="command">numlist</var> and not simply an integer for the maximum lag.  For example, <code class="command">lags(2)</code> would include only the second lag in the model, whereas <code class="command">lags(1/2)</code> would include both the first and second lags in the model.  See <var class="command"><a class="command" href="http://www.stata.com/help.cgi?numlist"><b>numlist</b></a></var> and <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a> for more discussion of numlists and lags. </p>
+<p class="hang"><code options="exog(varlist)" class="command">exog(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code> specifies a list of exogenous variables to be included in the VAR. </p>
+<h3 margin_bottom="1">Model 2</h3>
+<p class="hang"><code options="constraints(numlist)" class="command">constraints(<var><a href="http://www.stata.com/help.cgi?numlist">numlist</a></var>)</code>; see <b><a class="command" href="estimation%20options##constraints()"><b>[R] estimation options</b></a></b>. </p>
+<p class="hang"><code options="nolog" class="command">nolog</code> suppresses the log from the iterated seemingly unrelated regression algorithm.  By default, the iteration log is displayed when the coefficients are estimated through iterated seemingly unrelated regression. When the <code options="constraints()" class="command">constraints(<var></var>)</code> option is not specified, the estimates are obtained via OLS, and <code options="nolog" class="command">nolog</code> has no effect.  For this reason, <code options="nolog" class="command">nolog</code> can be specified only when <code options="constraints()" class="command">constraints(<var></var>)</code> is specified. Similarly, <code options="nolog" class="command">nolog</code> cannot be combined with <code options="noisure" class="command">noisure</code>. </p>
+<p class="hang"><code options="iterate(#)" class="command">iterate(<var>#</var>)</code> specifies an integer that sets the maximum number of iterations when the estimates are obtained through iterated seemingly unrelated regression.  By default, the limit is 1,600.  When <code options="constraints()" class="command">constraints(<var></var>)</code> is not specified, the estimates are obtained using OLS, and <code options="iterate()" class="command">iterate(<var></var>)</code> has no effect.  For this reason, <code options="iterate()" class="command">iterate(<var></var>)</code> can be specified only when <code options="constraints()" class="command">constraints(<var></var>)</code> is specified.  Similarly, <code options="iterate()" class="command">iterate(<var></var>)</code> cannot be combined with <code options="noisure" class="command">noisure</code>. </p>
+<p class="hang"><code options="tolerance(#)" class="command">tolerance(<var>#</var>)</code> specifies a number greater than zero and less than 1 for the convergence tolerance of the iterated seemingly unrelated regression algorithm.  By default, the tolerance is <code class="command">1e-6</code>.  When the <code options="constraints()" class="command">constraints(<var></var>)</code> option is not specified, the estimates are obtained using OLS, and <code options="tolerance()" class="command">tolerance(<var></var>)</code> has no effect.  For this reason, <code options="tolerance()" class="command">tolerance(<var></var>)</code> can be specified only when <code options="constraints()" class="command">constraints(<var></var>)</code> is specified.  Similarly, <code options="tolerance()" class="command">tolerance(<var></var>)</code> cannot be combined with <code options="noisure" class="command">noisure</code>. </p>
+<p class="hang"><code options="noisure" class="command">noisure</code> specifies that the estimates in the presence of constraints be obtained through one-step seemingly unrelated regression.  By default, <code options="var" class="command">var</code> obtains estimates in the presence of constraints through iterated seemingly unrelated regression.  When <code options="constraints()" class="command">constraints(<var></var>)</code> is not specified, the estimates are obtained using OLS, and <code options="noisure" class="command">noisure</code> has no effect.  For this reason, <code options="noisure" class="command">noisure</code> can be specified only when <code options="constraints()" class="command">constraints(<var></var>)</code> is specified. </p>
+<p class="hang"><code options="dfk" class="command">dfk</code> specifies that a small-sample degrees-of-freedom adjustment be used when estimating the error variance-covariance matrix. Specifically, 1/(T-mparms) is used instead of the large-sample divisor 1/T, where mparms is the average number of parameters in the functional form for y_t over the K equations. </p>
+<p class="hang"><code options="small" class="command">small</code> causes <code options="var" class="command">var</code> to report small-sample <var class="command">t</var> and <var class="command">F</var> statistics instead of the large-sample normal and chi-squared statistics. </p>
+<p class="hang"><code options="nobigf" class="command">nobigf</code> requests that <code options="var" class="command">var</code> not save the estimated parameter vector that incorporates coefficients that have been implicitly constrained to be zero, such as when some lags have been omitted from a model.  <code class="command">e(bf)</code> is used for computing asymptotic standard errors in the postestimation commands <a class="command" href="http://www.stata.com/help.cgi?irf%20create"><b>irf create</b></a> and <a class="command" href="http://www.stata.com/help.cgi?fcast%20compute"><b>fcast compute</b></a>.  Therefore, specifying <code options="nobigf" class="command">nobigf</code> implies that the asymptotic standard errors will not be available from <code options="irf create" class="command">irf create</code> and <code options="fcast compute" class="command">fcast compute</code>.  See <a href="http://www.stata.com/manuals14/tsvarremarksandexamplesfittingmodelswithsomelagsexcluded.pdf">TS varRemarksandexamplesFittingmodelswithsomelagsexcluded<var class="command">Fitting models with some lags excluded</var></a> in <strong>[TS] var</strong>. </p>
+<h3 margin_bottom="1">Reporting</h3>
+<p class="hang"><code options="level(#)" class="command">level(<var>#</var>)</code>; see <b><a class="command" href="estimation%20options##level()"><b>[R] estimation options</b></a></b>. </p>
+<p class="hang"><code options="lutstats" class="command">lutstats</code> specifies that the L<span options="u">{c u}</span>tkepohl versions of the lag-order selection statistics be reported.  See <a href="http://www.stata.com/manuals14/tsvarsocmethodsandformulas.pdf">TS varsocMethodsandformulas<var class="command">Methods and formulas</var></a> in <b>[TS] varsoc</b> for a discussion of these statistics. </p>
+<p class="hang"><code options="nocnsreport" class="command">nocnsreport</code>; see <a class="command" href="estimation%20options##nocnsreport"><b>[R] estimation options</b></a>. </p>
+<p class="hang" id="display_options"><var class="command">display_options</var>: <code options="noci" class="command">noci</code>, <code options="nopv" class="command"><u>nopv</u>alues</code>, <code options="vsquish" class="command">vsquish</code>, <code options="cformat(%fmt)" class="command">cformat(<var><a href="http://www.stata.com/help.cgi?%fmt">%fmt</a></var>)</code>, <code options="pformat(%fmt)" class="command">pformat(<var>%fmt</var>)</code>, <code options="sformat(%fmt)" class="command">sformat(<var>%fmt</var>)</code>, and <code options="nolstretch" class="command">nolstretch</code>;     see <a class="command" href="estimation%20options##display_options"><b>[R] estimation options</b></a>. </p>
+<p class="std">The following option is available with <code options="var" class="command">var</code> but is not shown in the dialog box: </p>
+<p class="hang"><code options="coeflegend" class="command">coeflegend</code>; see <a class="command" href="estimation%20options##coeflegend"><b>[R] estimation options</b></a>. </p>
+<h2 margin_bottom="1" id="examples">Examples</h2>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse lutkepohl2</code>
+<code class="language-stata">tsset</code> </pre>
+<p class="std">Fit vector autoregressive model with 2 lags (the default)</p>
+<pre><code class="language-stata">var dln_inv dln_inc dln_consump</code></pre>
+<p class="std">Fit vector autoregressive model restricted to specified period</p>
+<pre><code class="language-stata">var dln_inv dln_inc dln_consump if qtr&lt;=tq(1978q4)</code></pre>
+<p class="std">Same as above, but include first, second, and third lags in model</p>
+<pre><code class="language-stata">var dln_inv dln_inc dln_consump if qtr&lt;=tq(1978q4), lags(1/3)</code> </pre>
+<p class="std">Same as above, but report the L<span options="u">{c u}</span>tkepohl versions of the lag-order selection statistics</p>
+<pre><code class="language-stata">var dln_inv dln_inc dln_consump if qtr&lt;=tq(1978q4), lags(1/3)</code> <code class="command">lutstats</code></pre>
+<p class="std">Replay results with 99% confidence interval</p>
+<pre><code class="language-stata">var, level(99)</code> </pre>
+<h2 margin_bottom="1" id="results">Stored results</h2>
+<p class="std"><code class="command">var</code> stores the following in <code class="command">e()</code>: </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N)</code></td>
+<td>number of observations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_gaps)</code></td>
+<td>number of gaps in sample</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k)</code></td>
+<td>number of parameters</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k_eq)</code></td>
+<td>number of equations in <code class="command">e(b)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k_dv)</code></td>
+<td>number of dependent variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_eq)</code></td>
+<td>average number of parameters in an equation</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_m)</code></td>
+<td>model degrees of freedom</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_r)</code></td>
+<td>residual degrees of freedom (<code class="command">small</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll)</code></td>
+<td>log likelihood</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll_dfk)</code></td>
+<td>
+<code class="command">dfk</code> adjusted log likelihood (<code class="command">dfk</code> 	only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(obs_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>number of observations on equation 	<var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(k_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>number of parameters in equation <var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(df_m</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>model degrees of freedom for equation 	<var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(df_r</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>residual degrees of freedom for equation 	<var class="command">#</var> (<code class="command">small</code> only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(r2_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>R-squared for equation <var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(ll_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>log likelihood for equation <var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(chi2_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>chi-squared for equation <var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(F_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>F statistic for equation <var class="command">#</var> (<code class="command">small</code> 	only)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(rmse_</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td>root mean squared error for equation 	<var class="command">#</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(aic)</code></td>
+<td>Akaike information criterion</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(hqic)</code></td>
+<td>Hannan-Quinn information criterion</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(sbic)</code></td>
+<td>Schwarz-Bayesian information criterion</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(fpe)</code></td>
+<td>final prediction error</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(mlag)</code></td>
+<td>highest lag in VAR</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(tmin)</code></td>
+<td>first time period in sample</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(tmax)</code></td>
+<td>maximum time</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(detsig)</code></td>
+<td>determinant of <code class="command">e(Sigma)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(detsig_ml)</code></td>
+<td>determinant of Sigma_ml hat</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rank)</code></td>
+<td>rank of <code class="command">e(V)</code>
+</td>
+</tr>
+</tbody>                              </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Macros</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmd)</code></td>
+<td><code class="command">var</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmdline)</code></td>
+<td>command as typed</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(depvar)</code></td>
+<td>names of dependent variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(endog)</code></td>
+<td>names of endogenous variables, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(exog)</code></td>
+<td>names of exogenous variables, and their lags, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(exogvars)</code></td>
+<td>names of exogenous variables, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(eqnames)</code></td>
+<td>names of equations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(lags)</code></td>
+<td>lags in model</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(exlags)</code></td>
+<td>lags of exogenous variables in model, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(title)</code></td>
+<td>title in estimation output</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(nocons)</code></td>
+<td>
+<code class="command">nocons</code>, if <code class="command">noconstant</code> is specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(constraints)</code></td>
+<td>
+<code class="command">constraints</code>, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cnslist_var)</code></td>
+<td>list of specified constraints</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(small)</code></td>
+<td>
+<code class="command">small</code>, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(lutstats)</code></td>
+<td>
+<code class="command">lutstats</code>, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(timevar)</code></td>
+<td>time variable specified in <code class="command">tsset</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(tsfmt)</code></td>
+<td>format for the current time variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(dfk)</code></td>
+<td>
+<code class="command">dfk</code>, if specified</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(properties)</code></td>
+<td><code class="command">b V</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(predict)</code></td>
+<td>program used to implement <code class="command">predict</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(marginsok)</code></td>
+<td>predictions allowed by <code options="margins" class="command">margins</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(marginsnotok)</code></td>
+<td>predictions disallowed by <code options="margins" class="command">margins</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(marginsdefault)</code></td>
+<td>default <code options="predict()" class="command">predict(<var></var>)</code> specification for <code class="command">margins</code>
+</td>
+</tr>
+</tbody>                        </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Matrices</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(b)</code></td>
+<td>coefficient vector</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(Cns)</code></td>
+<td>constraints matrix</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(Sigma)</code></td>
+<td>Sigma hat matrix</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(V)</code></td>
+<td>variance-covariance matrix of the estimators</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(bf)</code></td>
+<td>constrained coefficient vector</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(exlagsm)</code></td>
+<td>matrix mapping lags to exogenous variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(G)</code></td>
+<td>Gamma matrix; see       <a href="http://www.stata.com/manuals14/tsvarmethodsandformulas.pdf">TS varMethodsandformulas<var class="command">Methods and formulas</var></a> in       <strong>[TS] var</strong>
+</td>
+</tr>
+</tbody>        </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Functions</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(sample)</code></td>
+<td>marks estimation sample</td>
+</tr>
+</tbody>  </table>
+</div></body>
+</html>

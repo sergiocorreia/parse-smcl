@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for avar</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="1.0.01  29july2015">
+<h1>Help for avar</h1>
+<code class="command">help avar</code>
+<hr margin_bottom="1">
+<h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<strong> avar</strong> <span>&#8212;</span>
+</td>
+<td>Asymptotic covariance estimation for iid and non-iid data robust to heteroskedasticity, autocorrelation, 1- and 2-way clustering, common cross-panel autocorrelated disturbances, etc.  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="hang">Single-equation context: </p>
+<p class="8-14-2-0"><code class="command">avar</code> <var class="command">evarname</var> <var class="command">(zvarlist)</var> [<var class="command">weight</var>] [<code class="command">if</code> <var class="command">exp</var>] [<code class="command">in</code> <var class="command">range</var>] <span class="nowrap">[<code class="command">,</code> <var class="command">vce_options</var></span> <var class="command">misc_options</var>] </p>
+<p class="hang">Multiple-equation context: </p>
+<p class="8-14-2-0"><code class="command">avar</code> <var class="command">(evarlist)</var> <var class="command">(zvarlist)</var> [<var class="command">weight</var>] [<code class="command">if</code> <var class="command">exp</var>] [<code class="command">in</code> <var class="command">range</var>] <span class="nowrap">[<code class="command">,</code> <var class="command">vce_options</var></span> <var class="command">misc_options</var>] </p>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">vce_options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr>
+<td class="normal"></td>
+<td><code class="command"><u>r</u>obust</code></td>
+<td> heteroskedastic-robust VCE </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command"><u>cl</u>uster</code><code class="command">(</code><var class="command">cvarlist</var><code class="command">)</code>
+</td>
+<td> 1- or 2-way cluster- and heteroskedasticity-robust VCE </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">bw(</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td> bandwidth for kernel-robust (AC or HAC) VCE </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">kernel(</code><var class="command">string</var><code class="command">)</code>
+</td>
+<td> kernel for kernel-robust (AC or HAC) VCE </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">dkraay(</code><var class="command">#</var><code class="command">)</code>
+</td>
+<td> VCE robust to autocorrelated cross-panel disturbances with bandwidth=<var class="command">#</var> </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">kiefer</code></td>
+<td> VCE robust to within-panel autocorrelation </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">center</code></td>
+<td> use centered moments </td>
+</tr>
+</tbody>         </table>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">misc_options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">partial(</code><var class="command">pvarlist</var><code class="command">)</code>
+</td>
+<td> partial-out (project-out) variables in <var class="command">pvarlist</var> from variables in <var class="command">evarlist</var> and <var class="command">zvarlist</var>; constant also partialled-out </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command"><u>noc</u>onstant</code></td>
+<td> suppress constant from <var class="command">(zvarlist)</var> </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">demean</code></td>
+<td> center (demean) variables in <var class="command">evarlist</var> and <var class="command">zvarlist</var> (implies <var class="command">noconstant</var>) </td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">smata(</code><var class="command">mname</var><code class="command">)</code>
+</td>
+<td> name for avar matrix left in Mata environment if requested </td>
+</tr>
+</tbody>      </table>
+<p class="std"><code options="avar" class="command">avar</code> may be used with time-series or panel data, in which case the data must be tsset first; see help <a class="command" href="http://www.stata.com/help.cgi?tsset"><b>tsset</b></a>. </p>
+<p class="std">All varlists may contain time-series operators, but factor variables are not currently supported; see help varlist. </p>
+<h2 margin_bottom="1">Contents</h2>
+<p class="hang"><a class="command" href="#description"><b>Description</b></a></p>
+<p class="hang"><a class="command" href="#summary_vce"><b>Summary of VCE options</b></a></p>
+<p class="hang"><a class="command" href="#use_examples"><b>Examples of usage</b></a></p>
+<p class="hang"><a class="command" href="#rep_examples"><b>Replication examples</b></a></p>
+<p class="hang"><a class="command" href="#saved_results"><b>Saved results</b></a></p>
+<p class="hang"><a class="command" href="#references"><b>References</b></a></p>
+<p class="hang"><a class="command" href="#citation"><b>Citation of avar</b></a></p>
+
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code options="avar" class="command">avar</code> is a routine for estimating <var class="command">S</var>, the asymptotic variance of <var class="command">(1/N)*Z'e</var>, where <var class="command">Z</var> is an <var class="command">N</var>x<var class="command">L</var> matrix of L variables, <var class="command">e</var> is an <var class="command">N</var>x<var class="command">p</var> matrix of p variables, and <var class="command">N</var> is the sample size. Typically, <var class="command">S</var> would be used to form a sandwich-type estimate of the variance of an estimator, where <var class="command">S</var> is the "filling" of the sandwich. </p>
+<p class="std"><code options="avar" class="command">avar</code> can estimate VCEs for single and multiple equations that are robust to various violations of the assumption of iid data, including heteroskedasticity, autocorrelation, 1- and 2-way clustering, common cross-panel disturbances, etc. It supports time-series and panel data. </p>
+<p class="std">For example, in the most basic application - linear regression - <var class="command">e</var> is a <var class="command">N</var>x<var class="command">1</var> vector of residuals from an OLS estimation and <var class="command">Z</var> is the <var class="command">N</var>x<var class="command">L</var> matrix of L regressors. The variance of the OLS estimator <var class="command">var(beta)</var> can be estimated by the "sandwich" <var class="command">N*DSD</var>, where the "filling" <var class="command">S</var> is the estimate of the asymptotic variance of <var class="command">(1/N)*Z'e</var> and the "bread" is <span class="nowrap"><var class="command">D=(1/N)inv(X'X)</var></span>. This estimate of the variance of the OLS estimator is as robust as <var class="command">S</var>: if <var class="command">S</var> is robust to heteroskedasticity, so will be <var class="command">var(beta)</var>; if <var class="command">S</var> is robust to 2-way clustering, so will be <var class="command">var(beta)</var>; etc. </p>
+<p class="std">In the multi-equation context, <var class="command">e</var> is a <var class="command">N</var>x<var class="command">p</var> matrix of residuals from p different estimations. <code options="avar" class="command">avar</code> will return an estimate of the asymptotic variance including the covariances across equations. For example, <code options="avar" class="command">avar</code> can estimate an <var class="command">S</var> that is consistent with the <var class="command">var(beta)</var> reported by the Stata routines <a class="command" href="http://www.stata.com/help.cgi?sureg"><b>sureg</b></a>, <a class="command" href="http://www.stata.com/help.cgi?reg3"><b>reg3</b></a> and <a class="command" href="http://www.stata.com/help.cgi?suest"><b>suest</b></a>; see the examples below for illustrations. <b>Important:</b> in its current implementation, <code options="avar" class="command">avar</code> uses <var class="command">listwise deletion</var>. This means it will only use observations for which there are no missing values in <var class="command">any</var> of the variables in <var class="command">elist</var>. (This is the behavior of <a class="command" href="http://www.stata.com/help.cgi?sureg"><b>sureg</b></a> and <a class="command" href="http://www.stata.com/help.cgi?reg3"><b>reg3</b></a> but not of <a class="command" href="http://www.stata.com/help.cgi?suest"><b>suest</b></a>.) </p>
+<p class="std">The <code options="partial(pvarlist)" class="command">partial(<var>pvarlist</var>)</code> option may be used to partial out (project out) the additional variables <var class="command">pvarlist</var> from the variables in <var class="command">evarlist</var> and <var class="command">zvarlist</var>. Note that these variables should <var class="command">not</var> be included in <var class="command">zvarlist</var>. A constant is automatically partialled out as well. The <code options="demean" class="command">demean</code> option can be used if only the constant is to be partialled out. </p>
+<p class="std"><code options="avar" class="command">avar</code> uses the Mata library <code options="livreg2" class="command">livreg2</code> used by <a class="command" href="http://www.stata.com/help.cgi?ivreg2"><b>ivreg2</b></a>, <a class="command" href="http://www.stata.com/help.cgi?ranktest"><b>ranktest</b></a> and related routines. For a more detailed discussion of the various VCE options see the <a class="command" href="http://www.stata.com/help.cgi?ivreg2"><b>ivreg2</b></a> help file. For a discussion of the theory behind the estimation of asymptotic variances in the econometric context, see Hayashi (2000), especially chapters 2, 4 and 6. </p>
+<h2 margin_bottom="1" id="summary_vce">Summary of VCE options</h2>
+<table class="standard" margins="[5, 27, 28, 0]">
+<tr>
+<td> <var class="command">robust</var>
+</td>
+<td> heteroskedastic-consistent (HC) or "robust" VCE  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">bw(#)</var>
+</td>
+<td> autocorrelation-consistent (AC) VCE with bandwidth=<var class="command">#</var>  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">robust</var> <var class="command">bw(#)</var>
+</td>
+<td> heteroskedastic- and autocorrelation-consistent (HAC) VCE with bandwidth=<var class="command">#</var>  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">kernel(string)</var>
+</td>
+<td> kernel used in AC and HAC estimation; default kernel is Bartlett; supported kernels (abbreviations) are Bartlett (bar); Truncated (tru); Parzen (par); Tukey-Hanning (thann); Tukey-Hamming (thamm); Danielle (dan); Tent (ten); and Quadratic-Spectral (qua or qs)  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">cluster(cvar)</var>
+</td>
+<td> VCE robust to heteroskedasticity and within-group correlation, where <var class="command">varname</var> defines the group; may be combined with <var class="command">bw(#)</var> if data are <code options="tsset" class="command">tsset</code> with <code options="cvar" class="command">cvar</code> as the time variable  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">cluster(cvar1 cvar2)</var>
+</td>
+<td> 2-way cluster-robust VCE, robust to heteroskedasticity and correlation within groups defined by <var class="command">var1</var> and <var class="command">var2</var>; may be combined with <var class="command">bw(#)</var> if data are <code options="tsset" class="command">tsset</code> with either <code options="cvar1" class="command">cvar1</code> or <code options="cvar2" class="command">cvar2</code> as the time variable  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">dkraay(#)</var>
+</td>
+<td> VCE robust to autocorrelated cross-panel disturbances with bandwidth=# as per Driscoll &amp; Kraay (1998); equivalent to <var class="command">cluster(tvar)</var> + <var class="command">bw(#)</var> where <var class="command">tvar</var> is the time variable as per <a class="command" href="http://www.stata.com/help.cgi?tsset"><b>tsset</b></a>  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">kiefer</var>
+</td>
+<td> VCE robust to within-group autocorrelation (but <var class="command">not</var> heteroskedasticity) as per Kiefer (1980); equivalent to <var class="command">kernel(tru)</var> + <var class="command">bw(#)</var> where <var class="command">#</var> is the full length of the panel  </td>
+</tr>
+<tr>
+<td options="5 27 28 0"> <var class="command">center</var>
+</td>
+<td> use centered moments (sample moments with mean zero), i.e., instead of Z'e use (Z'e-mean(Z'e)), as per e.g. Hall (2005) pp. 131-8 and 145-8  </td>
+</tr>
+</table>
+<h2 margin_bottom="1">Examples (nb: examples can also be found in the supplementary certification do file)</h2>
+<p class="std"><b>Setup</b></p>
+<p class="std">Set up artificial dataset</p>
+<p class="hang2">. <code class="command">. clear</code></p>
+<p class="hang2">. <code class="command">. set obs 100</code></p>
+<p class="hang2">. <code class="command">. set seed 12345</code></p>
+<p class="hang2">. <code class="command">. gen double y1 = runiform()</code></p>
+<p class="hang2">. <code class="command">. gen double y2 = runiform()</code></p>
+<p class="hang2">. <code class="command">. gen double x1 = runiform()</code></p>
+<p class="hang2">. <code class="command">. gen double x2 = runiform()</code></p>
+<p class="hang2">. <code class="command">. gen double z1 = runiform()</code></p>
+<p class="hang2">. <code class="command">. gen double z2 = runiform()</code></p>
+<p class="std">OLS and IV residuals</p>
+<p class="hang2">. <code class="command">. qui reg y1 x1 x2</code></p>
+<p class="hang2">. <code class="command">. predict double e1, resid</code></p>
+<p class="hang2">. <code class="command">. qui reg y2 x1 x2</code></p>
+<p class="hang2">. <code class="command">. predict double e2, resid</code></p>
+<p class="hang2">. <code class="command">. qui reg y1 x1</code></p>
+<p class="hang2">. <code class="command">. predict double es1, resid</code></p>
+<p class="hang2">. <code class="command">. qui reg y2 x2</code></p>
+<p class="hang2">. <code class="command">. predict double es2, resid</code></p>
+<p class="hang2">. <code class="command">. qui ivreg y1 (x1 x2 = z1 z2)</code></p>
+<p class="hang2">. <code class="command">. predict double eiv1, resid</code></p>
+<p class="hang2">. <code class="command">. qui ivreg y2 (x1 x2 = z1 z2)</code></p>
+<p class="hang2">. <code class="command">. predict double eiv2, resid</code></p>
+<p class="std">Cross-section, time and panel variables</p>
+<p class="hang2">. <code class="command">. gen int id1 = _n</code></p>
+<p class="hang2">. <code class="command">. gen int t1  = _n</code></p>
+<p class="hang2">. <code class="command">. gen int id2 = ceil(_n/5)</code></p>
+<p class="hang2">. <code class="command">. gen int t2  = 5-(id2*5-t1)</code></p>
+<p class="std" id="use_examples"><b>Basic usage</b></p>
+<p class="hang2">. <code class="command">. avar e1 (x1 x2)</code></p>
+<p class="hang2">. <code class="command">. avar e1 (x1 x2), robust</code></p>
+<p class="hang2">. <code class="command">. avar e1 (x1 x2), cluster(id2) partial(z1)</code></p>
+<p class="hang2">. <code class="command">. avar (e1 e2) (x1 x2), robust</code></p>
+<p class="hang2">. <code class="command">. avar e1 (x1 x2), smata(my_avar_matrix)</code></p>
+<p class="hang2">. <code class="command">. mata: my_avar_matrix</code></p>
+<p class="std" id="rep_examples"><b>Replication examples</b></p>
+<p class="std">Replicate VCV for OLS+robust (note small-sample correction used by Stata's regress)</p>
+<p class="hang2">. <code class="command">. reg y1 x1 x2, rob</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat accum XX=x1 x2</code></p>
+<p class="hang2">. <code class="command">. mat Sxx=XX*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Sxxi=syminv(Sxx)</code></p>
+<p class="hang2">. <code class="command">. avar e1 (x1 x2), rob</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = Sxxi*S*Sxxi*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = V2 * e(N)/e(df_r)</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+<p class="std">Replicate VCV for OLS+Newey-West (note small-sample correction)</p>
+<p class="hang2">. <code class="command">. tsset t1</code></p>
+<p class="hang2">. <code class="command">. newey y1 x1 x2, lag(3)</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat accum XX=x1 x2</code></p>
+<p class="hang2">. <code class="command">. mat Sxx=XX*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Sxxi=syminv(Sxx)</code></p>
+<p class="hang2">. <code class="command">. avar e1 (x1 x2), rob bw(4) kernel(bartlett)</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = Sxxi*S*Sxxi*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = V2 * e(N)/e(df_r)</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+<p class="std">Replicate VCV for SUR estimator: 2 eqns, exactly-identified, iid errors</p>
+<p class="hang2">. <code class="command">. sureg (y1 x1 x2) (y2 x1 x2)</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat accum XX=x1 x2</code></p>
+<p class="hang2">. <code class="command">. mat Sxx=XX*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Sxxi=syminv(Sxx)</code></p>
+<p class="hang2">. <code class="command">. avar (e1 e2) (x1 x2)</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. global cn : colfullnames S</code></p>
+<p class="hang2">. <code class="command">. mat KSxxi= I(2)#Sxxi</code></p>
+<p class="hang2">. <code class="command">. mat V2 = KSxxi*S*KSxxi*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat colnames V2=$cn</code></p>
+<p class="hang2">. <code class="command">. mat rownames V2=$cn</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+<p class="std">Replicate VCV for suest: 2 eqns, different regressors, robust (note small-sample correction)</p>
+<p class="hang2">. <code class="command">. reg y1 x1</code></p>
+<p class="hang2">. <code class="command">. est store eq_1</code></p>
+<p class="hang2">. <code class="command">. reg y2 x2</code></p>
+<p class="hang2">. <code class="command">. est store eq_2</code></p>
+<p class="hang2">. <code class="command">. qui suest eq_1 eq_2</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat V1a = V1[1..2,1..2]</code></p>
+<p class="hang2">. <code class="command">. mat V1b = V1[4..5,1..2]</code></p>
+<p class="hang2">. <code class="command">. mat V1c = V1[4..5,4..5]</code></p>
+<p class="hang2">. <code class="command">. mat V1 = (V1a, V1b') \ (V1b, V1c)</code></p>
+<p class="hang2">. <code class="command">. avar (es1 es2) (x1 x2), rob</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. mat Sa=S[1..1,1..6]</code></p>
+<p class="hang2">. <code class="command">. mat Sb=S[3..3,1..6]</code></p>
+<p class="hang2">. <code class="command">. mat Sc=S[5..5,1..6]</code></p>
+<p class="hang2">. <code class="command">. mat Sd=S[6..6,1..6]</code></p>
+<p class="hang2">. <code class="command">. mat S = Sa \ Sb \ Sc \ Sd</code></p>
+<p class="hang2">. <code class="command">. mat Sa=S[1..4,1..1]</code></p>
+<p class="hang2">. <code class="command">. mat Sb=S[1..4,3..3]</code></p>
+<p class="hang2">. <code class="command">. mat Sc=S[1..4,5..5]</code></p>
+<p class="hang2">. <code class="command">. mat Sd=S[1..4,6..6]</code></p>
+<p class="hang2">. <code class="command">. mat S = Sa , Sb , Sc , Sd</code></p>
+<p class="hang2">. <code class="command">. mat accum XX1=x1</code></p>
+<p class="hang2">. <code class="command">. mat Sxx1=XX1*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Sxx1i=syminv(Sxx1)</code></p>
+<p class="hang2">. <code class="command">. mat accum XX2=x2</code></p>
+<p class="hang2">. <code class="command">. mat Sxx2=XX2*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Sxx2i=syminv(Sxx2)</code></p>
+<p class="hang2">. <code class="command">. mat KSxxi= (Sxx1i, J(2,2,0)) \ (J(2,2,0), Sxx2i)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = KSxxi*S*KSxxi*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = V2 * e(N)/(e(N)-1)</code></p>
+<p class="hang2">. <code class="command">. global cn : colfullnames S</code></p>
+<p class="hang2">. <code class="command">. mat colnames V2=$cn</code></p>
+<p class="hang2">. <code class="command">. mat rownames V2=$cn</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+<p class="std">Replicate VCV for suest: 2 eqns, exactly-identified, cluster-robust (note small-sample correction)</p>
+<p class="hang2">. <code class="command">. reg y1 x1 x2</code></p>
+<p class="hang2">. <code class="command">. est store eq_1</code></p>
+<p class="hang2">. <code class="command">. reg y2 x1 x2</code></p>
+<p class="hang2">. <code class="command">. est store eq_2</code></p>
+<p class="hang2">. <code class="command">. suest eq_1 eq_2, cluster(id2)</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat V1a = V1[1..3,1..3]</code></p>
+<p class="hang2">. <code class="command">. mat V1b = V1[5..7,1..3]</code></p>
+<p class="hang2">. <code class="command">. mat V1c = V1[5..7,5..7]</code></p>
+<p class="hang2">. <code class="command">. mat V1 = (V1a, V1b') \ (V1b, V1c)</code></p>
+<p class="hang2">. <code class="command">. mat accum XX=x1 x2</code></p>
+<p class="hang2">. <code class="command">. mat Sxx=XX*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Sxxi=syminv(Sxx)</code></p>
+<p class="hang2">. <code class="command">. avar (e1 e2) (x1 x2), rob cluster(id2)</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. global cn : colfullnames S</code></p>
+<p class="hang2">. <code class="command">. mat KSxxi= I(2)#Sxxi</code></p>
+<p class="hang2">. <code class="command">. mat V2 = KSxxi*S*KSxxi*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = V2 * e(N_clust)/(e(N_clust)-1)</code></p>
+<p class="hang2">. <code class="command">. mat colnames V2=$cn</code></p>
+<p class="hang2">. <code class="command">. mat rownames V2=$cn</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+<p class="std">Replicate VCV for efficient IV with iid error (note small-sample correction)</p>
+<p class="hang2">. <code class="command">. ivreg y1 (x1 x2 = z1 z2)</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat accum ZZ=z1 z2</code></p>
+<p class="hang2">. <code class="command">. mat Szz=ZZ*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Szzi=syminv(Szz)</code></p>
+<p class="hang2">. <code class="command">. mat accum A=x1 x2 z1 z2</code></p>
+<p class="hang2">. <code class="command">. mat A1 = A[3..5,1..2]</code></p>
+<p class="hang2">. <code class="command">. mat A2 = A[3..5,5..5]</code></p>
+<p class="hang2">. <code class="command">. mat Szx = (A1 , A2)*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. avar eiv1 (z1 z2)</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. mat Si=syminv(S)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = syminv(Szx'*Si*Szx)*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = V2 * e(N)/e(df_r)</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+<p class="std">Replicate VCV for inefficient IV with robust SEs (note small-sample correction)</p>
+<p class="hang2">. <code class="command">. ivreg y1 (x1 x2 = z1 z2), rob</code></p>
+<p class="hang2">. <code class="command">. mat V1 = e(V)</code></p>
+<p class="hang2">. <code class="command">. mat accum ZZ=z1 z2</code></p>
+<p class="hang2">. <code class="command">. mat Szz=ZZ*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat Szzi=syminv(Szz)</code></p>
+<p class="hang2">. <code class="command">. mat accum A=x1 x2 z1 z2</code></p>
+<p class="hang2">. <code class="command">. mat A1 = A[3..5,1..2]</code></p>
+<p class="hang2">. <code class="command">. mat A2 = A[3..5,5..5]</code></p>
+<p class="hang2">. <code class="command">. mat Szx = (A1 , A2)*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. avar eiv1 (z1 z2), rob</code></p>
+<p class="hang2">. <code class="command">. mat S=r(S)</code></p>
+<p class="hang2">. <code class="command">. mat Si=syminv(S)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = syminv(Szx'*Szzi*Szx)*(Szx'*Szzi*S*Szzi*Szx)*syminv(Szx'*Szzi*Szx)*1/r(N)</code></p>
+<p class="hang2">. <code class="command">. mat V2 = V2 * e(N)/e(df_r)</code></p>
+<p class="hang2">. <code class="command">. mat list V1</code></p>
+<p class="hang2">. <code class="command">. mat list V2</code></p>
+
+<h2 margin_bottom="1" id="saved_results">Saved results</h2>
+<p class="std"><code class="command">avar</code> saves the following in <code class="command">r()</code>: </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 15 19 2" colspan="3"> Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(N)</code></td>
+<td>sample size</td>
+</tr>
+</tbody>  </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 15 19 2" colspan="3"> Matrices</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">r(S)</code></td>
+<td>estimate of the asymptotic variance</td>
+</tr>
+</tbody>  </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 15 19 2" colspan="3"> Mata</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">mname</code></td>
+<td>(optional) estimate of the asymptotic variance</td>
+</tr>
+</tbody>  </table>
+
+<h2 margin_bottom="1" id="references">References</h2>
+<p class="hang">Driscoll, J.C. and Kraay, A. 1998. Consistent Covariance Matrix Estimation With Spatially Dependent Panel Data. Review of Economics and Statistics. Vol. 80, No. 4, pp. 549-560. </p>
+<p class="hang">Hayashi, F. Econometrics. 2000. Princeton: Princeton University Press. </p>
+<p class="hang">Kiefer, N.M.  1980.  Estimation of Fixed Effect Models for Time Series of Cross-Sections with Arbitrary Intertemporal Covariance.  Journal of Econometrics, Vol. 14, No. 2, pp. 195-202. </p>
+<p class="hang">Hall, A.R. Generalized Method of Moments.  2005.  Oxford: Oxford University Press. </p>
+<h2 margin_bottom="1" id="citation">Citation of avar</h2>
+<p class="std"><code options="avar" class="command">avar</code> is not an official Stata command. It is a free contribution to the research community, like a paper. Please cite it as such: </p>
+<p class="hang">Baum, C.F., Schaffer, M.E. 2013. avar: Asymptotic covariance estimation for iid and non-iid data robust to heteroskedasticity, autocorrelation, 1- and 2-way clustering, common cross-panel autocorrelated disturbances, etc. <a class="command" href="http://ideas.repec.org/c/boc/bocode/XXX.html"><b>http://ideas.repec.org/c/boc/bocode/XXX.html</b></a></p>
+
+<h2 margin_bottom="8">Authors</h2>	Christopher F Baum, Boston College, USA	baum@bc.edu	Mark E Schaffer, Heriot-Watt University, UK	m.e.schaffer@hw.ac.uk<h2 margin_bottom="1">Also see</h2>
+<p class="7-14-2-0">Help:  <a class="command" href="http://www.stata.com/help.cgi?ivreg2"><b>ivreg2</b></a></p>
+</div></body>
+</html>

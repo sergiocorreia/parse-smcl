@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for logit</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="1.3.1  27feb2015">
+<h1>Help for logit</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#menu">Menu</a></li>
+<li class="link"><a href="#description">Description</a></li>
+<li class="link"><a href="#options">Options</a></li>
+<li class="link"><a href="#examples">Examples</a></li>
+<li class="link"><a href="#results">Stored results</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/manuals14/rlogit.pdf">[R] logit</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?logit%20postestimation">[R] logit postestimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?brier">[R] brier</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?cloglog">[R] cloglog</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?mi%20estimation">[MI] estimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?exlogistic">[R] exlogistic</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?logistic">[R] logistic</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?melogit">[ME] melogit</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?probit">[R] probit</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?roc">[R] roc</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?svy_estimation">[SVY] svy estimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?xtlogit">[XT] xtlogit</a></li>
+</ul></nav><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<a href="http://www.stata.com/manuals14/rlogit.pdf"><b>[R] logit</b></a> <span>&#8212;</span>
+</td>
+<td>Logistic regression, reporting coefficients  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="8-15-2-0"><code options="logi" class="command"><u>logi</u>t</code> <a class="command" href="http://www.stata.com/help.cgi?depvar">depvar</a> [<a class="command" href="http://www.stata.com/help.cgi?indepvars">indepvars</a>] <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<var class="command"><a class="command" href="#weight"><b>weight</b></a></var>] [<code class="command">,</code> <var class="command">options</var>] </p>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">Options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">Model</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nocon" class="command"><u>nocon</u>stant</code></td>
+<td>suppress constant term</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="off" class="command"><u>off</u>set(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code></td>
+<td>include <var class="command">varname</var> in model with coefficient constrained to 1</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="asis" class="command">asis</code></td>
+<td>retain perfect predictor variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command"><u>const</u>raints(</code><var class="command"><a class="command" href="estimation%20options##constraints()"><b>constraints</b></a></var><code class="command">)</code>
+</td>
+<td>apply specified linear constraints</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="col" class="command"><u>col</u>linear</code></td>
+<td>keep collinear variables</td>
+</tr>
+</tbody>      <tbody>
+<tr class="section"><td colspan="3">SE/Robust</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="vce(vcetype)" class="command">vce(<var><a href="http://www.stata.com/help.cgi?vcetype">vcetype</a></var>)</code></td>
+<td>
+<var class="command">vcetype</var> may be <code options="oim" class="command">oim</code>,         <code options="r" class="command"><u>r</u>obust</code>, <code options="cl" class="command"><u>cl</u>uster</code> <var class="command">clustvar</var>, <code options="boot" class="command"><u>boot</u>strap</code>, or         <code options="jack" class="command"><u>jack</u>knife</code>
+</td>
+</tr>
+</tbody>  <tbody>
+<tr class="section"><td colspan="3">Reporting</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="l" class="command"><u>l</u>evel(<var>#</var>)</code></td>
+<td>set confidence level; default is <code class="command">level(95)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="or" class="command">or</code></td>
+<td>report odds ratios</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nocnsr" class="command"><u>nocnsr</u>eport</code></td>
+<td>do not display constraints</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><var class="command"><a class="command" href="#display_options"><b>display_options</b></a></var></td>
+<td>control columns and column formats, row spacing, line width, display of omitted    variables and base and empty cells, and factor-variable labeling</td>
+</tr>
+</tbody>     <tbody>
+<tr class="section"><td colspan="3">Maximization</td></tr>
+<tr>
+<td class="normal"></td>
+<td><var class="command"><a class="command" href="#maximize_options"><b>maximize_options</b></a></var></td>
+<td>control the maximization process; seldom used</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nocoe" class="command"><u>nocoe</u>f</code></td>
+<td>do not display coefficient table; seldom used</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="coefl" class="command"><u>coefl</u>egend</code></td>
+<td>display legend instead of statistics</td>
+</tr>
+</tbody>                <tfoot>
+<tr class="footnote"><td colspan="3"> <var class="command">indepvars</var> may contain factor variables; see <a class="command" href="http://www.stata.com/help.cgi?fvvarlist"><b>fvvarlist</b></a>. </td></tr>
+<tr class="footnote"><td colspan="3">
+<var class="command">depvar</var> and <var class="command">indepvars</var> may contain time-series operators; see <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3">
+<code class="command">bootstrap</code>, <code class="command">by</code>, <code options="fp" class="command">fp</code>, <code class="command">jackknife</code>, <code options="mfp" class="command">mfp</code>, <code class="command">mi estimate</code>, <code class="command">nestreg</code>, <code class="command">rolling</code>, <code class="command">statsby</code>, <code class="command">stepwise</code>, and <code class="command">svy</code> are allowed; see <a class="command" href="http://www.stata.com/help.cgi?prefix"><b>prefix</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3"> <code class="command">vce(bootstrap)</code> and <code class="command">vce(jackknife)</code> are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?mi%20estimate"><b>mi estimate</b></a> prefix.</td></tr>
+<tr class="footnote"><td colspan="3">Weights are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?bootstrap"><b>bootstrap</b></a> prefix.</td></tr>
+<tr class="footnote"><td colspan="3"> <code options="vce()" class="command">vce(<var></var>)</code>, <code options="nocoef" class="command">nocoef</code>, and  weights are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?svy"><b>svy</b></a> prefix.  </td></tr>
+<tr class="footnote"><td colspan="3">
+<code options="fweight" class="command">fweight</code>s, <code options="iweight" class="command">iweight</code>s, and <code options="pweight" class="command">pweight</code>s are allowed; see <a class="command" href="http://www.stata.com/help.cgi?weight"><b>weight</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3"> <code options="nocoef" class="command">nocoef</code> and <code options="coeflegend" class="command">coeflegend</code> do not appear in the dialog box.</td></tr>
+<tr class="footnote"><td colspan="3"> See <a class="command" href="http://www.stata.com/help.cgi?logit_postestimation"><b>[R]</b> logit postestimation</a> for features available after estimation.  </td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="menu">Menu</h2>
+<p class="hang"><b>Statistics &gt; Binary outcomes &gt; Logistic regression, reporting coefficients</b> </p>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code class="command">logit</code> fits a logit model for a binary response by maximum likelihood; it models the probability of a positive outcome given a set of regressors. <var class="command">depvar</var> equal to nonzero and nonmissing (typically <var class="command">depvar</var> equal to one) indicates a positive outcome, whereas <var class="command">depvar</var> equal to zero indicates a negative outcome. </p>
+<p class="std">Also see <a class="command" href="http://www.stata.com/help.cgi?logistic"><b>[R]</b> logistic</a>; <code class="command">logistic</code> displays estimates as odds ratios. Many users prefer the <code class="command">logistic</code> command to <code class="command">logit</code>.  Results are the same regardless of which you use -- both are the maximum-likelihood estimator.  Several auxiliary commands that can be run after <code class="command">logit</code>, <code class="command">probit</code>, or <code class="command">logistic</code> estimation are described in <a class="command" href="http://www.stata.com/help.cgi?logistic%20postestimation"><b>[R] logistic postestimation</b></a>.  A list of related estimation commands is given in <a class="command" href="http://www.stata.com/help.cgi?logistic%20estimation%20commands"><b>logistic estimation commands</b></a>. </p>
+<h2 margin_bottom="1" id="options">Options</h2>
+<h3 margin_bottom="1">Model</h3>
+<p class="hang"><code options="noconstant" class="command">noconstant</code>, <code options="offset(varname)" class="command">offset(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code>, <code options="constraints(constraints)" class="command">constraints(<var>constraints</var>)</code>, <code options="collinear" class="command">collinear</code>; see <a class="command" href="http://www.stata.com/help.cgi?estimation%20options"><b>[R] estimation options</b></a>. </p>
+<p class="hang"><code options="asis" class="command">asis</code> forces retention of perfect predictor variables and their associated perfectly predicted observations and may produce instabilities in maximization; see <a class="command" href="http://www.stata.com/help.cgi?probit"><b>[R]</b> probit</a>. </p>
+<h3 margin_bottom="1">SE/Robust</h3>
+<p class="hang"><code options="vce(vcetype)" class="command">vce(<var>vcetype</var>)</code> specifies the type of standard error reported, which includes types that are derived from asymptotic theory (<code class="command">oim</code>), that are robust to some kinds of misspecification (<code class="command">robust</code>), that allow for intragroup correlation (<code class="command">cluster</code> <var class="command">clustvar</var>), and that use bootstrap or jackknife methods (<code class="command">bootstrap</code>, <code class="command">jackknife</code>); see <a class="command" href="http://www.stata.com/help.cgi?vce_option"><var class="command">vce_option</var><b>[R] </b></a>. </p>
+<h3 margin_bottom="1">Reporting</h3>
+<p class="hang"><code options="level(#)" class="command">level(<var>#</var>)</code>; see <a class="command" href="estimation%20options##level()"><b>[R] estimation options</b></a>. </p>
+<p class="hang"><code options="or" class="command">or</code> reports the estimated coefficients transformed to odds ratios, that is, exp(b) rather than b.  Standard errors and confidence intervals are similarly transformed.  This option affects how results are displayed, not how they are estimated.  <code options="or" class="command">or</code> may be specified at estimation or when replaying previously estimated results. </p>
+<p class="hang"><code options="nocnsreport" class="command">nocnsreport</code>; see <a class="command" href="estimation%20options##nocnsreport"><b>[R] estimation options</b></a>. </p>
+<p class="hang" id="display_options"><var class="command">display_options</var>: <code options="noci" class="command">noci</code>, <code options="nopv" class="command"><u>nopv</u>alues</code>, <code options="noomit" class="command"><u>noomit</u>ted</code>, <code options="vsquish" class="command">vsquish</code>, <code options="noempty" class="command"><u>noempty</u>cells</code>, <code options="base" class="command"><u>base</u>levels</code>, <code options="allbase" class="command"><u>allbase</u>levels</code>, <code options="nofvlab" class="command"><u>nofvlab</u>el</code>, <code options="fvwrap(#)" class="command">fvwrap(<var>#</var>)</code>, <code options="fvwrapon(style)" class="command">fvwrapon(<var>style</var>)</code>, <code options="cformat(%fmt)" class="command">cformat(<var><a href="http://www.stata.com/help.cgi?%fmt">%fmt</a></var>)</code>, <code options="pformat(%fmt)" class="command">pformat(<var>%fmt</var>)</code>, <code options="sformat(%fmt)" class="command">sformat(<var>%fmt</var>)</code>, and <code options="nolstretch" class="command">nolstretch</code>;     see <a class="command" href="estimation%20options##display_options"><b>[R] estimation options</b></a>. </p>
+<h3 margin_bottom="1" id="maximize_options">Maximization</h3>
+<p class="hang"><var class="command">maximize_options</var>: <code options="dif" class="command"><u>dif</u>ficult</code>, <code options="tech" class="command"><u>tech</u>nique(<var><a href="maximize##algorithm_spec">algorithm_spec</a></var>)</code>, <code options="iter" class="command"><u>iter</u>ate(<var>#</var>)</code>, [<code class="command"><ul>no</ul></code>]<code options="lo" class="command"><u>lo</u>g</code>, <code options="tr" class="command"><u>tr</u>ace</code>, <code options="grad" class="command"><u>grad</u>ient</code>, <code options="showstep" class="command">showstep</code>, <code options="hess" class="command"><u>hess</u>ian</code>, <code options="showtol" class="command"><u>showtol</u>erance</code>, <code options="tol" class="command"><u>tol</u>erance(<var>#</var>)</code>, <code options="ltol" class="command"><u>ltol</u>erance(<var>#</var>)</code>, <code options="nrtol" class="command"><u>nrtol</u>erance(<var>#</var>)</code>, <code options="nonrtol" class="command"><u>nonrtol</u>erance</code>, and <code options="from(init_specs)" class="command">from(<var>init_specs</var>)</code>; see <a class="command" href="http://www.stata.com/help.cgi?maximize"><b>[R]</b> maximize</a>.  These options are seldom used. </p>
+<p class="std">The following options are available with <code class="command">logit</code> but are not shown in the dialog box: </p>
+<p class="hang"><code options="nocoef" class="command">nocoef</code> specifies that the coefficient table not be displayed.  This option is sometimes used by program writers but is of no use interactively. </p>
+<p class="hang"><code options="coeflegend" class="command">coeflegend</code>; see <a class="command" href="estimation%20options##coeflegend"><b>[R] estimation options</b></a>. </p>
+<h2 margin_bottom="1" id="examples">Examples</h2>    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse lbw</code></pre>
+<p class="std">Logistic regression</p>
+<pre><code class="language-stata">logit low age lwt i.race smoke ptl ht ui</code>
+<code class="language-stata">logit, level(99)</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse nhanes2d</code>
+<code class="language-stata">svyset</code> </pre>
+<p class="std">Logistic regression using survey data</p>
+<pre><code class="language-stata">svy: logit highbp height weight age female</code></pre>    <hr margin_bottom="2">
+<h2 margin_bottom="1" id="results">Stored results</h2>
+<p class="std"><code class="command">logit</code> stores the following in <code class="command">e()</code>: </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N)</code></td>
+<td>number of observations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_cds)</code></td>
+<td>number of completely determined successes</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_cdf)</code></td>
+<td>number of completely determined failures</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k)</code></td>
+<td>number of parameters</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k_eq)</code></td>
+<td>number of equations in <code class="command">e(b)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k_eq_model)</code></td>
+<td>number of equations in overall model test</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(k_dv)</code></td>
+<td>number of dependent variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_m)</code></td>
+<td>model degrees of freedom</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2_p)</code></td>
+<td>pseudo-R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll)</code></td>
+<td>log likelihood</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll_0)</code></td>
+<td>log likelihood, constant-only model</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_clust)</code></td>
+<td>number of clusters</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(chi2)</code></td>
+<td>chi-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(p)</code></td>
+<td>significance of model test</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rank)</code></td>
+<td>rank of <code class="command">e(V)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ic)</code></td>
+<td>number of iterations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rc)</code></td>
+<td>return code</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(converged)</code></td>
+<td>
+<code class="command">1</code> if converged, <code class="command">0</code> otherwise</td>
+</tr>
+</tbody>                   </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Macros</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmd)</code></td>
+<td><code class="command">logit</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmdline)</code></td>
+<td>command as typed</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(depvar)</code></td>
+<td>name of dependent variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(wtype)</code></td>
+<td>weight type</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(wexp)</code></td>
+<td>weight expression</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(title)</code></td>
+<td>title in estimation output</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(clustvar)</code></td>
+<td>name of cluster variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(offset)</code></td>
+<td>linear offset variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(chi2type)</code></td>
+<td>
+<code class="command">Wald</code> or <code class="command">LR</code>; type of model chi-squared test</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(vce)</code></td>
+<td>
+<var class="command">vcetype</var> specified in <code class="command">vce()</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(vcetype)</code></td>
+<td>title used to label Std. Err.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(opt)</code></td>
+<td>type of optimization</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(which)</code></td>
+<td>
+<code class="command">max</code> or <code class="command">min</code>; whether optimizer is to perform                      maximization or minimization</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ml_method)</code></td>
+<td>type of <code class="command">ml</code> method</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(user)</code></td>
+<td>name of likelihood-evaluator program</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(technique)</code></td>
+<td>maximization technique</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(properties)</code></td>
+<td><code class="command">b V</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(estat_cmd)</code></td>
+<td>program used to implement <code class="command">estat</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(predict)</code></td>
+<td>program used to implement <code class="command">predict</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(marginsnotok)</code></td>
+<td>predictions disallowed by <code class="command">margins</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(asbalanced)</code></td>
+<td>factor variables <code class="command">fvset</code> as <code class="command">asbalanced</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(asobserved)</code></td>
+<td>factor variables <code class="command">fvset</code> as <code class="command">asobserved</code>
+</td>
+</tr>
+</tbody>                       </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Matrices</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(b)</code></td>
+<td>coefficient vector</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(Cns)</code></td>
+<td>constraints matrix</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ilog)</code></td>
+<td>iteration log (up to 20 iterations)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(gradient)</code></td>
+<td>gradient vector</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(mns)</code></td>
+<td>vector of means of the independent variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rules)</code></td>
+<td>information about perfect predictors</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(V)</code></td>
+<td>variance-covariance matrix of the estimators</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(V_modelbased)</code></td>
+<td>model-based variance</td>
+</tr>
+</tbody>         </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Functions</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(sample)</code></td>
+<td>marks estimation sample</td>
+</tr>
+</tbody>  </table>
+</div></body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for generate</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="1.2.2  22aug2014">
+<h1>Help for generate</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#menu">Menu</a></li>
+<li class="link"><a href="#description">Description</a></li>
+<li class="link"><a href="#options">Options</a></li>
+<li class="link"><a href="#examples">Examples</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/manuals14/dgenerate.pdf">[D] generate</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?compress">[D] compress</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?corr2data">[D] corr2data</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?drawnorm">[D] drawnorm</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?edit">[D] edit</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?egen">[D] egen</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?encode">[D] encode</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?label">[D] label</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?recode">[D] recode</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?rename">[D] rename</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?exp">[U] 13 Functions and expressions (expressions)</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?operators">[U] 13 Functions and expressions (operators)</a></li>
+</ul></nav><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<a href="http://www.stata.com/manuals14/dgenerate.pdf"><b>[D] generate</b></a> <span>&#8212;</span>
+</td>
+<td>Create or change contents of variable  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="hang">Create new variable </p>
+<p class="8-17-2-0"><code options="g" class="command"><u>g</u>enerate</code> <span class="command">[<var><a href="http://www.stata.com/help.cgi?datatypes">type</a></var>] [</span> <a class="command" href="http://www.stata.com/help.cgi?newvar">newvar</a>[<code class="command">:</code><var class="command">lblname</var>] <code class="command">=</code><var class="command"><a class="command" href="http://www.stata.com/help.cgi?exp"><b>exp</b></a></var> <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<code class="command">,</code> <code options="b" class="command"><u>b</u>efore(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code> | <code options="a" class="command"><u>a</u>fter(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code>] </p>
+<p class="hang">Replace contents of existing variable </p>
+<p class="8-17-2-0"><code class="command">replace</code> <var class="command">oldvar</var> <code class="command">=</code><var class="command"><a class="command" href="http://www.stata.com/help.cgi?exp"><b>exp</b></a></var> <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<code class="command">,</code> <code options="nop" class="command"><u>nop</u>romote</code>] </p>
+<p class="hang">Specify default storage type assigned to new variables </p>
+<p class="8-17-2-0"><code class="command">set</code> <code options="ty" class="command"><u>ty</u>pe</code> <span options="-(">{c -(}</span><code options="float" class="command">float</code><span options="|">{c |}</span><code options="double" class="command">double</code><span options=")-">{c )-}</span> [<code class="command">,</code> <code options="perm" class="command"><u>perm</u>anently</code>] </p>
+<p class="hang">where <var class="command">type</var> is one of<br> <code options="byte" class="command">byte</code><span options="|">{c |}</span><code options="int" class="command">int</code><span options="|">{c |}</span><code options="long" class="command">long</code><span options="|">{c |}</span><code options="float" class="command">float</code><span options="|">{c |}</span><code options="double" class="command">double</code><span options="|">{c |}</span><code options="str" class="command">str</code><span options="|">{c |}</span><code options="str1" class="command">str1</code><span options="|">{c |}</span><code options="str2" class="command">str2</code><span options="|">{c |}</span>...<span options="|">{c |}</span><code class="command">str<span options="maxstrvarlen">{ccl maxstrvarlen}</span></code> </p>
+<p class="hang">See Description below for an explanation of <code options="str" class="command">str</code>.  For the other types, see <a class="command" href="http://www.stata.com/help.cgi?data_types"><b>[D]</b> data types</a>. </p>
+<p class="hang"><code options="by" class="command">by</code> is allowed with <code options="generate" class="command">generate</code> and <code options="replace" class="command">replace</code>; see <a class="command" href="http://www.stata.com/help.cgi?by"><b>[D]</b> by</a>. </p>
+<h2 margin_bottom="1" id="menu">Menu</h2>    <h2 margin_bottom="1">generate</h2>
+<p class="hang2"><b>Data &gt; Create or change data &gt; Create new variable</b> </p>    <h2 margin_bottom="1">replace</h2>
+<p class="hang2"><b>Data &gt; Create or change data &gt; Change contents of variable</b> </p>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code options="generate" class="command">generate</code> creates a new variable.  The values of the variable are specified by <code class="command">=</code><var class="command"><a class="command" href="http://www.stata.com/help.cgi?exp"><b>exp</b></a></var>. </p>
+<p class="std">If no <var class="command"><a class="command" href="http://www.stata.com/help.cgi?data%20types"><b>type</b></a></var> is specified, the new variable type is determined by the type of result returned by <code class="command">=</code><var class="command">exp</var>.  A <code options="float" class="command">float</code> variable (or a <code options="double" class="command">double</code>, according to <code options="set type" class="command">set type</code>) is created if the result is numeric, and a string variable is created if the result is a string. In the latter case, if the string variable contains values greater than 2,045 characters or contains values with a binary 0 (<code class="command">\0</code>), a <code class="command">strL</code> variable is created.  Otherwise, a <code options="str" class="command">str</code><var class="command">#</var> variable is created, where <var class="command">#</var> is the smallest string that will hold the result. </p>
+<p class="std">If a <var class="command">type</var> is specified, the result returned by <code class="command">=</code><var class="command">exp</var> must be string or numeric according to whether <var class="command">type</var> is string or numeric.  If <code options="str" class="command">str</code> is specified, a <code class="command">strL</code> or a <code options="str" class="command">str</code><var class="command">#</var> variable is created using the same rules as above. </p>
+<p class="std">See <a class="command" href="http://www.stata.com/help.cgi?egen"><b>[D]</b> egen</a> for extensions to <code options="generate" class="command">generate</code>. </p>
+<p class="std"><code options="replace" class="command">replace</code> changes the contents of an existing variable. Because <code options="replace" class="command">replace</code> alters data, the command cannot be abbreviated. </p>
+<p class="std"><code options="set type" class="command">set type</code> specifies the default storage type assigned to new variables (such as those created by <code options="generate" class="command">generate</code>) when the storage type is not explicitly specified. </p>
+<h2 margin_bottom="1" id="options">Options</h2>
+<p class="hang"><code options="before(varname)" class="command">before(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code> or <code options="after(varname)" class="command">after(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code> may be used with <code class="command">generate</code> to place the newly generated variable in a specific position within the dataset.  These options are primarily used by the Data Editor and are of limited use in other contexts.  A more popular alternative for most users is <a class="command" href="http://www.stata.com/help.cgi?order"><b>order</b></a>. </p>
+<p class="hang"><code options="nopromote" class="command">nopromote</code> prevents <code options="replace" class="command">replace</code> from promoting the <a class="command" href="http://www.stata.com/help.cgi?data%20types"><b>variable type</b></a> to accommodate the change.  For instance, consider a variable stored as an integer type (<code options="byte" class="command">byte</code>, <code options="int" class="command">int</code>, or <code options="long" class="command">long</code>), and assume that you <code options="replace" class="command">replace</code> some values with nonintegers. By default, <code options="replace" class="command">replace</code> changes the variable type to a floating point (<code options="float" class="command">float</code> or <code options="double" class="command">double</code>) and thus correctly stores the changed values.  Similarly, <code options="replace" class="command">replace</code> promotes <code options="byte" class="command">byte</code> and <code options="int" class="command">int</code> variables to longer integers (<code options="int" class="command">int</code> and <code options="long" class="command">long</code>) if the replacement value is an integer but is too large in absolute value for the current storage type.  <code options="replace" class="command">replace</code> promotes strings to longer strings.  <code options="nopromote" class="command">nopromote</code> prevents <code options="replace" class="command">replace</code> from doing this; instead, the replacement values are truncated to fit the current storage type. </p>
+<p class="hang"><code options="permanently" class="command">permanently</code> specifies that, in addition to making the change right now, the new limit be remembered and become the default setting when you invoke Stata. </p>
+<h2 margin_bottom="1" id="examples">Examples</h2>    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse genxmpl3</code> </pre>
+<p class="std">Create new variable <code class="command">age2</code> containing the values of <code class="command">age</code> squared</p>
+<pre><code class="language-stata">generate age2 = age^2</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse genxmpl3, clear</code> </pre>
+<p class="std">Create variable <code class="command">age2</code> with a storage type of <code class="command">int</code> and containing the values of <code class="command">age</code> squared</p>
+<pre><code class="language-stata">generate int age2 = age^2</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse genxmpl1, clear</code> </pre>
+<p class="std">Replace the values in <code class="command">age2</code> with those of <code class="command">age^2</code></p>
+<pre><code class="language-stata">replace age2 = age^2</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse genxmpl2, clear</code> </pre>
+<p class="std">List the <code class="command">name</code> variable</p>
+<pre><code class="language-stata">list name</code> </pre>
+<p class="std">Create variable <code class="command">lastname</code> containing the second word of <code class="command">name</code> </p>
+<pre><code class="language-stata">generate lastname = word(name,2)</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse genxmpl3, clear</code> </pre>
+<p class="std">Create variable <code class="command">age2</code> with a storage type of <code class="command">int</code> and containing the values of <code class="command">age</code> squared for all observations for which <code class="command">age</code> is more than 30</p>
+<pre><code class="language-stata">generate int age2 = age^2 if age &gt; 30</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse genxmpl4, clear</code> </pre>
+<p class="std">Replace the value of <code class="command">odd</code> in the third observation</p>
+<pre><code class="language-stata">replace odd = 5 in 3</code></pre>
+    <hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse stan2, clear</code> </pre>
+<p class="std">Create duplicate of every observation for which <code class="command">transplant</code> is true (!=0)</p>
+<pre><code class="language-stata">expand 2 if transplant</code></pre>
+<p class="std">Sort observations into ascending order of <code class="command">id</code></p>
+<pre><code class="language-stata">sort id</code> </pre>
+<p class="std">Create variable <code class="command">posttran</code>, with storage type of <code class="command">byte</code>, equal to 1 for the second observation of each <code class="command">id</code> and equal to 0 otherwise</p>
+<pre><code class="language-stata">by id: generate byte posttran = (_n==2)</code> </pre>
+<p class="std">Create variable <code class="command">t1</code> equal to <code class="command">stime</code> for the last observation of <code class="command">id</code></p>
+<pre><code class="language-stata">by id: generate t1 = stime if _n==_N</code></pre>    <hr>
+</div></body>
+</html>

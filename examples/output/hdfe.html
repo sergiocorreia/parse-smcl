@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for hdfe</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="3.2.8 18feb2016">
+<h1>Help for hdfe</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#contact">Contact</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/help.cgi?areg">[R] areg</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?xtreg">[R] xtreg</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ivregress">[R] ivregress</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?reg2hdfe">reghdfe</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?a2reg">a2reg</a></li>
+</ul></nav><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<code class="command">hdfe</code> <span>&#8212;</span>
+</td>
+<td>Partial-out variables with respect to multiple levels of fixed-effects  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="std">Replace current dataset: </p>
+<p class="8-15-2-0"><code class="command">hdfe</code> <a class="command" href="http://www.stata.com/help.cgi?varlist"><b>varlist</b></a> <var class="command"><span class="command">[<var><a href="http://www.stata.com/help.cgi?weight">weight</a></var>]</span></var> <code class="command">,</code> <code options="a" class="command"><u>a</u>bsorb(<var><a href="#absvar">absvars</a></var>)</code> <code options="clear" class="command">clear</code> [<code options="keepv" class="command"><u>keepv</u>ars(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code> <code options="keepid" class="command"><u>keepid</u>s</code>] [<code options="clusterv" class="command"><u>clusterv</u>ars(<var>varlist</var>)</code> <a class="command" href="#options"><b>options</b></a>] </p>
+<p class="std">Keep current dataset and add new variables: </p>
+<p class="8-15-2-0"><code class="command">hdfe</code> <a class="command" href="http://www.stata.com/help.cgi?varlist"><b>varlist</b></a> <var class="command"><span class="command">[<var><a href="http://www.stata.com/help.cgi?weight">weight</a></var>]</span></var> <code class="command">,</code> <code options="a" class="command"><u>a</u>bsorb(<var><a href="#absvar">absvars</a></var>)</code> <code options="g" class="command"><u>g</u>enerate(<var>stubname</var>)</code> [<code options="sample" class="command"><u>sample</u>(<var>newvarname</var>)</code>] [<code options="clusterv" class="command"><u>clusterv</u>ars(<var>varlist</var>)</code> <a class="command" href="#options"><b>options</b></a>] </p>
+<table class="syntab" id="opt_summary">
+<thead><tr>
+<td colspan="2">Options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">HDFE-Specific</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="clear" class="command">clear</code></td>
+<td>will overwrite the dataset; leaving the transformed variables, as well as some ancillary ones (such as the fixed effects, weights, cluster variables, etc.).</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td></td>
+<td>If you use <code class="command">hdfe</code> with factor variables, you may have trouble relating the old names (e.g. i.turn) to new names.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td></td>
+<td>The solution lies in this line: <code class="command">mata: asarray(varlist_cache, "i.turn")</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="keepv" class="command"><u>keepv</u>ars(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code></td>
+<td>keep additional variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="keepid" class="command"><u>keepid</u>s</code></td>
+<td>keep the temporary variables for the fixed effects (useful if you set them up like id#year)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="g" class="command"><u>g</u>enerate(<var>stubname</var>)</code></td>
+<td>will not overwrite the variables; instead creating new demeaned variables with the <var class="command">stubname</var> prefix</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code options="sample" class="command"><u>sample</u>(<var>newvarname</var>)</code>
+</td>
+<td>will save the equivalent of e(sample) in this variable; useful when dropping singletons. Used with the <code options="g" class="command"><u>g</u>enerate</code> option.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code options="clusterv" class="command"><u>clusterv</u>ars(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code>
+</td>
+<td>list of variables containing cluster categories. This is used to give more accurate number of degrees of freedom lost due to the fixed effects, as reported on r(df_a).</td>
+</tr>
+</tbody>         <tbody>
+<tr class="section"><td colspan="3">Diagnostic <a class="command" href="reghdfe##opt_diagnostic"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="v" class="command"><u>v</u>erbose(<var>#</var>)</code></td>
+<td>amount of debugging information to show (0=None, 1=Some, 2=More, 3=Parsing/convergence details, 4=Every iteration)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="time" class="command"><u>time</u>it</code></td>
+<td>show elapsed times by stage of computation</td>
+</tr>
+</tbody>   <tbody>
+<tr class="section"><td colspan="3">Optimization <a class="command" href="reghdfe##opt_optimization"><b>[+]</b></a>
+</td></tr>
+<tr style="has_footnote">
+<td>+</td>
+<td><code options="tol" class="command"><u>tol</u>erance(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code>
+</td>
+<td>criterion for convergence (default=1e-8)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="maxit" class="command"><u>maxit</u>erations(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code></td>
+<td>maximum number of iterations (default=10,000); if set to missing (<code class="command">.</code>) it will run for as long as it takes.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="pool" class="command"><u>pool</u>size(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code></td>
+<td>apply the within algorithm in groups of <var class="command">#</var> variables (default 10). a large poolsize is usually faster but uses more memory</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="accel" class="command"><u>accel</u>eration(<var>str</var>)</code></td>
+<td>acceleration method; options are conjugate_gradient (cg), steep_descent (sd), aitken (a), and none (no)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="transf" class="command"><u>transf</u>orm(<var>str</var>)</code></td>
+<td>transform operation that defines the type of alternating projection; options are Kaczmarz (kac), Cimmino (cim), Symmetric Kaczmarz (sym)</td>
+</tr>
+</tbody>      <tbody>
+<tr class="section"><td colspan="3">Degrees-of-Freedom Adjustments <a class="command" href="reghdfe##opt_dof"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="dof" class="command"><u>dof</u>adjustments(<var>list</var>)</code></td>
+<td>allows selecting the desired adjustments for degrees of freedom; rarely used</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code options="groupv" class="command"><u>groupv</u>ar(<var><a href="http://www.stata.com/help.cgi?newvar">newvar</a></var>)</code>
+</td>
+<td>unique identifier for the first mobility group</td>
+</tr>
+</tbody>   <tbody>
+<tr class="section"><td colspan="3">Reporting <a class="command" href="reghdfe##opt_reporting"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="version" class="command">version</code></td>
+<td>reports the version number and date of hdfe, and saves it in e(version). standalone option</td>
+</tr>
+</tbody>  <tbody>
+<tr class="section"><td colspan="3">Undocumented</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="keepsin" class="command"><u>keepsin</u>gletons</code></td>
+<td>do not drop singleton groups</td>
+</tr>
+</tbody>        <tfoot>
+<tr class="footnote"><td colspan="3">* <code options="absorb(absvars)" class="command">absorb(<var>absvars</var>)</code> is required.</td></tr>
+<tr class="footnote"><td colspan="3">+ indicates a recommended or important option.</td></tr>
+<tr class="footnote"><td colspan="3">all variables may contain time-series operators and factor variables; see <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a> and <a class="command" href="http://www.stata.com/help.cgi?fvvarlist"><b>fvvarlist</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3">
+<code class="command">fweight</code>s, <code class="command">aweight</code>s and <code class="command">pweight</code>s are allowed; see <a class="command" href="http://www.stata.com/help.cgi?weight"><b>weight</b></a>.</td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="absvar">Absvar Syntax</h2>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">absvar</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">i.</code><var class="command">varname</var>
+</td>
+<td>categorical variable to be absorbed (the <code class="command">i.</code> prefix is tacit)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">i.</code><var class="command">var1</var><code class="command">#i.</code><var class="command">var2</var>
+</td>
+<td>absorb the interactions of multiple categorical variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">i.</code><var class="command">var1</var><code class="command">#</code><code class="command">c.</code><var class="command">var2</var>
+</td>
+<td>absorb heterogeneous slopes, where <var class="command">var2</var> has a different slope coef. depending on the category of <var class="command">var1</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<var class="command">var1</var><code class="command">##</code><code class="command">c.</code><var class="command">var2</var>
+</td>
+<td>equivalent to "<code class="command">i.</code><var class="command">var1</var> <code class="command">i.</code><var class="command">var1</var><code class="command">#</code><code class="command">c.</code><var class="command">var2</var>", but <var class="command">much</var> faster</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<var class="command">var1</var><code class="command">##c.(</code><var class="command">var2 var3</var><code class="command">)</code>
+</td>
+<td>multiple heterogeneous slopes are allowed together. Alternative syntax: <var class="command">var1</var><code class="command">##(c.</code><var class="command">var2</var> <code class="command">c.</code><var class="command">var3</var><code class="command">)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<var class="command">v1</var><code class="command">#</code><var class="command">v2</var><code class="command">#</code><var class="command">v3</var><code class="command">##c.(</code><var class="command">v4 v5</var><code class="command">)</code>
+</td>
+<td>factor operators can be combined</td>
+</tr>
+</tbody>           <tfoot>
+<tr class="footnote"><td colspan="3">Using categorical interactions (e.g. <var class="command">x</var><code class="command">#</code><var class="command">z</var>) is faster than running <var class="command">egen group(...)</var> beforehand.</td></tr>
+<tr class="footnote"><td colspan="3">Singleton obs. are dropped iteratively until no more singletons are found (see ancilliary article for details).</td></tr>
+<tr class="footnote"><td colspan="3">Slope-only absvars ("state#c.time") have poor numerical stability and slow convergence. If you need those, either i) increase tolerance or ii) use slope-and-intercept absvars ("state##c.time"), even if the intercept is redundant. For instance if absvar is "i.zipcode i.state##c.time" then i.state is redundant given i.zipcode, but convergence will still be <var class="command">much</var> faster.</td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code class="command">hdfe</code> computes the residuals of a set of variables with respect to multiple levels of fixed effects. It is a generalization of the <var class="command">within</var> transformation done by <a class="command" href="http://www.stata.com/help.cgi?areg"><b>areg</b></a> and <a class="command" href="http://www.stata.com/help.cgi?xtreg"><b> xtreg,fe</b></a> for more than one fixed effect, also allowing for multiple heterogeneous intercepts.</p>
+<p class="std"><code class="command">hdfe</code> is a programmers' routine that serves as a building block to other regression packages so they can support multiple fixed effects (see for instance <span options="binscatter">{search binscatter}</span>, <a class="command" href="https://github.com/matthieugomez/stata-regife"><b>regife</b></a> and <span options="poi2hdfe">{search poi2hdfe}</span>). It contains the same code underlying <a class="command" href="http://www.stata.com/help.cgi?reghdfe"><b>reghdfe</b></a> and exposes most of its functionality and options. </p>
+<p class="std">It also computes the degrees-of-freedom absorbed by the fixed effects and stores them in e(df_a).</p>
+<p class="std">It works well with other building-block packages such as <a class="command" href="http://www.stata.com/help.cgi?avar"><b>avar</b></a> (from SSC).</p>
+
+<h2 margin_bottom="1" id="examples">Example Usage</h2>
+<p class="std">Suppose you want to replicate <code class="command">reghdfe</code>. Then, you would do:</p>
+<pre><code class="language-stata">sysuse auto, clear</code>
+<code class="language-stata">* Benchmark</code>
+<code class="language-stata">reghdfe price weight length, a(turn trunk)</code>
+<code class="language-stata">* Demean variables</code>
+<code class="language-stata">hdfe price weight length, a(turn trunk) gen(RESID_)</code>
+<code class="language-stata">local df_a = e(df_a)</code>
+<code class="language-stata">* Run regression</code>
+<code class="language-stata">quietly regress RESID_*, nocons</code>
+<code class="language-stata">* Fix degrees-of-freedom</code>
+<code class="language-stata">local df_r = e(df_r) - `df_a'</code>
+<code class="language-stata">matrix b = e(b)</code>
+<code class="language-stata">matrix V = e(V) * e(df_r) / `df_r'</code>
+<code class="language-stata">ereturn post b V, dep(price) obs(`c(N)') dof(`df_r')</code>
+<code class="language-stata">ereturn display</code></pre>
+
+
+
+
+<h2 margin_bottom="1" id="results">Stored results</h2>
+<p class="std"><code class="command">hdfe</code> stores the following in <code class="command">e()</code>: </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 24 28 2" colspan="3"> Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_a)</code></td>
+<td>degrees of freedom lost due to the fixed effects (taking into account the cluster structure and whether the FEs are nested within the clusters)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_hdfe)</code></td>
+<td>number of sets of fixed effects</td>
+</tr>
+</tbody>   </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 24 28 2" colspan="3"> Macros</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(absvars)</code></td>
+<td>canonical expansion of the fixed effects</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(extended_absvars)</code></td>
+<td>expansion of the fixed effects separating heterogeneous slopes (e.g. <var class="command">y##c.z</var> is expanded to <var class="command">y y#c.z</var>)</td>
+</tr>
+</tbody>   </table>
+<h2 margin_bottom="1" id="contact">Author</h2>
+<p class="std">Sergio Correia<br> Fuqua School of Business, Duke University<br> Email: <a class="command" href="mailto:sergio.correia@duke.edu"><b>sergio.correia@duke.edu</b></a> </p>
+<h2 margin_bottom="1" id="user_guide">User Guide</h2>
+<p class="std">A copy of this help file, as well as a more in-depth user guide is in development and will be available at <a class="command" href="http://scorreia.com/reghdfe"><b>"http://scorreia.com/reghdfe"</b></a>.</p>
+<h2 margin_bottom="1" id="updates">Latest Updates</h2>
+<p class="std"><code class="command">hdfe</code> is updated frequently, and upgrades or minor bug fixes may not be immediately available in SSC. To check or contribute to the latest version of hdfe, explore the <a class="command" href="https://github.com/sergiocorreia/reghdfe"><b>Github repository</b></a>. Bugs or missing features can be discussed through email or at the <a class="command" href="https://github.com/sergiocorreia/reghdfe/issues"><b>Github issue tracker</b></a>.</p>
+<p class="std">To see your current version and installed dependencies, type <code class="command">reghdfe, version</code> </p>
+<h2 margin_bottom="1" id="acknowledgements">Acknowledgements</h2>
+<p class="std">This package wouldn't have existed without the invaluable feedback and contributions of Paulo Guimaraes,  Amine Ouazad, Mark Schaffer and Kit Baum. Also invaluable are the great bug-spotting abilities of many users.</p>
+</div></body>
+</html>

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for reghdfe</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="3.2.8 18feb2016">
+<h1>Help for reghdfe</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#description">Description</a></li>
+<li class="link"><a href="#options">Options</a></li>
+<li class="link"><a href="#postestimation">Postestimation Syntax</a></li>
+<li class="link"><a href="#remarks">Remarks</a></li>
+<li class="link"><a href="#examples">Examples</a></li>
+<li class="link"><a href="#results">Stored results</a></li>
+<li class="link"><a href="#contact">Author</a></li>
+<li class="link"><a href="#updates">Updates</a></li>
+<li class="link"><a href="#acknowledgements">Acknowledgements</a></li>
+<li class="link"><a href="#references">References</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/help.cgi?areg">[R] areg</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?xtreg">[R] xtreg</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ivregress">[R] ivregress</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ivreg2">ivreg2</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?ivregress">ivregress</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?reg2hdfe">reg2hdfe</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?a2reg">a2reg</a></li>
+</ul></nav><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<code class="command">reghdfe</code> <span>&#8212;</span>
+</td>
+<td>Linear and instrumental-variable/GMM regression absorbing multiple levels of fixed effects  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="8-15-2-0"><code class="command">reghdfe</code> <a class="command" href="http://www.stata.com/help.cgi?depvar">depvar</a> [<a class="command" href="http://www.stata.com/help.cgi?indepvars">indepvars</a>] [<code class="command">(</code><var class="command"><a class="command" href="http://www.stata.com/help.cgi?varlist"><b>endogvars</b></a></var> <code class="command">=</code> <var class="command"><a class="command" href="http://www.stata.com/help.cgi?varlist"><b>iv_vars</b></a></var><code class="command">)</code>] <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> <var class="command"><span class="command">[<var><a href="http://www.stata.com/help.cgi?weight">weight</a></var>]</span></var> <code class="command">,</code> <code options="a" class="command"><u>a</u>bsorb(<var><a href="#absvar">absvars</a></var>)</code> [<a class="command" href="#options"><b>options</b></a>] </p>
+<table class="syntab" id="opt_summary">
+<thead><tr>
+<td colspan="2">Options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">Model <a class="command" href="#opt_model"><b>[+]</b></a>
+</td></tr>
+<tr style="has_footnote">
+<td>*</td>
+<td><code options="a" class="command"><u>a</u>bsorb(<var><a href="#absvar">absvars</a></var>)</code>
+</td>
+<td>identifiers of the absorbed fixed effects; each <a class="command" href="#absvar"><b>absvar</b></a> represents one set of fixed effects</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code class="command"><u>a</u>bsorb(</code><var class="command">...</var><code class="command">,</code> <code class="command"><u>save</u>fe)</code>
+</td>
+<td>save all fixed effect estimates (<var class="command">__hdfe*</var> prefix); useful for a subsequent <a class="command" href="#postestimation"><b>predict</b></a>. However, see also the <var class="command">resid</var> option.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code options="res" class="command"><u>res</u>iduals(<var><a href="http://www.stata.com/help.cgi?newvar">newvar</a></var>)</code>
+</td>
+<td>save residuals; more direct and much faster than saving the fixed effects and then running predict</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="su" class="command"><u>su</u>mmarize(<var><a href="tabstat##statname">stats</a></var>)</code></td>
+<td>equivalent to <a class="command" href="#postestimation"><b>estat summarize</b></a> after the regression, but more flexible, compatible with the <code options="fast" class="command">fast</code> option, and saves results on <var class="command">e(summarize)</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code options="subopt" class="command"><u>subopt</u>ions(<var>...</var>)</code>
+</td>
+<td>additional options that will be passed to the regression command (either <a class="command" href="http://www.stata.com/help.cgi?regress"><b>regress</b></a>, <a class="command" href="http://www.stata.com/help.cgi?ivreg2"><b>ivreg2</b></a>, or <a class="command" href="http://www.stata.com/help.cgi?ivregress"><b>ivregress</b></a>)</td>
+</tr>
+</tbody>      <tbody>
+<tr class="section"><td colspan="3">SE/Robust <a class="command" href="#opt_vce"><b>[+]</b></a>
+</td></tr>
+<tr style="has_footnote">
+<td>+</td>
+<td><code options="vce" class="command">vce</code><code class="command">(</code><a class="command" href="#opt_vce"><b>vcetype</b></a> [<code class="command">,</code><var class="command">opt</var>]<code class="command">)</code>
+</td>
+<td>
+<var class="command">vcetype</var> may be <code options="un" class="command"><u>un</u>adjusted</code> (default), <code options="r" class="command"><u>r</u>obust</code> or <code options="cl" class="command"><u>cl</u>uster</code> <a class="command" href="http://www.stata.com/help.cgi?fvvarlist"><b>fvvarlist</b></a> (allowing two- and multi-way clustering)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td></td>
+<td>suboptions <code options="bw(#)" class="command">bw(<var>#</var>)</code>, <code options="ker" class="command"><u>ker</u>nel(<var>str</var>)</code>, <code options="dkraay(#)" class="command">dkraay(<var>#</var>)</code> and <code options="kiefer" class="command">kiefer</code> allow for AC/HAC estimates; see the <a class="command" href="http://www.stata.com/help.cgi?avar"><b>avar</b></a> package</td>
+</tr>
+</tbody>   <tbody>
+<tr class="section"><td colspan="3">Instrumental-Variable/2SLS/GMM <a class="command" href="#opt_iv"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="est" class="command"><u>est</u>imator(<var>str</var>)</code></td>
+<td>either <code options="2sls" class="command">2sls</code> (default), <code options="gmm" class="command"><u>gmm</u>2s</code> (two-stage GMM), <code options="liml" class="command">liml</code> (limited-information maximum likelihood) or <code options="cue" class="command">cue</code> (which gives approximate results, see discussion below)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="stage" class="command"><u>stage</u>s(<var>list</var>)</code></td>
+<td>estimate additional regressions; choose any of <code options="first" class="command">first</code> <code options="ols" class="command">ols</code> <code options="reduced" class="command">reduced</code> <code options="acid" class="command">acid</code> (or <code options="all" class="command">all</code>)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="ff" class="command"><u>ff</u>irst</code></td>
+<td>compute first-stage diagnostic and identification statistics</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="iv" class="command"><u>iv</u>suite(<var><a href="http://www.stata.com/help.cgi?subcmd">subcmd</a></var>)</code></td>
+<td>package used in the IV/GMM regressions; options are <code options="ivreg2" class="command">ivreg2</code> (default; needs installing) and <code options="ivregress" class="command">ivregress</code>
+</td>
+</tr>
+</tbody>     <tbody>
+<tr class="section"><td colspan="3">Diagnostic <a class="command" href="#opt_diagnostic"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="v" class="command"><u>v</u>erbose(<var>#</var>)</code></td>
+<td>amount of debugging information to show (0=None, 1=Some, 2=More, 3=Parsing/convergence details, 4=Every iteration)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="time" class="command"><u>time</u>it</code></td>
+<td>show elapsed times by stage of computation</td>
+</tr>
+</tbody>   <tbody>
+<tr class="section"><td colspan="3">Optimization <a class="command" href="#opt_optimization"><b>[+]</b></a>
+</td></tr>
+<tr style="has_footnote">
+<td>+</td>
+<td><code options="tol" class="command"><u>tol</u>erance(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code>
+</td>
+<td>criterion for convergence (default=1e-8)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="maxit" class="command"><u>maxit</u>erations(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code></td>
+<td>maximum number of iterations (default=10,000); if set to missing (<code class="command">.</code>) it will run for as long as it takes.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="pool" class="command"><u>pool</u>size(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code></td>
+<td>apply the within algorithm in groups of <var class="command">#</var> variables (default 10). a large poolsize is usually faster but uses more memory</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="accel" class="command"><u>accel</u>eration(<var>str</var>)</code></td>
+<td>acceleration method; options are conjugate_gradient (cg), steep_descent (sd), aitken (a), and none (no)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="transf" class="command"><u>transf</u>orm(<var>str</var>)</code></td>
+<td>transform operation that defines the type of alternating projection; options are Kaczmarz (kac), Cimmino (cim), Symmetric Kaczmarz (sym)</td>
+</tr>
+</tbody>      <tbody>
+<tr class="section"><td colspan="3">Speedup Tricks <a class="command" href="#opt_speedup"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command"> cache(save</code> [,opt]<code class="command">)</code>
+</td>
+<td>absorb all variables without regressing (destructive; combine it with <a class="command" href="http://www.stata.com/help.cgi?preserve"><b>preserve/restore</b></a>)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td></td>
+<td>suboption <code options="keep(varlist)" class="command">keep(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code> adds additional untransformed variables to the resulting dataset</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command"> cache(use)</code></td>
+<td>run regressions on cached data; <var class="command">vce()</var> must be the same as with <code class="command"> cache(save)</code>.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command"> cache(clear)</code></td>
+<td>delete Mata objects to clear up memory; no more regressions can be run after this</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="fast" class="command">fast</code></td>
+<td>will not create <var class="command">e(sample)</var>; disabled when saving fixed effects, residuals or mobility groups</td>
+</tr>
+</tbody>      <tbody>
+<tr class="section"><td colspan="3">Degrees-of-Freedom Adjustments <a class="command" href="#opt_dof"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="dof" class="command"><u>dof</u>adjustments(<var>list</var>)</code></td>
+<td>allows selecting the desired adjustments for degrees of freedom; rarely used</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td> <code options="groupv" class="command"><u>groupv</u>ar(<var><a href="http://www.stata.com/help.cgi?newvar">newvar</a></var>)</code>
+</td>
+<td>unique identifier for the first mobility group</td>
+</tr>
+</tbody>   <tbody>
+<tr class="section"><td colspan="3">Reporting <a class="command" href="#opt_reporting"><b>[+]</b></a>
+</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="version" class="command">version</code></td>
+<td>reports the version number and date of reghdfe, and saves it in e(version). standalone option</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="l" class="command"><u>l</u>evel(<var>#</var>)</code></td>
+<td>set confidence level; default is <code class="command">level(95)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><var class="command"><a class="command" href="#display_options"><b>display_options</b></a></var></td>
+<td>control column formats, row spacing, line width, display of omitted variables and base and empty cells, and factor-variable labeling.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td></td>
+<td>particularly useful are the <code options="noomit" class="command"><u>noomit</u>ted</code> and <code options="noempty" class="command">noempty</code> options to hide regressors omitted due to collinearity</td>
+</tr>
+</tbody>     <tbody>
+<tr class="section"><td colspan="3">Undocumented</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="keepsin" class="command"><u>keepsin</u>gletons</code></td>
+<td>do not drop singleton groups</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="old" class="command">old</code></td>
+<td>will call the latest 2.x version of reghdfe instead (see the <a class="command" href="http://www.stata.com/help.cgi?reghdfe_old"><b>old help file</b></a>)</td>
+</tr>
+</tbody>          <tfoot>
+<tr class="footnote"><td colspan="3">* <code options="absorb(absvars)" class="command">absorb(<var>absvars</var>)</code> is required.</td></tr>
+<tr class="footnote"><td colspan="3">+ indicates a recommended or important option.</td></tr>
+<tr class="footnote"><td colspan="3">
+<var class="command">indepvars</var>, <var class="command">endogvars</var> and <var class="command">iv_vars</var> may contain factor variables; see <a class="command" href="http://www.stata.com/help.cgi?fvvarlist"><b>fvvarlist</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3">all the regression variables may contain time-series operators; see <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3">
+<code class="command">fweight</code>s, <code class="command">aweight</code>s and <code class="command">pweight</code>s are allowed; see <a class="command" href="http://www.stata.com/help.cgi?weight"><b>weight</b></a>.</td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="absvar">Absvar Syntax</h2>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">absvar</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">i.</code><var class="command">varname</var>
+</td>
+<td>categorical variable to be absorbed (the <code class="command">i.</code> prefix is tacit)</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">i.</code><var class="command">var1</var><code class="command">#i.</code><var class="command">var2</var>
+</td>
+<td>absorb the interactions of multiple categorical variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">i.</code><var class="command">var1</var><code class="command">#</code><code class="command">c.</code><var class="command">var2</var>
+</td>
+<td>absorb heterogeneous slopes, where <var class="command">var2</var> has a different slope coef. depending on the category of <var class="command">var1</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<var class="command">var1</var><code class="command">##</code><code class="command">c.</code><var class="command">var2</var>
+</td>
+<td>equivalent to "<code class="command">i.</code><var class="command">var1</var> <code class="command">i.</code><var class="command">var1</var><code class="command">#</code><code class="command">c.</code><var class="command">var2</var>", but <var class="command">much</var> faster</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<var class="command">var1</var><code class="command">##c.(</code><var class="command">var2 var3</var><code class="command">)</code>
+</td>
+<td>multiple heterogeneous slopes are allowed together. Alternative syntax: <var class="command">var1</var><code class="command">##(c.</code><var class="command">var2</var> <code class="command">c.</code><var class="command">var3</var><code class="command">)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<var class="command">v1</var><code class="command">#</code><var class="command">v2</var><code class="command">#</code><var class="command">v3</var><code class="command">##c.(</code><var class="command">v4 v5</var><code class="command">)</code>
+</td>
+<td>factor operators can be combined</td>
+</tr>
+</tbody>             <tfoot>
+<tr class="footnote"><td colspan="3">To save the estimates specific absvars, write <a class="command" href="http://www.stata.com/help.cgi?newvar">newvar</a><kbd>=<var class="command">absvar</var></kbd>.</td></tr>
+<tr class="footnote"><td colspan="3">Please be aware that in most cases these estimates are neither consistent nor econometrically identified.</td></tr>
+<tr class="footnote"><td colspan="3">Using categorical interactions (e.g. <var class="command">x</var><code class="command">#</code><var class="command">z</var>) is faster than running <var class="command">egen group(...)</var> beforehand.</td></tr>
+<tr class="footnote"><td colspan="3">Singleton obs. are dropped iteratively until no more singletons are found (see ancilliary article for details).</td></tr>
+<tr class="footnote"><td colspan="3">Slope-only absvars ("state#c.time") have poor numerical stability and slow convergence. If you need those, either i) increase tolerance or ii) use slope-and-intercept absvars ("state##c.time"), even if the intercept is redundant. For instance if absvar is "i.zipcode i.state##c.time" then i.state is redundant given i.zipcode, but convergence will still be <var class="command">much</var> faster.</td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code class="command">reghdfe</code> is a generalization of <a class="command" href="http://www.stata.com/help.cgi?areg"><b>areg</b></a> (and <a class="command" href="http://www.stata.com/help.cgi?xtreg"><b>xtreg,fe</b></a>, <a class="command" href="http://www.stata.com/help.cgi?xtivreg"><b>xtivreg,fe</b></a>) for multiple levels of fixed effects (including heterogeneous slopes), alternative estimators (2sls, gmm2s, liml), and additional robust standard errors (multi-way clustering, HAC standard errors, etc).</p>
+<p class="std">Additional features include:</p>
+<ol margins="[8, 12, 12, 2]">
+<li>A novel and robust algorithm to efficiently absorb the fixed effects (extending the work of Guimaraes and Portugal, 2010). </li>
+<li>Coded in Mata, which in most scenarios makes it even faster than <var class="command">areg</var> and <var class="command">xtreg</var> for a single fixed effect (see benchmarks on the Github page). </li>
+<li>Can save the point estimates of the fixed effects (<var class="command">caveat emptor</var>: the fixed effects may not be identified, see the <a class="command" href="#references"><b>references</b></a>). </li>
+<li>Calculates the degrees-of-freedom lost due to the fixed effects (note: beyond two levels of fixed effects, this is still an open problem, but we provide a conservative approximation). </li>
+<li>Iteratively removes singleton groups by default, to avoid biasing the standard errors (see ancillary document). </li>
+</ol>
+<h2 margin_bottom="1" id="options">Options</h2>
+<h3 margin_bottom="1" id="opt_model">Model and Miscellanea</h3>
+<p class="hang"><code options="a" class="command"><u>a</u>bsorb(<var><a href="#absvar">absvars</a></var>)</code> list of categorical variables (or interactions) representing the fixed effects to be absorbed. this is equivalent to including an indicator/dummy variable for each category of each <var class="command">absvar</var>. <code class="command">absorb()</code> is required. </p>
+<p class="more">To save a fixed effect, prefix the absvar with "<a class="command" href="http://www.stata.com/help.cgi?newvar">newvar</a><code class="command">=</code>". For instance, the option <code class="command">absorb(firm_id worker_id year_coefs=year_id)</code> will include firm, worker and year fixed effects, but will only save the estimates for the year fixed effects (in the new variable <var class="command">year_coefs</var>). </p>
+<p class="more">If you want to <a class="command" href="#postestimation"><b>predict</b></a> afterwards but don't care about setting the names of each fixed effect, use the <code class="command"><u>save</u>fe</code> suboption. This will delete all variables named <var class="command">__hdfe*__</var> and create new ones as required. Example: <var class="command">reghdfe price weight, absorb(turn trunk, savefe)</var> </p>
+<p class="hang"><code options="res" class="command"><u>res</u>iduals(<var><a href="http://www.stata.com/help.cgi?newvar">newvar</a></var>)</code> will save the regression residuals in a new variable. </p>
+<p class="more">This is a superior alternative than running <code class="command">predict, resid</code> afterwards as it's faster and doesn't require saving the fixed effects. </p>
+<p class="hang"><code options="su" class="command"><u>su</u>mmarize(<var><a href="tabstat##statname">stats</a></var>)</code> will report and save a table of summary of statistics of the regression variables (including the instruments, if applicable), using the same sample as the regression. </p>
+<p class="more"><code options="su" class="command"><u>su</u>mmarize</code> (without parenthesis) saves the default set of statistics: <var class="command">mean min max</var>. </p>
+<p class="more">The complete list of accepted statistics is available in the <a class="command" href="tabstat##statname"><b>tabstat help</b></a>. The most useful are <var class="command">count range sd median p##</var>. </p>
+<p class="more">The summary table is saved in <var class="command">e(summarize)</var> </p>
+<p class="more">To save the summary table silently (without showing it after the regression table), use the <code options="qui" class="command"><u>qui</u>etly</code> suboption. You can use it by itself (<code class="command">summarize(,quietly)</code>) or with custom statistics (<code class="command">summarize(mean, quietly)</code>). </p>
+<p class="hang"><code options="subopt" class="command"><u>subopt</u>ions(<var>...</var>)</code> options that will be passed directly to the regression command (either <a class="command" href="http://www.stata.com/help.cgi?regress"><b>regress</b></a>, <a class="command" href="http://www.stata.com/help.cgi?ivreg2"><b>ivreg2</b></a>, or <a class="command" href="http://www.stata.com/help.cgi?ivregress"><b>ivregress</b></a>) </p>
+<h3 margin_bottom="1" id="opt_vce">SE/Robust</h3>
+<p class="hang"><code options="vce" class="command"><u>vce</u>(<var><a href="#vcetype">vcetype</a></var>,<var><a href="http://www.stata.com/help.cgi?%20subopt"> subopt</a></var>)</code> specifies the type of standard error reported. Note that all the advanced estimators rely on asymptotic theory, and will likely have poor performance with small samples (but again if you are using reghdfe, that is probably not your case) </p>
+<p class="more"><code options="un" class="command"><u>un</u>adjusted</code>/<code options="ols" class="command">ols</code> estimates conventional standard errors, valid even in small samples under the assumptions of homoscedasticity and no correlation between observations </p>
+<p class="more"><code options="r" class="command"><u>r</u>obust</code> estimates heteroscedasticity-consistent standard errors (Huber/White/sandwich estimators), but still assuming independence between observations </p>
+<p class="more">Warning: in a FE panel regression, using <code options="r" class="command"><u>r</u>obust</code> will lead to inconsistent standard errors if for every fixed effect, the <var class="command">other</var> dimension is fixed. For instance, in an standard panel with individual and time fixed effects, we require both the number of individuals and time periods to grow asymptotically. If that is not the case, an alternative may be to use clustered errors, which as discussed below will still have their own asymptotic requirements. For a discussion, see <a class="command" href="http://www.princeton.edu/~mwatson/papers/ecta6489.pdf"><b>Stock and Watson, "Heteroskedasticity-robust standard errors for fixed-effects panel-data regression," Econometrica 76 (2008): 155-174</b></a> </p>
+<p class="more"><code options="cl" class="command"><u>cl</u>uster</code> <var class="command">clustervars</var> estimates consistent standard errors even when the observations are correlated within groups. </p>
+<p class="more">Multi-way-clustering is allowed. Thus, you can indicate as many <var class="command">clustervar</var>s as desired (e.g. allowing for intragroup correlation across individuals, time, country, etc). </p>
+<p class="more">Each <var class="command">clustervar</var> permits interactions of the type <var class="command">var1<code class="command">#</code>var2</var> (this is faster than using <code class="command">egen group()</code> for a one-off regression). </p>
+<p class="more">Warning: The number of clusters, for all of the cluster variables, must go off to infinity. A frequent rule of thumb is that each cluster variable must have at least 50 different categories (the number of categories for each clustervar appears on the header of the regression table). </p>
+<p class="std">The following suboptions require either the <a class="command" href="http://www.stata.com/help.cgi?ivreg2"><b>ivreg2</b></a> or the <a class="command" href="http://www.stata.com/help.cgi?avar"><b>avar</b></a> package from SSC. For a careful explanation, see the <a class="command" href="ivreg2##s_robust"><b>ivreg2 help file</b></a>, from which the comments below borrow. </p>
+<p class="more"><code options="u" class="command"><u>u</u>nadjusted</code><code class="command">, </code><code options="bw(#)" class="command">bw(<var>#</var>)</code> (or just <code class="command">, </code><code options="bw(#)" class="command">bw(<var>#</var>)</code>) estimates autocorrelation-consistent standard errors (Newey-West). </p>
+<p class="more"><code options="r" class="command"><u>r</u>obust</code><code class="command">, </code><code options="bw(#)" class="command">bw(<var>#</var>)</code> estimates autocorrelation-and-heteroscedasticity consistent standard errors (HAC). </p>
+<p class="more"><code options="cl" class="command"><u>cl</u>uster</code> <var class="command">clustervars</var><code class="command">, </code><code options="bw(#)" class="command">bw(<var>#</var>)</code> estimates standard errors consistent to common autocorrelated disturbances (Driscoll-Kraay). At most two cluster variables can be used in this case. </p>
+<p class="more"><code class="command">, </code><code options="kiefer" class="command">kiefer</code> estimates standard errors consistent under arbitrary intra-group autocorrelation (but not heteroskedasticity) (Kiefer). </p>
+<p class="more"><code options="kernel(str)" class="command">kernel(<var>str</var>)</code> is allowed in all the cases that allow <code options="bw(#)" class="command">bw(<var>#</var>)</code> The default kernel is <var class="command">bar</var> (Bartlett). Valid kernels are Bartlett (bar); Truncated (tru); Parzen (par); Tukey-Hanning (thann); Tukey-Hamming (thamm); Daniell (dan); Tent (ten); and Quadratic-Spectral (qua or qs). </p>
+<p class="std">Advanced suboptions: </p>
+<p class="more"><code class="command">, </code><code options="suite(default|mwc|avar)" class="command">suite(<var>default</var>,<var>mwc</var>,<var>avar</var>)</code> overrides the package chosen by reghdfe to estimate the VCE. <var class="command">default</var> uses the default Stata computation (allows unadjusted, robust, and at most one cluster variable). <var class="command">mwc</var> allows multi-way-clustering (any number of cluster variables), but without the <var class="command">bw</var> and <var class="command">kernel</var> suboptions. <var class="command">avar</var> uses the avar package from SSC. Is the same package used by ivreg2, and allows the <var class="command">bw</var>, <var class="command">kernel</var>, <var class="command">dkraay</var> and <var class="command">kiefer</var> suboptions. This is useful almost exclusively for debugging. </p>
+<p class="more"><code class="command">, </code><code options="twice" class="command"><u>twice</u>robust</code> will compute robust standard errors not only on the first but on the second step of the gmm2s estimation. Requires <code options="ivsuite(ivregress)" class="command">ivsuite(<var>ivregress</var>)</code>, but will not give the exact same results as ivregress. </p>
+<p class="more"><var class="command">Explanation:</var> When running instrumental-variable regressions with the <code class="command">ivregress</code> package, robust standard errors, and a gmm2s estimator, reghdfe will translate <code options="vce(robust)" class="command">vce(<var>robust</var>)</code> into <code options="wmatrix(robust)" class="command">wmatrix(<var>robust</var>)</code> <code options="vce(unadjusted)" class="command">vce(<var>unadjusted</var>)</code>. This maintains compatibility with <code class="command">ivreg2</code> and other packages, but may unadvisable as described in <a class="command" href="http://www.stata.com/help.cgi?ivregress"><b>ivregress</b></a> (technical note). Specifying this option will instead use <code options="wmatrix(robust)" class="command">wmatrix(<var>robust</var>)</code> <code options="vce(robust)" class="command">vce(<var>robust</var>)</code>. </p>
+<p class="more">However, computing the second-step vce matrix requires computing updated estimates (including updated fixed effects). Since reghdfe currently does not allow this, the resulting standard errors <strong>will not be exactly the same as with ivregress</strong>. This issue is similar to applying the CUE estimator, described further below. </p>
+<p class="more">Note: The above comments are also appliable to clustered standard error. </p>
+<h3 margin_bottom="1" id="opt_iv">IV/2SLS/GMM</h3>
+<p class="hang"><code options="est" class="command"><u>est</u>imator</code><code class="command">(</code><code options="2sls" class="command">2sls</code>|<code options="gmm" class="command"><u>gmm</u>2s</code>|<code options="liml" class="command">liml</code>|<code options="cue" class="command">cue</code><code class="command">)</code> estimator used in the instrumental-variable estimation </p>
+<p class="more"><code options="2sls" class="command">2sls</code> (two-stage least squares, default), <code options="gmm" class="command"><u>gmm</u>2s</code> (two-stage efficient GMM), <code options="liml" class="command">liml</code> (limited-information maximum likelihood), and <code options="cue" class="command">cue</code> ("continuously-updated" GMM) are allowed.</p>
+<p class="more">Warning: <code options="cue" class="command">cue</code> will not give the same results as ivreg2. See the discussion in <a class="command" href="http://www.stata-journal.com/sjpdf.html?articlenum=st0030_3"><b> Baum, Christopher F., Mark E. Schaffer, and Steven Stillman. "Enhanced routines for instrumental variables/GMM estimation and testing." Stata Journal 7.4 (2007): 465-506</b></a> (page 484). Note that even if this is not exactly <code options="cue" class="command">cue</code>, it may still be a desirable/useful alternative to standard cue, as explained in the article. </p>
+<p class="hang"><code options="stage" class="command"><u>stage</u>s(<var>list</var>)</code> adds and saves up to four auxiliary regressions useful when running instrumental-variable regressions: </p>
+<p class="hang2"><code class="command">first</code> all first-stage regressions</p>
+<p class="hang2"><code class="command">ols</code> ols regression (between dependent variable and endogenous variables; useful as a benchmark)</p>
+<p class="hang2"><code class="command">reduced</code> reduced-form regression (ols regression with included and excluded instruments as regressors)</p>
+<p class="hang2"><code class="command">acid</code> an "acid" regression that includes both instruments and endogenous variables as regressors; in this setup, excluded instruments should not be significant.</p>
+<p class="more">You can pass suboptions not just to the iv command but to all stage regressions with a comma after the list of stages. Example:<br> <code class="command">reghdfe price (weight=length), absorb(turn) subopt(nocollin) stages(first, eform(exp(beta)) )</code> </p>
+<p class="more">By default all stages are saved (see <a class="command" href="http://www.stata.com/help.cgi?estimates%20dir"><b>estimates dir</b></a>). The suboption <code class="command">,nosave</code> will prevent that. However, future <code class="command">replay</code>s will only replay the iv regression. </p>
+<p class="hang"><code options="ffirst" class="command">ffirst</code> compute and report first stage statistics (<a class="command" href="ivreg2##s_relevance"><b>details</b></a>); requires the ivreg2 package. </p>
+<p class="more">These statistics will be saved on the <var class="command">e(first)</var> matrix. If the first-stage estimates are also saved (with the <code class="command">stages()</code> option), the respective statistics will be copied to <code class="command">e(first_*)</code>. </p>
+<p class="hang"><code options="iv" class="command"><u>iv</u>suite(<var><a href="http://www.stata.com/help.cgi?subcmd">subcmd</a></var>)</code> allows the IV/2SLS regression to be run either using <code options="ivregress" class="command">ivregress</code> or <code options="ivreg2" class="command">ivreg2</code>. </p>
+<p class="more"><code options="ivreg2" class="command">ivreg2</code> is the default, but needs to be installed for that option to work. </p>
+<h3 margin_bottom="1" id="opt_diagnostic">Diagnostic</h3>
+<p class="hang"><code options="v" class="command"><u>v</u>erbose(<var>#</var>)</code> orders the command to print debugging information. </p>
+<p class="more">Possible values are 0 (none), 1 (some information), 2 (even more), 3 (adds dots for each iteration, and reportes parsing details), 4 (adds details for every iteration step) </p>
+<p class="more">For debugging, the most useful value is 3. For simple status reports, set verbose to 1. </p>
+<p class="hang"><code options="time" class="command"><u>time</u>it</code> shows the elapsed time at different steps of the estimation. Most time is usually spent on three steps: map_precompute(), map_solve() and the regression step. </p>
+<h3 margin_bottom="1" id="opt_dof">Degrees-of-Freedom Adjustments</h3>
+<p class="hang"><code options="dof" class="command"><u>dof</u>adjustments(<var>doflist</var>)</code> selects how the degrees-of-freedom, as well as e(df_a), are adjusted due to the absorbed fixed effects. </p>
+<p class="more">Without any adjustment, we would assume that the degrees-of-freedom used by the fixed effects is equal to the count of all the fixed effects (e.g. number of individuals + number of years in a typical panel). However, in complex setups (e.g. fixed effects by individual, firm, job position, and year), there may be a huge number of fixed effects collinear with each other, so we want to adjust for that. </p>
+<p class="more">Note: changing the default option is rarely needed, except in benchmarks, and to obtain a marginal speed-up by excluding the <code options="pair" class="command"><u>pair</u>wise</code> option. </p>
+<p class="more"><code options="all" class="command">all</code> is the default and almost always the best alternative. It is equivalent to <code options="dof(pairwise clusters continuous)" class="command">dof(<var>pairwise clusters continuous</var>)</code> </p>
+<p class="more"><code options="none" class="command">none</code> assumes no collinearity across the fixed effects (i.e. no redundant fixed effects). This is overtly conservative, although it is the faster method by virtue of not doing anything. </p>
+<p class="more"><code options="first" class="command"><u>first</u>pair</code> will exactly identify the number of collinear fixed effects across the first two sets of fixed effects (i.e. the first absvar and the second absvar). The algorithm used for this is described in Abowd et al (1999), and relies on results from graph theory (finding the number of connected sub-graphs in a bipartite graph). It will not do anything for the third and subsequent sets of fixed effects. </p>
+<p class="more">For more than two sets of fixed effects, there are no known results that provide exact degrees-of-freedom as in the case above. One solution is to ignore subsequent fixed effects (and thus oversestimate e(df_a) and understimate the degrees-of-freedom). Another solution, described below, applies the algorithm between pairs of fixed effects to obtain a better (but not exact) estimate: </p>
+<p class="more"><code options="pair" class="command"><u>pair</u>wise</code> applies the aforementioned connected-subgraphs algorithm between pairs of fixed effects. For instance, if there are four sets of FEs, the first dimension will usually have no redundant coefficients (i.e. e(M1)==1), since we are running the model without a constant. For the second FE, the number of connected subgraphs with respect to the first FE will provide an exact estimate of the degrees-of-freedom lost, e(M2). </p>
+<p class="more">For the third FE, we do not know exactly. However, we can compute the number of connected subgraphs between the first and third <var class="command">G(1,3)</var>, and second and third <var class="command">G(2,3)</var> fixed effects, and choose the higher of those as the closest estimate for e(M3). For the fourth FE, we compute <var class="command">G(1,4)</var>, <var class="command">G(2,4)</var> and <var class="command">G(3,4)</var> and again choose the highest for e(M4). </p>
+<p class="more">Finally, we compute e(df_a) = e(K1) - e(M1) + e(K2) - e(M2) + e(K3) - e(M3) + e(K4) - e(M4); where e(K#) is the number of levels or dimensions for the #-th fixed effect (e.g. number of individuals or years). Note that e(M3) and e(M4) are only conservative estimates and thus we will usually be overestimating the standard errors. However, given the sizes of the datasets typically used with reghdfe, the difference should be small. </p>
+<p class="more">Since the gain from <code options="pair" class="command"><u>pair</u>wise</code> is usually <var class="command">minuscule</var> for large datasets, and the computation is expensive, it may be a good practice to exclude this option for speedups. </p>
+<p class="more"><code options="cl" class="command"><u>cl</u>usters</code> will check if a fixed effect is nested within a <var class="command">clustervar</var>. In that case, it will set e(K#)==e(M#) and no degrees-of-freedom will be lost due to this fixed effect. The rationale is that we are already assuming that the number of effective observations is the number of cluster levels. This is the same adjustment that <code class="command">xtreg, fe</code> does, but <code class="command">areg</code> does not use it. </p>
+<p class="more"><code options="cont" class="command"><u>cont</u>inuous</code> Fixed effects with continuous interactions (i.e. individual slopes, instead of individual intercepts) are dealt with differently. In an i.categorical#c.continuous interaction, we will do one check: we count the number of categories where c.continuous is always zero. In an i.categorical##c.continuous interaction, we do the above check but replace zero for any particular constant. In the case where continuous is constant for a level of categorical, we know it is collinear with the intercept, so we adjust for it. </p>
+<p class="more">Additional methods, such as <code options="bootstrap" class="command">bootstrap</code> are also possible but not yet implemented. Some preliminary simulations done by the author showed a very poor convergence of this method. </p>
+<p class="hang"><code options="groupv" class="command"><u>groupv</u>ar(<var><a href="http://www.stata.com/help.cgi?newvar">newvar</a></var>)</code> name of the new variable that will contain the first mobility group. Requires <code options="pair" class="command"><u>pair</u>wise</code>, <code options="first" class="command"><u>first</u>pair</code>, or the default <code options="all" class="command">all</code>. </p>
+<h3 margin_bottom="1" id="opt_speedup">Speeding Up Estimation</h3>
+<p class="hang"><code class="command">reghdfe</code> <a class="command" href="http://www.stata.com/help.cgi?varlist">varlist</a> <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span><code class="command">,</code> <code options="a" class="command"><u>a</u>bsorb(<var>absvars</var>)</code> <code class="command">save(cache)</code> [<var class="command">options</var>] </p>
+<p class="more">This will transform <var class="command">varlist</var>, absorbing the fixed effects indicated by <var class="command">absvars</var>. It is useful when running a series of alternative specifications with common variables, as the variables will only be transformed once instead of every time a regression is run. </p>
+<p class="more">It replaces the current dataset, so it is a good idea to precede it with a <a class="command" href="http://www.stata.com/help.cgi?preserve"><b>preserve</b></a> command </p>
+<p class="more">To keep additional (untransformed) variables in the new dataset, use the <code options="keep(varlist)" class="command">keep(<var><a href="http://www.stata.com/help.cgi?varlist">varlist</a></var>)</code> suboption. </p>
+<p class="hang"><code class="command">cache(use)</code> is used when running reghdfe after a <var class="command">save(cache)</var> operation. Both the <var class="command">absorb()</var> and <var class="command">vce()</var> options must be the same as when the cache was created (the latter because the degrees of freedom were computed at that point). </p>
+<p class="hang"><code class="command">cache(clear)</code> will delete the Mata objects created by <var class="command">reghdfe</var> and kept in memory after the <var class="command">save(cache)</var> operation. These objects may consume a lot of memory, so it is a good idea to clean up the cache. Additionally, if you previously specified <var class="command">preserve</var>, it may be a good time to <var class="command">restore</var>. </p>
+<p class="more">Example:</p>
+<pre><code class="language-stata">sysuse auto</code>
+<code class="language-stata">preserve</code>
+<code class="language-stata"></code>
+<code class="language-stata">* Save the cache</code>
+<code class="language-stata">reghdfe price weight length, a(turn rep) vce(turn) cache(save, keep(foreign))</code>
+<code class="language-stata"></code>
+<code class="language-stata">* Run regressions</code>
+<code class="language-stata">reghdfe price weight, a(turn rep) cache(use)</code>
+<code class="language-stata">reghdfe price length, a(turn rep) cache(use)</code>
+<code class="language-stata"></code>
+<code class="language-stata">* Clean up</code>
+<code class="language-stata">reghdfe, cache(clear)</code>
+<code class="language-stata">restore</code></pre>
+<p class="hang"><code options="fast" class="command">fast</code> avoids saving <var class="command">e(sample)</var> into the regression. Since saving the variable only involves copying a Mata vector, the speedup is currently quite small. Future versions of reghdfe may change this as features are added. </p>
+<p class="more">Note that <code options="fast" class="command">fast</code> will be disabled when adding variables to the dataset (i.e. when saving residuals, fixed effects, or mobility groups), and is incompatible with most postestimation commands. </p>
+<p class="more">If you wish to use <code options="fast" class="command">fast</code> while reporting <code class="command">estat summarize</code>, see the <code options="summarize" class="command">summarize</code> option. </p>
+<h3 margin_bottom="1" id="opt_optimization">Optimization</h3>
+<p class="hang"><code options="tol" class="command"><u>tol</u>erance(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code> specifies the tolerance criterion for convergence; default is <code class="command">tolerance(1e-8)</code> </p>
+<p class="more">Note that for tolerances beyond 1e-14, the limits of the <var class="command">double</var> precision are reached and the results will most likely not converge. </p>
+<p class="more">At the other end, is not tight enough, the regression may not identify perfectly collinear regressors. However, those cases can be easily spotted due to their extremely high standard errors. </p>
+<p class="more">Warning: when absorbing heterogeneous slopes without the accompanying heterogeneous intercepts, convergence is quite poor and a tight tolerance is strongly suggested (i.e. higher than the default). In other words, an absvar of <var class="command">var1##c.var2</var> converges easily, but an absvar of <var class="command">var1#c.var2</var> will converge slowly and may require a tighter tolerance. </p>
+<p class="hang"><code options="maxit" class="command"><u>maxit</u>erations(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code> specifies the maximum number of iterations; the default is <code class="command">maxiterations(10000)</code>; set it to missing (<code class="command">.</code>) to run forever until convergence. </p>
+<p class="hang"><code options="pool" class="command"><u>pool</u>size(<var><a href="http://www.stata.com/help.cgi?#">#</a></var>)</code> Number of variables that are <var class="command">pooled together</var> into a matrix that will then be transformed. The default is to pool variables in groups of 5. Larger groups are faster with more than one processor, but may cause out-of-memory errors. In that case, set poolsize to 1. </p>
+<p class="hang"><var class="command">Advanced options:</var> </p>
+<p class="hang"><code options="acceleration(str)" class="command">acceleration(<var>str</var>)</code> allows for different acceleration techniques, from the simplest case of no acceleration (<code options="no" class="command"><u>no</u>ne</code>), to steep descent (<code options="st" class="command"><u>st</u>eep_descent</code> or <code options="sd" class="command">sd</code>), Aitken (<code options="a" class="command"><u>a</u>itken</code>), and finally Conjugate Gradient (<code options="co" class="command"><u>co</u>njugate_gradient</code> or <code options="cg" class="command">cg</code>). </p>
+<p class="more">Note: Each acceleration is just a plug-in Mata function, so a larger number of acceleration techniques are available, albeit undocumented (and slower). </p>
+<p class="hang"><code options="transf" class="command"><u>transf</u>orm(<var>str</var>)</code> allows for different "alternating projection" transforms. The classical transform is Kaczmarz (<code options="kac" class="command"><u>kac</u>zmarz</code>), and more stable alternatives are Cimmino (<code options="cim" class="command"><u>cim</u>mino</code>) and Symmetric Kaczmarz (<code options="sym" class="command"><u>sym</u>metric_kaczmarz</code>) </p>
+<p class="more">Note: Each transform is just a plug-in Mata function, so a larger number of acceleration techniques are available, albeit undocumented (and slower). </p>
+<p class="more">Note: The default acceleration is Conjugate Gradient and the default transform is Symmetric Kaczmarz. Be wary that different accelerations often work better with certain transforms. For instance, do not use conjugate gradient with plain Kaczmarz, as it will not converge. </p>
+<p class="hang"><code options="precondition" class="command">precondition</code> <var class="command">(currently disabled)</var> </p>
+<h3 margin_bottom="1" id="opt_reporting">Reporting</h3>
+<p class="hang"><code options="l" class="command"><u>l</u>evel(<var>#</var>)</code> sets confidence level; default is <code class="command">level(95)</code> </p>
+<p class="hang" id="display_options"><var class="command">display_options</var>: <code options="noomit" class="command"><u>noomit</u>ted</code>, <code options="vsquish" class="command">vsquish</code>, <code options="noempty" class="command"><u>noempty</u>cells</code>, <code options="base" class="command"><u>base</u>levels</code>, <code options="allbase" class="command"><u>allbase</u>levels</code>, <code options="nofvlabel" class="command">nofvlabel</code>, <code options="fvwrap(#)" class="command">fvwrap(<var>#</var>)</code>, <code options="fvwrapon(style)" class="command">fvwrapon(<var>style</var>)</code>, <code options="cformat(%fmt)" class="command">cformat(<var><a href="http://www.stata.com/help.cgi?%fmt">%fmt</a></var>)</code>, <code options="pformat(%fmt)" class="command">pformat(<var>%fmt</var>)</code>, <code options="sformat(%fmt)" class="command">sformat(<var>%fmt</var>)</code>, and <code options="nolstretch" class="command">nolstretch</code>;     see <a class="command" href="estimation%20options##display_options"><b>[R] estimation options</b></a>. </p>
+
+<h2 margin_bottom="1" id="postestimation">Postestimation Syntax</h2>Only <code class="command">estat summarize</code>, <code class="command">predict</code> and <code class="command">test</code> are currently supported and tested.
+
+<p class="8-13-2-0"><code class="command">estat summarize</code> </p>
+<p style="padding-left: 11.5rem;">Summarizes <var class="command">depvar</var> and the variables described in <var class="command">_b</var> (i.e. not the excluded instruments)</p>
+<p class="8-16-2-0"><code class="command">predict</code> <a class="command" href="http://www.stata.com/help.cgi?newvar">newvar</a> <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<code class="command">,</code> <var class="command">statistic</var>] </p>
+<p style="padding-left: 11.5rem;">May require you to previously save the fixed effects (except for option <code options="xb" class="command">xb</code>).</p>
+<p style="padding-left: 11.5rem;">To see how, see the details of the <a class="command" href="#absvar"><b>absorb</b></a> option</p>
+<p style="padding-left: 11.5rem;">Equation: y = xb + d_absorbvars + e</p>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">statistic</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">Main</td></tr>
+<tr>
+<td colspan="2"> <code options="xb" class="command">xb</code>
+</td>
+<td>xb fitted values; the default</td>
+</tr>
+<tr>
+<td colspan="2"> <code options="xbd" class="command">xbd</code>
+</td>
+<td>xb + d_absorbvars</td>
+</tr>
+<tr>
+<td colspan="2"> <code options="d" class="command">d</code>
+</td>
+<td>d_absorbvars</td>
+</tr>
+<tr>
+<td colspan="2"> <code options="r" class="command"><u>r</u>esiduals</code>
+</td>
+<td>residual</td>
+</tr>
+<tr>
+<td colspan="2"> <code options="sc" class="command"><u>sc</u>ore</code>
+</td>
+<td>score; equivalent to <code options="residuals" class="command">residuals</code>
+</td>
+</tr>
+<tr>
+<td colspan="2"> <code options="stdp" class="command">stdp</code>
+</td>
+<td>standard error of the prediction (of the xb component)</td>
+</tr>
+</tbody>          <tfoot><tr class="footnote"><td colspan="3">although <code class="command">predict</code> <a class="command" href="http://www.stata.com/help.cgi?data_types"><b>type</b></a> <a class="command" href="http://www.stata.com/help.cgi?newvar"><b>newvar</b></a> is allowed, the resulting variable will always be of type <var class="command">double</var>.</td></tr></tfoot>
+</table>
+<p style="padding-left: 4.0rem;"><code class="command">test</code><span style="padding-left: 11.5rem;"></span>Performs significance test on the parameters, see the <a class="command" href="http://www.stata.com/help.cgi?test"><b>stata help</b></a></p>
+<p style="padding-left: 4.0rem;"><code class="command">suest</code><span style="padding-left: 11.5rem;"></span>Do not use <code class="command">suest</code>. It will run, but the results will be incorrect. See workaround below</p>
+<p class="more">If you want to perform tests that are usually run with <code class="command">suest</code>, such as non-nested models, tests using alternative specifications of the variables, or tests on different groups, you can replicate it manually, as described <a class="command" href="http://www.stata.com/statalist/archive/2009-11/msg01485.html"><b>here</b></a>. </p>
+
+<h2 margin_bottom="1" id="remarks">Possible Pitfalls and Common Mistakes</h2>
+<ol margins="[8, 12, 12, 2]">
+<li>(note: as of version 2.1, the constant is no longer reported) Ignore the constant; it doesn't tell you much. If you want to use descriptive stats, that's what the <code options="sum" class="command"><u>sum</u>marize(<var></var>)</code> and <code class="command">estat summ</code> commands are for. Even better, use <code options="noconstant" class="command">noconstant</code> to drop it (although it's not really dropped as it never existed on the first place!) </li>
+<li>Think twice before saving the fixed effects. They are probably inconsistent / not identified and you will likely be using them wrong. </li>
+<li>(note: as of version 3.0 singletons are dropped by default) It's good practice to drop singletons. <code options="dropsi" class="command"><u>dropsi</u>ngleton</code> is your friend. </li>
+<li>If you use <code options="vce(robust)" class="command">vce(<var>robust</var>)</code>, be sure that your <var class="command">other</var> dimension is not "fixed" but grows with N, or your SEs will be wrong. </li>
+<li>If you use <code options="vce(cluster ...)" class="command">vce(<var>cluster ...</var>)</code>, check that your number of clusters is high enough (50+ is a rule of thumb). If not, you are making the SEs even worse! </li>
+<li>The panel variables (absvars) should probably be nested within the clusters (clustervars) due to the within-panel correlation induced by the FEs. (this is not the case for *all* the absvars, only those that are treated as growing as N grows) </li>
+<li>If you run analytic or probability weights, you are responsible for ensuring that the weights stay constant within each unit of a fixed effect (e.g. individual), or that it is correct to allow varying-weights for that case.  </li>
+<li>Be aware that adding several HDFEs is not a panacea. The first limitation is that it only uses within variation (more than acceptable if you have a large enough dataset). The second and subtler limitation occurs if the fixed effects are themselves outcomes of the variable of interest (as crazy as it sounds). For instance, imagine a regression where we study the effect of past corporate fraud on future firm performance. We add firm, CEO and time fixed-effects (standard practice). This introduces a serious flaw: whenever a fraud event is discovered, i) future firm performance will suffer, and ii) a CEO turnover will likely occur. Moreover, after fraud events, the new CEOs are usually specialized in dealing with the aftershocks of such events (and are usually accountants or lawyers). The fixed effects of these CEOs will also tend to be quite low, as they tend to manage firms with very risky outcomes. Therefore, the regressor (fraud) affects the fixed effect (identity of the incoming CEO). Adding particularly low CEO fixed effects will then overstate the performance of the firm, and thus <var class="command">understate</var> the negative effects of fraud on future firm performance. </li>
+</ol>
+<h2 margin_bottom="1">Missing Features</h2>
+<p class="hang">(If you are interested in discussing these or others, feel free to <a class="command" href="#contact"><b>contact me</b></a>) </p>
+<p class="hang">Code, medium term: </p>
+<ul margins="[8, 12, 12, 2]">
+<li>Complete GT preconditioning (v4) </li>
+<li>Improve algorithm that recovers the fixed effects (v5) </li>
+<li>Improve statistics and tests related to the fixed effects (v5) </li>
+<li>Implement a -bootstrap- option in DoF estimation (v5) </li>
+</ul>
+<p class="hang">Code, long term: </p>
+<ul margins="[8, 12, 12, 2]">
+<li>The interaction with cont vars (i.a#c.b) may suffer from numerical accuracy issues, as we are dividing by a sum of squares </li>
+<li>Calculate exact DoF adjustment for 3+ HDFEs (note: not a problem with cluster VCE when one FE is nested within the cluster) </li>
+<li>More postestimation commands (lincom? margins?) </li>
+</ul>
+<p class="hang">Theory: </p>
+<ul margins="[8, 12, 12, 2]">
+<li>Add a more thorough discussion on the possible identification issues </li>
+<li>Find out a way to use reghdfe iteratively with CUE (right now only OLS/2SLS/GMM2S/LIML give the exact same results) </li>
+<li>Not sure if I should add an F-test for the absvars in the vce(robust) and vce(cluster) cases. Discussion on e.g. -areg- (methods and formulas) and textbooks suggests not; on the other hand, there may be alternatives: <var class="command"><a class="command" href="http://www.socialsciences.manchester.ac.uk/disciplines/economics/research/discussionpapers/pdf/EDP-1124.pdf"><b>A Heteroskedasticity-Robust F-Test Statistic for Individual Effects</b></a></var> </li>
+</ul>
+<h2 margin_bottom="1" id="examples">Examples</h2>
+<hr>
+<p class="std">Setup</p>
+<pre><code class="language-stata">sysuse auto</code></pre>
+<p class="std">Simple case - one fixed effect</p>
+<pre><code class="language-stata">reghdfe price weight length, absorb(rep78)</code></pre>
+<hr margin_bottom="1">
+<p class="std">As above, but also compute clustered standard errors</p>
+<pre><code class="language-stata">reghdfe price weight length, absorb(rep78) vce(cluster rep78)</code></pre>
+<hr margin_bottom="1">
+<p class="std">Two and three sets of fixed effects</p>
+<pre><code class="language-stata">webuse nlswork</code>
+<code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa south , absorb(idcode year)</code>
+<code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa south , absorb(idcode year occ)</code></pre>
+<hr margin_bottom="1">
+<h2 margin_bottom="1">Advanced examples</h2>
+<p class="std">Save the FEs as variables</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa south , absorb(FE1=idcode FE2=year)</code></pre>
+<p class="std">Report nested F-tests</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa south , absorb(idcode year) nested</code></pre>
+<p class="std">Do AvgE instead of absorb() for one FE</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa south , absorb(idcode year) avge(occ)</code>
+<code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa south , absorb(idcode year) avge(AvgByOCC=occ)</code></pre>
+<p class="std">Check that FE coefs are close to 1.0</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa , absorb(idcode year) check</code></pre>
+<p class="std">Save first mobility group</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa , absorb(idcode occ) group(mobility_occ)</code></pre>
+<p class="std">Factor interactions in the independent variables</p>
+<pre><code class="language-stata">reghdfe ln_w i.grade#i.age ttl_exp tenure not_smsa , absorb(idcode occ)</code></pre>
+<p class="std">Interactions in the absorbed variables (notice that only the <var class="command">#</var> symbol is allowed)</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp tenure not_smsa , absorb(idcode#occ)</code></pre>
+<p class="std">Interactions in both the absorbed and AvgE variables (again, only the <var class="command">#</var> symbol is allowed)</p>
+<pre><code class="language-stata">reghdfe ln_w grade age ttl_exp not_smsa , absorb(idcode#occ) avge(tenure#occ)</code></pre>
+<p class="std">IV regression</p>
+<pre><code class="language-stata">sysuse auto</code>
+<code class="language-stata">reghdfe price weight (length=head), absorb(rep78)</code>
+<code class="language-stata">reghdfe price weight (length=head), absorb(rep78) first</code>
+<code class="language-stata">reghdfe price weight (length=head), absorb(rep78) ivsuite(ivregress)</code></pre>
+<p class="std">Factorial interactions</p>
+<pre><code class="language-stata">reghdfe price weight (length=head), absorb(rep78)</code>
+<code class="language-stata">reghdfe price weight length, absorb(rep78 turn##c.price)</code></pre>
+
+<h2 margin_bottom="1" id="results">Stored results</h2>
+<p class="std"><code class="command">reghdfe</code> stores the following in <code class="command">e()</code>: </p>
+<p class="std"><var class="command">Note: it also keeps most e() results placed by the regression subcommands (ivreg2, ivregress)</var> </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td colspan="3">Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N)</code></td>
+<td>number of observations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_hdfe)</code></td>
+<td>number of absorbed fixed-effects</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(tss)</code></td>
+<td>total sum of squares</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rss)</code></td>
+<td>residual sum of squares</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2)</code></td>
+<td>R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2_a)</code></td>
+<td>adjusted R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2_within)</code></td>
+<td>Within R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2_a_within)</code></td>
+<td>Adjusted Within R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_a)</code></td>
+<td>degrees of freedom lost due to the fixed effects</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rmse)</code></td>
+<td>root mean squared error</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll)</code></td>
+<td>log-likelihood</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll_0)</code></td>
+<td>log-likelihood of fixed-effect-only regression</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(F)</code></td>
+<td>F statistic</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(F_absorb)</code></td>
+<td>F statistic for absorbed effect <var class="command">note: currently disabled</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rank)</code></td>
+<td>rank of <code class="command">e(V)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_clustervars)</code></td>
+<td>number of cluster variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(clust</code>#<code class="command">)</code>
+</td>
+<td>number of clusters for the #th cluster variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_clust)</code></td>
+<td>number of clusters; minimum of <var class="command">e(clust#)</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(K</code>#<code class="command">)</code>
+</td>
+<td>Number of categories of the #th absorbed FE</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(M</code>#<code class="command">)</code>
+</td>
+<td>Number of redundant categories of the #th absorbed FE</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(mobility)</code></td>
+<td>Sum of all <code class="command">e(M#)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_m)</code></td>
+<td>model degrees of freedom</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_r)</code></td>
+<td>residual degrees of freedom</td>
+</tr>
+</tbody>                        </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td colspan="3">Macros</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmd)</code></td>
+<td><code class="command">reghdfe</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(subcmd)</code></td>
+<td>either <code class="command">regress</code>, <code class="command">ivreg2</code> or <code class="command">ivregress</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(model)</code></td>
+<td>
+<code class="command">ols</code>, <code class="command">iv</code>, <code class="command">gmm2s</code>, <code class="command">liml</code> or <code class="command">cue</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmdline)</code></td>
+<td>command as typed</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(dofmethod)</code></td>
+<td>dofmethod employed in the regression</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(depvar)</code></td>
+<td>name of dependent variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(indepvars)</code></td>
+<td>names of independent variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(endogvars)</code></td>
+<td>names of endogenous right-hand-side variables</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(instruments)</code></td>
+<td>names of excluded instruments</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(absvars)</code></td>
+<td>name of the absorbed variables or interactions</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(title)</code></td>
+<td>title in estimation output</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(clustvar)</code></td>
+<td>name of cluster variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td>
+<code class="command">e(clustvar</code>#<code class="command">)</code>
+</td>
+<td>name of the #th cluster variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(vce)</code></td>
+<td>
+<var class="command">vcetype</var> specified in <code class="command">vce()</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(vcetype)</code></td>
+<td>title used to label Std. Err.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(stage)</code></td>
+<td>stage within an IV-regression; only if <var class="command">stages()</var> was used</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(properties)</code></td>
+<td><code class="command">b V</code></td>
+</tr>
+</tbody>                  </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td colspan="3">Matrices</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(b)</code></td>
+<td>coefficient vector</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(V)</code></td>
+<td>variance-covariance matrix of the estimators</td>
+</tr>
+</tbody>   </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td colspan="3">Functions</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(sample)</code></td>
+<td>marks estimation sample</td>
+</tr>
+</tbody>   </table>
+<h2 margin_bottom="1" id="contact">Author</h2>
+<p class="std">Sergio Correia<br> Fuqua School of Business, Duke University<br> Email: <a class="command" href="mailto:sergio.correia@duke.edu"><b>sergio.correia@duke.edu</b></a> </p>
+<h2 margin_bottom="1" id="user_guide">User Guide</h2>
+<p class="std">A copy of this help file, as well as a more in-depth user guide is in development and will be available at <a class="command" href="http://scorreia.com/reghdfe"><b>"http://scorreia.com/reghdfe"</b></a>.</p>
+<h2 margin_bottom="1" id="updates">Latest Updates</h2>
+<p class="std"><code class="command">reghdfe</code> is updated frequently, and upgrades or minor bug fixes may not be immediately available in SSC. To check or contribute to the latest version of reghdfe, explore the <a class="command" href="https://github.com/sergiocorreia/reghdfe"><b>Github repository</b></a>. Bugs or missing features can be discussed through email or at the <a class="command" href="https://github.com/sergiocorreia/reghdfe/issues"><b>Github issue tracker</b></a>.</p>
+<p class="std">To see your current version and installed dependencies, type <code class="command">reghdfe, version</code> </p>
+<h2 margin_bottom="1" id="acknowledgements">Acknowledgements</h2>
+<p class="std">This package wouldn't have existed without the invaluable feedback and contributions of Paulo Guimaraes,  Amine Ouazad, Mark Schaffer and Kit Baum. Also invaluable are the great bug-spotting abilities of many users.</p>
+<p class="std">In addition, <var class="command">reghdfe</var> is build upon important contributions from the Stata community:</p>
+<p class="hang"><a class="command" href="https://ideas.repec.org/c/boc/bocode/s457101.html"><b>reg2hdfe</b></a>, from Paulo Guimaraes, and <a class="command" href="https://ideas.repec.org/c/boc/bocode/s456942.html"><b>a2reg</b></a> from Amine Ouazad,  were the inspiration and building blocks on which reghdfe was built.</p>
+<p class="hang"><a class="command" href="http://www.repec.org/bocode/i/ivreg2.html"><b>ivreg2</b></a>, by Christopher F Baum, Mark E Schaffer and Steven Stillman, is the package used by default for instrumental-variable regression.</p>
+<p class="hang"><a class="command" href="https://ideas.repec.org/c/boc/bocode/s457689.html"><b>avar</b></a> by Christopher F Baum and Mark E Schaffer, is the package used for estimating the HAC-robust standard errors of ols regressions.</p>
+<p class="hang"><a class="command" href="http://econpapers.repec.org/software/bocbocode/s456797.htm"><b>tuples</b></a> by Joseph Lunchman and Nicholas Cox, is used when computing standard errors with multi-way clustering (two or more clustering variables).</p>
+<h2 margin_bottom="1" id="references">References</h2>
+<p class="0-0-2-0">The algorithm underlying reghdfe is a generalization of the works by: </p>
+<p class="hang">Paulo Guimaraes and Pedro Portugal. "A Simple Feasible Alternative Procedure to Estimate Models with High-Dimensional Fixed Effects". <var class="command">Stata Journal, 10(4), 628-649, 2010.</var> <a class="command" href="http://www.stata-journal.com/article.html?article=st0212"><b>[link]</b></a> </p>
+<p class="hang">Simen Gaure. "OLS with Multiple High Dimensional Category Dummies". <var class="command">Memorandum 14/2010, Oslo University, Department of Economics, 2010.</var> <a class="command" href="https://ideas.repec.org/p/hhs/osloec/2010_014.html"><b>[link]</b></a> </p>
+<p class="0-0-2-0">It addresses many of the limitation of previous works, such as possible lack of convergence, arbitrary slow convergence times, and being limited to only two or three sets of fixed effects (for the first paper). The paper explaining the specifics of the algorithm is a work-in-progress and available upon request. </p>
+<p class="">If you use this program in your research, please cite either the <a class="command" href="https://ideas.repec.org/c/boc/bocode/s457874.html"><b>REPEC entry</b></a> or the aforementioned papers.</p>
+<h2 margin_bottom="1">Additional References</h2>
+<p class="">For details on the Aitken acceleration technique employed, please see "method 3" as described by: </p>
+<p class="hang">Macleod, Allan J. "Acceleration of vector sequences by multi-dimensional Delta-2 methods." <var class="command">Communications in Applied Numerical Methods 2.4 (1986): 385-392.</var> </p>
+<p class="">For the rationale behind interacting fixed effects with continuous variables, see: </p>
+<p class="hang">Duflo, Esther. "The medium run effects of educational expansion: Evidence from a large school construction program in Indonesia." <var class="command">Journal of Development Economics 74.1 (2004): 163-197.</var><a class="command" href="http://www.sciencedirect.com/science/article/pii/S0304387803001846"><b> [link]</b></a> </p>
+<p class="">Also see: </p>
+<p class="hang">Abowd, J. M., R. H. Creecy, and F. Kramarz 2002. Computing person and firm effects using linked longitudinal employer-employee data. <var class="command">Census Bureau Technical Paper TP-2002-06.</var> </p>
+<p class="hang">Cameron, A. Colin &amp; Gelbach, Jonah B. &amp; Miller, Douglas L., 2011. "Robust Inference With Multiway Clustering," <var class="command">Journal of Business &amp; Economic Statistics, American Statistical Association, vol. 29(2), pages 238-249.</var> </p>
+<p class="hang">Gormley, T. &amp; Matsa, D. 2014. "Common errors: How to (and not to) control for unobserved heterogeneity." <var class="command">The Review of Financial Studies, vol. 27(2), pages 617-661.</var> </p>
+<p class="hang">Mittag, N. 2012. "New methods to estimate models with large sets of fixed effects with an application to matched employer-employee data from Germany." <var class="command"><a class="command" href="http://doku.iab.de/fdz/reporte/2012/MR_01-12_EN.pdf"><b>FDZ-Methodenreport 02/2012</b></a>.</var> </p>
+</div></body>
+</html>

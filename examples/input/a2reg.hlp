@@ -1,0 +1,96 @@
+{smcl}
+{hline}
+help for {hi:a2reg}
+{hline}
+
+{title:Estimates linear models with two fixed effects}
+
+{p 8 27}
+{cmdab:a2reg} 
+{it:depvar} {it:indepvars},
+{cmdab:individual}{cmd:(}{it:varname}{cmd:)}
+{cmdab:unit}{cmd:(}{it:varname}{cmd:)}
+[
+{cmdab:indeffect}{cmd:(}{it:name}{cmd:)}
+{cmdab:uniteffect}{cmd:(}{it:name}{cmd:)}
+{cmdab:xb}{cmd:(}{it:name}{cmd:)}
+{cmdab:resid}{cmd:(}{it:name}{cmd:)}
+]
+
+{p}
+
+{title:Description}
+
+{p 0 0}
+{hi:a2reg} estimates two-way fixed effects.
+{it:individual} indexes the first 
+fixed effect, and {it:unit} indexes the second fixed effect. The dependent variable
+is {it:depvar} and the covariates are in {it:indepvars}. At least one covariate
+is mandatory.
+
+{title:Identification constraints}
+
+{p 0 0}
+The identification constraints for the fixed effects are set by convention
+such that the sum of individual effects is equal to zero and such that the 
+last unit fixed effect is zero.
+
+{title:Output}
+
+{p 0 0}
+The program displays conventional output regression, along with Fisher
+tests for the significance of fixed effects. However the computation of
+confidence intervals is not computationally feasible, since it would require
+the inversion of the variance-covariance matrix. Therefore confidence
+intervals are not printed.
+
+{title:Options}
+
+{p 0 0}
+{it:depvar} is the dependent variable. No missing observation is allowed.
+
+{it:indepvars} lists explanatory variables. No missing observation is allowed.
+
+{cmdab:individual}{cmd:(}{it:varname}{cmd:)} is the identifier for the first fixed effect.
+
+{cmdab:unit}{cmd:(}{it:varname}{cmd:)} is the identifier for the second fixed effect.
+
+{cmdab:indeffect}{cmd:(}{it:name}{cmd:)} is the name of the output variable for the first fixed effect. 
+
+{cmdab:uniteffect}{cmd:(}{it:name}{cmd:)} is the name of the output variable for the second fixed effect.
+
+{cmdab:xb}{cmd:(}{it:name}{cmd:)} is the name of the output variable for the part predicted by the covariates.
+
+{cmdab:resid}{cmd:(}{it:varname}{cmd:)} is the name of the output variable for the resid.
+
+
+{title:Examples}
+
+a2reg y x1 x2 , individual(personid) unit(firmid) indeffect(personeffect)
+
+{title:Author}
+
+{p}
+Amine Ouazad, PhD Candidate of the Paris School of Economics,
+and Research Associate, London School of Economics.
+
+Webpage {browse "http://personal.lse.ac.uk/ouazad/"}
+
+Email {browse "mailto:a.ouazad@lse.ac.uk":a.ouazad@lse.ac.uk}
+
+{title:Acknowledgement}
+
+{p}
+This command started as a port of the FORTRAN cg program that was written 
+by {bf: Robert Creecy} for Unix platforms. It has now improved it in many ways,
+providing Fisher tests, interfacing with STATA and commands such as bootstrap.
+
+Please put the following reference in your paper.
+
+Amine Ouazad, Program for the Estimation of Two-Way Fixed Effects, available at 
+http://personal.lse.ac.uk/ouazad/, 2007.
+
+{title:Also see}
+
+{help a2group} (if installed)
+

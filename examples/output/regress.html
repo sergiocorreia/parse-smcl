@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stata help for regress</title>
+<link rel="stylesheet" type="text/css" href="css/smcl.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic">
+</head>
+<body><div class="smcl" version="1.4.4  05mar2015">
+<h1>Help for regress</h1>
+<nav id="table-of-contents" class="smcl-nav"><ul>
+<li class="description">Jump to:</li>
+<li class="link"><a href="#syntax">Syntax</a></li>
+<li class="link"><a href="#menu">Menu</a></li>
+<li class="link"><a href="#description">Description</a></li>
+<li class="link"><a href="#options">Options</a></li>
+<li class="link"><a href="#examples">Examples</a></li>
+<li class="link"><a href="#video">Video example</a></li>
+<li class="link"><a href="#results">Stored results</a></li>
+<li class="link"><a href="#references">References</a></li>
+</ul></nav><nav id="related-content" class="smcl-nav"><ul>
+<li class="description">Also see:</li>
+<li class="link"><a href="http://www.stata.com/manuals14/rregress.pdf">[R] regress</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?regress%20postestimation">[R] regress postestimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?regress%20postestimation%20plots">[R] regress postestimation diagnostic plots</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?regress%20postestimation%20ts">[R] regress postestimation ts</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?anova">[R] anova</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?contrast">[R] contrast</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?mi%20estimation">[MI] estimation</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?forecast">[TS] forecast</a></li>
+<li class="link"><a href="http://www.stata.com/manuals14/semintro5.pdf">[SEM] intro 5</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?mswitch">[TS] mswitch</a></li>
+<li class="link"><a href="http://www.stata.com/help.cgi?svy%20estimation">[SVY] svy estimation</a></li>
+</ul></nav><span options="assemreg">{findalias assemreg}</span><h2 margin_bottom="1">Title</h2>
+<table class="standard"><tr>
+<td>
+<a href="http://www.stata.com/manuals14/rregress.pdf"><b>[R] regress</b></a> <span>&#8212;</span>
+</td>
+<td>Linear regression  </td>
+</tr></table>
+<h2 margin_bottom="1" id="syntax">Syntax</h2>
+<p class="8-16-2-0"><code options="reg" class="command"><u>reg</u>ress</code> <a class="command" href="http://www.stata.com/help.cgi?depvar">depvar</a> [<a class="command" href="http://www.stata.com/help.cgi?indepvars">indepvars</a>] <span class="command">[<var><a href="http://www.stata.com/help.cgi?if">if</a></var>] [<var><a href="http://www.stata.com/help.cgi?in">in</a></var>]</span> [<var class="command"><a class="command" href="#weight"><b>weight</b></a></var>]    [<code class="command">,</code> <var class="command">options</var>] </p>
+<table class="syntab">
+<thead><tr>
+<td colspan="2">Options</td>
+<td>Description</td>
+</tr></thead>  <tbody>
+<tr class="section"><td colspan="3">Model</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nocon" class="command"><u>nocon</u>stant</code></td>
+<td>suppress constant term</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="h" class="command"><u>h</u>ascons</code></td>
+<td>has user-supplied constant</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="tsscons" class="command">tsscons</code></td>
+<td>compute total sum of squares with constant; seldom used</td>
+</tr>
+</tbody>    <tbody>
+<tr class="section"><td colspan="3">SE/Robust</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="vce(vcetype)" class="command">vce(<var><a href="http://www.stata.com/help.cgi?vcetype">vcetype</a></var>)</code></td>
+<td>
+<var class="command">vcetype</var> may be <code options="ols" class="command">ols</code>,    <code options="r" class="command"><u>r</u>obust</code>, <code options="cl" class="command"><u>cl</u>uster</code> <var class="command">clustvar</var>, <code options="boot" class="command"><u>boot</u>strap</code>,    <code options="jack" class="command"><u>jack</u>knife</code>, <code options="hc2" class="command">hc2</code>, or <code options="hc3" class="command">hc3</code>
+</td>
+</tr>
+</tbody>  <tbody>
+<tr class="section"><td colspan="3">Reporting</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code options="l" class="command"><u>l</u>evel(<var>#</var>)</code></td>
+<td>set confidence level; default is <code class="command">level(95)</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="b" class="command"><u>b</u>eta</code></td>
+<td>report standardized beta coefficients</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="ef" class="command"><u>ef</u>orm(<var><a href="http://www.stata.com/help.cgi?strings">string</a></var>)</code></td>
+<td>report exponentiated coefficients and     label as <var class="command">string</var>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="dep" class="command"><u>dep</u>name(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code></td>
+<td>substitute dependent variable name; programmer's option</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><var class="command"><a class="command" href="#display_options"><b>display_options</b></a></var></td>
+<td>control columns and column formats, row spacing, line width, display of omitted    variables and base and empty cells, and factor-variable labeling</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="nohe" class="command"><u>nohe</u>ader</code></td>
+<td>suppress output header</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="notab" class="command"><u>notab</u>le</code></td>
+<td>suppress coefficient table</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="plus" class="command">plus</code></td>
+<td>make table extendable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="ms" class="command"><u>ms</u>e1</code></td>
+<td>force mean squared error to <code class="command">1</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code options="coefl" class="command"><u>coefl</u>egend</code></td>
+<td>display legend instead of statistics</td>
+</tr>
+</tbody>                       <tfoot>
+<tr class="footnote"><td colspan="3"> <var class="command">indepvars</var> may contain factor variables; see <a class="command" href="http://www.stata.com/help.cgi?fvvarlist"><b>fvvarlist</b></a>. </td></tr>
+<tr class="footnote"><td colspan="3"> <var class="command">depvar</var> and <var class="command">indepvars</var> may contain time-series operators; see <a class="command" href="http://www.stata.com/help.cgi?tsvarlist"><b>tsvarlist</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3"> <code class="command">bootstrap</code>, <code class="command">by</code>, <code options="fp" class="command">fp</code>, <code class="command">jackknife</code>, <code options="mfp" class="command">mfp</code>, <code class="command">mi estimate</code>, <code class="command">nestreg</code>, <code class="command">rolling</code>, <code class="command">statsby</code>, <code class="command">stepwise</code>, and <code class="command">svy</code> are allowed; see <a class="command" href="http://www.stata.com/help.cgi?prefix"><b>prefix</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3"> <code class="command">vce(bootstrap)</code> and <code class="command">vce(jackknife)</code> are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?mi%20estimate"><b>mi estimate</b></a> prefix.</td></tr>
+<tr class="footnote"><td colspan="3">Weights are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?bootstrap"><b>bootstrap</b></a> prefix.</td></tr>
+<tr class="footnote"><td colspan="3">
+<code class="command">aweight</code>s are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?jackknife"><b>jackknife</b></a> prefix. </td></tr>
+<tr class="footnote"><td colspan="3"> <code options="hascons" class="command">hascons</code>, <code options="tsscons" class="command">tsscons</code>, <code options="vce()" class="command">vce(<var></var>)</code>, <code options="beta" class="command">beta</code>, <code options="noheader" class="command">noheader</code>, <code options="notable" class="command">notable</code>, <code options="plus" class="command">plus</code>, <code options="depname()" class="command">depname(<var></var>)</code>, <code options="mse1" class="command">mse1</code>, and weights are not allowed with the <a class="command" href="http://www.stata.com/help.cgi?svy"><b>svy</b></a> prefix. </td></tr>
+<tr class="footnote"><td colspan="3"> <code class="command">aweight</code>s, <code class="command">fweight</code>s, <code class="command">iweight</code>s, and <code class="command">pweight</code>s are allowed; see <a class="command" href="http://www.stata.com/help.cgi?weight"><b>weight</b></a>.</td></tr>
+<tr class="footnote"><td colspan="3"> <code options="noheader" class="command">noheader</code>, <code options="notable" class="command">notable</code>, <code options="plus" class="command">plus</code>, <code options="mse1" class="command">mse1</code>, and <code options="coeflegend" class="command">coeflegend</code> do not appear in the dialog box.</td></tr>
+<tr class="footnote"><td colspan="3"> See <a class="command" href="http://www.stata.com/help.cgi?regress_postestimation"><b>[R]</b> regress postestimation</a> for features available after estimation.  </td></tr>
+</tfoot>
+</table>
+<h2 margin_bottom="1" id="menu">Menu</h2>
+<p class="hang"><b>Statistics &gt; Linear models and related &gt; Linear regression</b> </p>
+<h2 margin_bottom="1" id="description">Description</h2>
+<p class="std"><code class="command">regress</code> fits a model of <a class="command" href="http://www.stata.com/help.cgi?depvar">depvar</a> on <a class="command" href="http://www.stata.com/help.cgi?indepvars">indepvars</a> using linear regression. </p>
+<p class="std">See <a class="command" href="http://www.stata.com/help.cgi?estimation%20commands"><b>estimation commands</b></a> for a list of other regression commands that may be of interest. </p>
+<h2 margin_bottom="1" id="options">Options</h2>
+<h3 margin_bottom="1">Model</h3>
+<p class="hang"><code options="noconstant" class="command">noconstant</code>; see <a class="command" href="estimation%20options##noconstant"><b>[R] estimation options</b></a>. </p>
+<p class="hang"><code options="hascons" class="command">hascons</code> indicates that a user-defined constant or its equivalent is specified among the independent variables in <a class="command" href="http://www.stata.com/help.cgi?indepvars">indepvars</a>.  Some caution is recommended when specifying this option, as resulting estimates may not be as accurate as they otherwise would be.  Use of this option requires "sweeping" the constant last, so the moment matrix must be accumulated in absolute rather than deviation form.  This option may be safely specified when the means of the dependent and independent variables are all reasonable and there is not much collinearity between the independent variables.  The best procedure is to view <code options="hascons" class="command">hascons</code> as a reporting option -- estimate with and without <code options="hascons" class="command">hascons</code> and verify that the coefficients and standard errors of the variables not affected by the identity of the constant are unchanged. </p>
+<p class="hang"><code options="tsscons" class="command">tsscons</code> forces the total sum of squares to be computed as though the model has a constant, that is, as deviations from the mean of the dependent variable.  This is a rarely used option that has an effect only when specified with <code options="noconstant" class="command">noconstant</code>.  It affects the total sum of squares and all results derived from the total sum of squares. </p>
+<h3 margin_bottom="1">SE/Robust</h3>
+<p class="hang"><code options="vce(vcetype)" class="command">vce(<var>vcetype</var>)</code> specifies the type of standard error reported, which includes types that are derived from asymptotic theory (<code class="command">ols</code>), that are robust to some kinds of misspecification (<code class="command">robust</code>), that allow for intragroup correlation (<code class="command">cluster</code> <var class="command">clustvar</var>), and that use bootstrap or jackknife methods (<code class="command">bootstrap</code>, <code class="command">jackknife</code>); see <a class="command" href="http://www.stata.com/help.cgi?vce_option"><var class="command">vce_option</var><b>[R] </b></a>. </p>
+<p class="more"><code class="command">vce(ols)</code>, the default, uses the standard variance estimator for ordinary least-squares regression. </p>
+<p class="more"><code class="command">regress</code> also allows the following: </p>
+<p class="hang2"><code class="command">vce(hc2)</code> and <code class="command">vce(hc3)</code> specify an alternative bias correction for the robust variance calculation.  <code class="command">vce(hc2)</code> and <code class="command">vce(hc3)</code> may not be specified with the <code class="command">svy</code> prefix.  In the unclustered case, <code class="command">vce(robust)</code> uses (sigma-hat_j)^2={n/(n-k)}(u_j)^2 as an estimate of the variance of the jth observation, where u_j is the calculated residual and n/(n-k) is included to improve the overall estimate's small-sample properties. </p>
+<p class="more2"><code class="command">vce(hc2)</code> instead uses u_j^2/(1-h_jj) as the observation's variance estimate, where h_jj is the diagonal element of the hat (projection) matrix. This estimate is unbiased if the model really is homoskedastic. <code class="command">vce(hc2)</code> tends to produce slightly more conservative confidence intervals. </p>
+<p class="more2"><code class="command">vce(hc3)</code> uses u_j^2/(1-h_jj)^2 as suggested by <a class="command" href="#DM1993"><b>Davidson and MacKinnon (1993)</b></a>, who report that this method tends to produce better results when the model really is heteroskedastic.  <code class="command">vce(hc3)</code> produces confidence intervals that tend to be even more conservative. </p>
+<p class="more2">See <a class="command" href="#DM1993"><b>Davidson and MacKinnon (1993, 554-556)</b></a> and <a class="command" href="#AP2009"><b>Angrist and Pischke (2009, 294-308)</b></a> for more discussion on these two bias corrections. </p>
+<h3 margin_bottom="1">Reporting</h3>
+<p class="hang"><code options="level(#)" class="command">level(<var>#</var>)</code>; see <a class="command" href="estimation%20options##level()"><b>[R] estimation options</b></a>. </p>
+<p class="hang"><code options="beta" class="command">beta</code> asks that standardized beta coefficients be reported instead of confidence intervals.  The beta coefficients are the regression coefficients obtained by first standardizing all variables to have a mean of 0 and a standard deviation of 1.  <code options="beta" class="command">beta</code> may not be specified with <code class="command">vce(cluster</code> <var class="command">clustvar</var><code class="command">)</code> or the <code class="command">svy</code> prefix. </p>
+<p class="hang"><code options="eform" class="command"><u>eform</u>(<var><a href="http://www.stata.com/help.cgi?strings">string</a></var>)</code> is used only in programs and ado-files that use <code class="command">regress</code> to fit models other than linear regression.  <code options="eform()" class="command">eform(<var></var>)</code> specifies that the coefficient table be displayed in exponentiated form as defined in <a class="command" href="http://www.stata.com/help.cgi?maximize"><b>[R]</b> maximize</a> and that <var class="command">string</var> be used to label the exponentiated coefficients in the table. </p>
+<p class="hang"><code options="depname(varname)" class="command">depname(<var><a href="http://www.stata.com/help.cgi?varname">varname</a></var>)</code> is used only in programs and ado-files that use <code class="command">regress</code> to fit models other than linear regression.  <code options="depname()" class="command">depname(<var></var>)</code> may be specified only at estimation time.  <var class="command">varname</var> is recorded as the identity of the dependent variable, even though the estimates are calculated using <a class="command" href="http://www.stata.com/help.cgi?depvar">depvar</a>.  This method affects the labeling of the output -- not the results calculated -- but could affect subsequent calculations made by <code class="command">predict</code>, where the residual would be calculated as deviations from <var class="command">varname</var> rather than <var class="command">depvar</var>.  <code options="depname()" class="command">depname(<var></var>)</code> is most typically used when <var class="command">depvar</var> is a temporary variable (see  <a class="command" href="http://www.stata.com/help.cgi?macro"><b>[P]</b> macro</a>) used as a proxy for <var class="command">varname</var>. </p>
+<p class="more"><code options="depname()" class="command">depname(<var></var>)</code> is not allowed with the <code class="command">svy</code> prefix. </p>
+<p class="hang" id="display_options"><var class="command">display_options</var>: <code options="noci" class="command">noci</code>, <code options="nopv" class="command"><u>nopv</u>alues</code>, <code options="noomit" class="command"><u>noomit</u>ted</code>, <code options="vsquish" class="command">vsquish</code>, <code options="noempty" class="command"><u>noempty</u>cells</code>, <code options="base" class="command"><u>base</u>levels</code>, <code options="allbase" class="command"><u>allbase</u>levels</code>, <code options="nofvlab" class="command"><u>nofvlab</u>el</code>, <code options="fvwrap(#)" class="command">fvwrap(<var>#</var>)</code>, <code options="fvwrapon(style)" class="command">fvwrapon(<var>style</var>)</code>, <code options="cformat(%fmt)" class="command">cformat(<var><a href="http://www.stata.com/help.cgi?%fmt">%fmt</a></var>)</code>, <code options="pformat(%fmt)" class="command">pformat(<var>%fmt</var>)</code>, <code options="sformat(%fmt)" class="command">sformat(<var>%fmt</var>)</code>, and <code options="nolstretch" class="command">nolstretch</code>;     see <a class="command" href="estimation%20options##display_options"><b>[R] estimation options</b></a>. </p>
+<p class="std">The following options are available with <code class="command">regress</code> but are not shown in the dialog box: </p>
+<p class="hang"><code options="noheader" class="command">noheader</code> suppresses the display of the ANOVA table and summary statistics at the top of the output; only the coefficient table is displayed. This option is often used in programs and ado-files. </p>
+<p class="hang"><code options="notable" class="command">notable</code> suppresses display of the coefficient table. </p>
+<p class="hang"><code options="plus" class="command">plus</code> specifies that the output table be made extendable.  This option is often used in programs and ado-files. </p>
+<p class="hang"><code options="mse1" class="command">mse1</code> is used only in programs and ado-files that use <code class="command">regress</code> to fit models other than linear regression and is not allowed with the <a class="command" href="http://www.stata.com/help.cgi?svy"><b>svy</b></a> prefix.  <code options="mse1" class="command">mse1</code> sets the mean squared error to <code class="command">1</code>, forcing the variance-covariance matrix of the estimators to be (X'DX)^-1 (see <a href="http://www.stata.com/manuals14/rregressmethodsandformulas.pdf">R regressMethodsandformulas<var class="command">Methods and formulas</var></a> in <b>[R] regress</b>) and affecting calculated standard errors.  Degrees of freedom for t statistics is calculated as n rather than n-k. </p>
+<p class="hang"><code options="coeflegend" class="command">coeflegend</code>; see <a class="command" href="estimation%20options##coeflegend"><b>[R] estimation options</b></a>. </p>
+<h2 margin_bottom="1" id="examples">Examples:  linear regression</h2>
+<p class="std">Setup</p>
+<pre><code class="language-stata">sysuse auto</code></pre>
+<p class="std">Fit a linear regression</p>
+<pre><code class="language-stata">regress mpg weight foreign</code></pre>
+<p class="std">Fit a better linear regression, from a physics standpoint</p>
+<pre><code class="language-stata">gen gp100m = 100/mpg</code>
+<code class="language-stata">regress gp100m weight foreign</code></pre>
+<p class="std">Obtain beta coefficients without refitting model</p>
+<pre><code class="language-stata">regress, beta</code></pre>
+<p class="std">Suppress intercept term</p>
+<pre><code class="language-stata">regress weight length, noconstant</code></pre>
+<p class="std">Model already has constant</p>
+<pre><code class="language-stata">regress weight length bn.foreign, hascons</code></pre>
+
+<h2 margin_bottom="1">Examples:  regression with robust standard errors</h2>        <hr>
+<pre><code class="language-stata">sysuse auto, clear</code>
+<code class="language-stata">generate gpmw = ((1/mpg)/weight)*100*1000</code>
+<code class="language-stata">regress gpmw foreign</code>
+<code class="language-stata">regress gpmw foreign, vce(robust)</code>
+<code class="language-stata">regress gpmw foreign, vce(hc2)</code>
+<code class="language-stata">regress gpmw foreign, vce(hc3)</code></pre>        <hr>
+<pre><code class="language-stata">webuse regsmpl, clear</code>
+<code class="language-stata">regress ln_wage age c.age#c.age tenure, vce(cluster id)</code></pre>        <hr margin_bottom="2">
+<h2 margin_bottom="1">Example:  weighted regression</h2>
+<pre><code class="language-stata">sysuse census</code>
+<code class="language-stata">regress death medage i.region [aw=pop]</code></pre>
+
+<h2 margin_bottom="1">Examples:  linear regression with survey data</h2>
+<p class="std">Setup</p>
+<pre><code class="language-stata">webuse highschool</code> </pre>
+<p class="std">Perform linear regression using survey data</p>
+<pre><code class="language-stata">svy: regress weight height</code> </pre>
+<p class="std">Setup</p>
+<pre><code class="language-stata">generate male = sex == 1 if !missing(sex)</code> </pre>
+<p class="std">Perform linear regression using survey data for a subpopulation</p>
+<pre><code class="language-stata">svy, subpop(male): regress weight height</code> </pre>
+<h2 margin_bottom="1" id="video">Video example</h2>
+<p class="hang"><a class="command" href="http://www.youtube.com/watch?v=HafqFSB9x70"><b>Simple linear regression in Stata</b></a> </p>
+<h2 margin_bottom="1" id="results">Stored results</h2>
+<p class="std"><code class="command">regress</code> stores the following in <code class="command">e()</code>: </p>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Scalars</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N)</code></td>
+<td>number of observations</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(mss)</code></td>
+<td>model sum of squares</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_m)</code></td>
+<td>model degrees of freedom</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rss)</code></td>
+<td>residual sum of squares</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(df_r)</code></td>
+<td>residual degrees of freedom</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2)</code></td>
+<td>R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(r2_a)</code></td>
+<td>adjusted R-squared</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(F)</code></td>
+<td>F statistic</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rmse)</code></td>
+<td>root mean squared error</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll)</code></td>
+<td>log likelihood under additional assumption of i.i.d. 		normal errors</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(ll_0)</code></td>
+<td>log likelihood, constant-only model</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(N_clust)</code></td>
+<td>number of clusters</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(rank)</code></td>
+<td>rank of <code class="command">e(V)</code>
+</td>
+</tr>
+</tbody>              </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Macros</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmd)</code></td>
+<td><code class="command">regress</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(cmdline)</code></td>
+<td>command as typed</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(depvar)</code></td>
+<td>name of dependent variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(model)</code></td>
+<td>
+<code class="command">ols</code> or <code class="command">iv</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(wtype)</code></td>
+<td>weight type</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(wexp)</code></td>
+<td>weight expression</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(title)</code></td>
+<td>title in estimation output when <code class="command">vce()</code> is not              <code class="command">ols</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(clustvar)</code></td>
+<td>name of cluster variable</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(vce)</code></td>
+<td>
+<var class="command">vcetype</var> specified in <code class="command">vce()</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(vcetype)</code></td>
+<td>title used to label Std. Err.</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(properties)</code></td>
+<td><code class="command">b V</code></td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(estat_cmd)</code></td>
+<td>program used to implement <code class="command">estat</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(predict)</code></td>
+<td>program used to implement <code class="command">predict</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(marginsok)</code></td>
+<td>predictions allowed by <code class="command">margins</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(asbalanced)</code></td>
+<td>factor variables <code class="command">fvset</code> as <code class="command">asbalanced</code>
+</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(asobserved)</code></td>
+<td>factor variables <code class="command">fvset</code> as <code class="command">asobserved</code>
+</td>
+</tr>
+</tbody>                 </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Matrices</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(b)</code></td>
+<td>coefficient vector</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(V)</code></td>
+<td>variance-covariance matrix of the estimators</td>
+</tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(V_modelbased)</code></td>
+<td>model-based variance</td>
+</tr>
+</tbody>    </table>
+<table class="syntab">
+<tbody>
+<tr class="section"><td options="5 20 24 2" colspan="3"> Functions</td></tr>
+<tr>
+<td class="normal"></td>
+<td><code class="command">e(sample)</code></td>
+<td>marks estimation sample</td>
+</tr>
+</tbody>   </table>
+<h2 margin_bottom="1" id="references">References</h2>
+<p class="hang" id="AP2009">Angrist, J. D., and J.-S. Pischke. 2009. <a class="command" href="http://www.stata.com/bookstore/mhe.html"><var class="command">Mostly Harmless Econometrics: An Empiricist's Companion</var>.<b></b></a> Princeton, NJ: Princeton University Press. </p>
+<p class="hang" id="DM1993">Davidson, R., and J. G. MacKinnon. 1993. <a class="command" href="http://www.stata.com/bookstore/eie.html"><var class="command">Estimation and Inference in Econometrics</var>.<b></b></a> New York: Oxford University Press. </p>
+</div></body>
+</html>
