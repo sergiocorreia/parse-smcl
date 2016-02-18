@@ -383,7 +383,6 @@ div.smcl span.nowrap {
 	padding: 0;
 	list-style: none;
 	display: inline-block;
-	*display:inline; /* ie7 */
 }
 .smcl-nav a {
 	padding: 3px 12px;
@@ -400,18 +399,15 @@ div.smcl span.nowrap {
 	padding: 0 5px;
 }
 
+
 @media screen and (max-width: 3600px) {
 
 	.smcl-nav {
 		position: relative;
-		display: inline-block;
+		display: block;
 		min-height: 20px;
 		margin-right: 1rem;
 		vertical-align: top;
-	}
-
-	.smcl-nav ~ .smcl-nav {
-		margin-left: 240px; /*Same as width*/
 	}
 
 	.smcl-nav ul {
@@ -466,6 +462,16 @@ div.smcl span.nowrap {
 		left:5px;
 	}
 
+}
+
+/* Move nav buttons one below the other to save space*/
+@media screen and (min-width: 32em) {
+	.smcl-nav {
+		display: inline-block;
+	}
+	.smcl-nav ~ .smcl-nav {
+		margin-left: 240px; /*Same as width*/
+	}
 }
 
 
