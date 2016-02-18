@@ -111,6 +111,7 @@ div.smcl a:hover, a:focus, a:active {
 /* para : left-first left-subsequent right total-width */
 /* 1) Divide indentations by half */
 /* 2) margin-left is the sum of that and text indent */
+@media screen and (min-width: 48em) {
 
 div.smcl p.std {
 	margin-left: 2rem;
@@ -176,6 +177,8 @@ div.smcl p.8-15-2-0 {
 	text-indent: -8rem;
 }
 
+}
+
 /*
   Table styles copied from Bootstrap
   Copyright (c) 2013 Twitter, Inc
@@ -183,7 +186,6 @@ div.smcl p.8-15-2-0 {
 
 table {
   font-size: 1rem;
-  width: 100%;
   max-width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5px;
@@ -225,11 +227,6 @@ table.syntab td:first-child {
 	width: 2rem;
 }
 
-table.standard td {
-	white-space: nowrap;
-}
-
-
 
 /* Heading Counters */
 /* http://www.2ality.com/2012/01/numbering-headingshtml.html */
@@ -254,30 +251,42 @@ div.smcl  h3:before {
 
 div.smcl {
   margin: 0 auto;
-  max-width: 48rem;
+  max-width: 40rem;
 }
 
+table {
+	overflow-x: auto;
+	word-wrap:break-word
+}
+
+
+
 @media screen and (min-width: 32em) {
-  div.smcl {
+  body {
     font-size: 22px;
+  }
+  table.standard td:first-of-type {
+  	white-space: nowrap;
   }
 }
 
 @media screen and (min-width: 48em) {
-  div.smcl {
+  body {
     font-size: 20px;
   }
 }
 
 @media screen and (min-width: 64em) {
-  div.smcl {
-    font-size: 16px;
+  body {
+    font-size: 24px;
   }
+
+
 }
 
 @media screen and (min-width: 78em) {
   em img {
-    max-width: 14rem;
+    max-width: 46rem;
     margin-left: -7em;
   }
 }
@@ -448,4 +457,33 @@ div.smcl span.nowrap {
 		left:5px;
 	}
 
+}
+
+
+/* BASE */
+
+html, body {
+  height: auto;
+  min-height: 100%;
+}
+
+/* Prevent jumps in website
+http://stackoverflow.com/questions/6357870/scrollbar-on-browser-and-div-margin-0-auto-jumping */
+html {
+	  overflow-y: scroll;
+}
+
+img {
+  max-width: 100%;
+}
+
+em img {
+  max-width: 100%;
+  margin-left: 0;
+}
+
+body {
+          box-sizing: border-box;
+     -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }

@@ -173,6 +173,7 @@ def make_standalone(div, current_file):
     html = E.html(
         E.head(
             E.title('Stata help for ' + current_file),
+            E.meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1"),
             E.link(rel='stylesheet', type='text/css', href='css/smcl.css'),
             #
             #E.link(rel='stylesheet', type='text/css', href='js/styles/idea.css'), # Idea sunburst syntax style
