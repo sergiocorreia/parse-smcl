@@ -295,9 +295,18 @@ table {
  /*Code */
 
 div.smcl pre {
-	font-size: 1rem;
 	padding: .5rem;
 	line-height: 1.11rem;
+
+	counter-reset: line-numbering;
+	white-space: pre;
+	overflow-x: auto;
+	word-break: inherit;
+	word-wrap: inherit;
+}
+
+div.smcl pre code {
+	font-size: .9rem;
 }
 
 div.smcl pre code:before {
