@@ -13,9 +13,21 @@ It has multiple advantages to the current best alternative, [log2html](https://i
 - Because it uses CSS, you can change the styles freely, and for instance add/remove heading numeration, add syntax coloring for code samples, etc.
 - It uses responsive CSS so it's easier to read on tablets, large screens, etc. Similarly, it's easier to print.
 
+## Sample Output
+
+Some examples include:
+- [generate](http://scorreia.com/demo/generate.html) and [summarize](http://scorreia.com/demo/summarize.html) by StataCorp. They work without problems.
+- [regress](http://scorreia.com/demo/regress.html) and [var](http://scorreia.com/demo/var.html) by StataCorp work well, but are missing a few directives.
+- [reghdfe](http://scorreia.com/demo/reghdfe.html) and [hdfe](http://scorreia.com/demo/hdfe.html; work without problems.
+- [psmatch2](http://scorreia.com/demo/psmatch2.html) by Ewin Leuven and Barbara Sianesi.
+- [a2reg](http://scorreia.com/demo/a2reg.html) by Amine Ouazad. Even though it uses the old version of the help files, it still works.
+- [bayesmh](http://scorreia.com/demo/bayesmh.html) by StataCorp. It uses many advanced (Stata 14) directives but is still quite readable.
+
+(*Note: I do not own the copyright of the original files, they are used merely as an example of the use case*)
+
 ## Usage
 
-To use this script, just install Python 3 and run `smcl2html.py`:
+To use this script, just run `smcl2html.py`:
 
 ```
 > smcl2html
@@ -40,17 +52,10 @@ A typical command line would be:
 smcl2html.py somehelpfile.sthlp --adopath=C:\Stata13\ado\base --view --standalone
 ```
 
-## Examples
+## Installation
 
-Some examples include:
-- [generate](http://scorreia.com/demo/generate.html) and [summarize](http://scorreia.com/demo/summarize.html) by StataCorp. They work without problems.
-- [regress](http://scorreia.com/demo/regress.html) and [var](http://scorreia.com/demo/var.html) by StataCorp work well, but are missing a few directives.
-- [reghdfe](http://scorreia.com/demo/reghdfe.html) and [hdfe](http://scorreia.com/demo/hdfe.html; work without problems.
-- [psmatch2](http://scorreia.com/demo/psmatch2.html) by Ewin Leuven and Barbara Sianesi.
-- [a2reg](http://scorreia.com/demo/a2reg.html) by Amine Ouazad. Even though it uses the old version of the help files, it still works.
-- [bayesmh](http://scorreia.com/demo/bayesmh.html) by StataCorp. It uses many advanced (Stata 14) directives but is still quite readable.
-
-(*Note: I do not own the copyright of the original files, they are used merely as an example of the use case*)
+1. Download the latest Python 3.x: https://www.python.org/downloads/
+2. Install the `lxml` library: http://lxml.de/installation.html (or http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml for Windows; read [this](http://stackoverflow.com/questions/27885397/how-do-i-install-a-python-package-with-a-whl-file) if you get stuck).
 
 ## Missing Features
 
