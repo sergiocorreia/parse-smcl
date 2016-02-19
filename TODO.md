@@ -11,3 +11,8 @@
 - `findalias`: extract all instances in the official ADOs and run a script to replace them
 - `comment` (in some cases): Comments in unexpected cases are ignored. Soln: Add them to the div as part of a "comment" attribute
 - `c`: to add special chars such as spaces
+- Some directives affect the display of future text until reverted (e.g. underline, bold, cmd, etc.) We can search for them (e.g. `cmd` without content) and then add inline tags (not block tags such as para) until we are done
+
+## Possible rework (long long term)
+
+- The `lxml` library has the concept of "tails" in tags. This makes their work easier but complicates ours a bit. Maybe replace all tails with "text" directives which are then added as part of .text or as span tags?
