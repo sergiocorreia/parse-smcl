@@ -18,7 +18,7 @@ It has multiple advantages to the current best alternative, [log2html](https://i
 Some examples include:
 - [generate](http://scorreia.com/demo/generate.html) and [summarize](http://scorreia.com/demo/summarize.html) by StataCorp. They work without problems.
 - [regress](http://scorreia.com/demo/regress.html) and [var](http://scorreia.com/demo/var.html) by StataCorp work well, but are missing a few directives.
-- [reghdfe](http://scorreia.com/demo/reghdfe.html) and [hdfe](http://scorreia.com/demo/hdfe.html; work without problems.
+- [reghdfe](http://scorreia.com/demo/reghdfe.html) and [hdfe](http://scorreia.com/demo/hdfe.html); work without problems.
 - [psmatch2](http://scorreia.com/demo/psmatch2.html) by Ewin Leuven and Barbara Sianesi.
 - [a2reg](http://scorreia.com/demo/a2reg.html) by Amine Ouazad. Even though it uses the old version of the help files, it still works.
 - [bayesmh](http://scorreia.com/demo/bayesmh.html) by StataCorp. It uses many advanced (Stata 14) directives but is still quite readable.

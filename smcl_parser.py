@@ -728,7 +728,7 @@ def parse_cmdab(element):
         element.insert(0, abbrev)
 
 def parse_opt(element, current_file, help=False):
-    assert len(element)==0, "An {opt} directives cannot contain other directives: " + etree.tostring(element).decode('latin1')
+    assert len(element)==0, "An {opt} directives cannot contain other directives: " + etree.tostring(element).decode('utf8')
 
     element.tag = 'code'
     element.attrib['class'] = 'command'

@@ -98,7 +98,7 @@ def parse_args():
 # -------------------------------------------------------------
 
 def read_smcl(fn):
-    with open(fn, 'r') as f:
+    with open(fn, 'r', encoding='utf8') as f:
        smcl = f.readline().strip()
        assert smcl == '{smcl}', 'First line must be "{smcl}"'
        lines = f.readlines()
