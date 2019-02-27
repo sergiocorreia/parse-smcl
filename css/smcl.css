@@ -1,3 +1,20 @@
+/* SVG Icons from https://icomoon.io */
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+  vertical-align: middle;
+}
+
+.icon-text {
+  vertical-align: middle;	
+}
+
+
 /* Basic CSS Template for SMCL Help Files
    Author: Sergio Correia
    Date: Feb 17, 2016 */

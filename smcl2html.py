@@ -78,6 +78,7 @@ def parse_args():
     parser.add_argument('--adopath','-a', action='store', help='path of base ado files' )
     parser.add_argument('--standalone', '-s', action='store_true', help='inspect tex log' )
     parser.add_argument('--view', '-v', action='store_true', help='view html output in a browser' )
+    parser.add_argument('--web', '-w', action='store_true', help='add links to navigate within website' )
     parser.add_argument('--xml', action='store_true', help='save intermediate XML file instead' )
     args = parser.parse_args()
 
@@ -170,6 +171,24 @@ def make_standalone(div, current_file):
     })
     hljs.initHighlightingOnLoad();
 """
+
+    # <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    # <defs>
+    # ...
+    # </defs>
+    # </svg>
+
+    svg_dict = {'aria-hidden':"true", 'style':"position: absolute; width: 0; height: 0; overflow: hidden;", 'version':"1.1", 'xmlns':"http://www.w3.org/2000/svg", 'xlink':"http://www.w3.org/1999/xlink"}
+    svg = E.svg(svg_dict,
+                E.symbol(E.title("backward2"), E.path(d='M18 5v10l10-10v22l-10-10v10l-11-11z'), id='icon-backward2', viewBox='0 0 32 32')
+            )
+    
+    # SOURCE https://icomoon.io
+    # <symbol id="icon-backward2" viewBox="0 0 32 32">
+    # <title>backward2</title>
+    # <path d="M18 5v10l10-10v22l-10-10v10l-11-11z"></path>
+    # </symbol>
+
     html = E.html(
         E.head(
             E.title('Stata help for ' + current_file),
@@ -184,9 +203,13 @@ def make_standalone(div, current_file):
             E.link(rel='stylesheet', type='text/css', href='https://fonts.googleapis.com/css?family=Merriweather:900,400,400italic'),
             E.link(rel='stylesheet', type='text/css', href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,600italic')
         ),
-        E.body(div)
+        E.body(
+            svg,
+            div
+        )
     )
 
+    #             <use xlink:href="#icon-backward2"></use></svg>
     return html
 
 def run_tests(input_path, output_path, adopath, standalone=True):
@@ -257,6 +280,18 @@ if __name__ == '__main__':
         # Create complete html file (standalone option)
         if args.standalone:
             doctype = '<!DOCTYPE html>'
+
+            # Add back-link to website
+            if args.web:
+                svg = E.svg(E.use(href='#icon-backward2'))
+                svg.set('class', 'icon icon-backward2')
+                href = "../software/" + args.current_file
+                span = E.span(' Back to index')
+                span.set('class', 'icon-text')
+                a = E.a(svg, span, href=href) #, style='vertical-align: middle;')
+                backlink = E.p(a)
+                root.insert(1, backlink)
+
             root = make_standalone(root, args.current_file)
         else:
             doctype = None

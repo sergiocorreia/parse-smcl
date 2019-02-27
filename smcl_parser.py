@@ -6,10 +6,21 @@ import re
 import shlex
 
 from lxml import etree # http://infohost.nmt.edu/~shipman/soft/pylxml/web/index.html
+from lxml.builder import E
+
+
+# -------------------------------------------------------------
+# Custom tags
+# -------------------------------------------------------------
+
+class svg(etree.ElementBase):
+    pass
+
 
 # -------------------------------------------------------------
 # Constants
 # -------------------------------------------------------------
+
 pclass = re.compile(r'p(std|see|hang\d?|more\d?|in\d?)')
 opt_pat = re.compile("""
     (?P<outside>
@@ -221,7 +232,6 @@ def parse_blocks(root, current_file):
     # Title
     title = etree.SubElement(div, 'h1')
     title.text = 'Help for ' + current_file
-
 
     # Navigation menus
     nav_internal = etree.Element('nav', id='table-of-contents')
